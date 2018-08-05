@@ -9,6 +9,7 @@ We will be adding more components as the season progresses, but for now, these a
 
 ### ESC Control
 
+Tx and Rx communication was used between the Arduino Uno and the Arduino Mega. The Arduino Mega recieved data from the Arduino uno. Joystick values were mapped to motor outputs. 
 
 
 ### PID
