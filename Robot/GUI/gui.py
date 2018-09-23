@@ -38,7 +38,7 @@ class App(QWidget):
         self.videoCom2.setPixmap(QPixmap.fromImage(image))
     def initUI(self):
         self.setWindowTitle(self.title)
-        self.resize(1280,720)
+        self.resize(1920,1080)
 
         # Video component 1
         self.videoCom = QLabel(self)
@@ -47,7 +47,7 @@ class App(QWidget):
 
         # Video component 2
         self.videoCom2 = QLabel(self)
-        self.videoCom2.move(640,120)
+        self.videoCom2.move(840,120)
         self.videoCom2.resize(640,480)
 
         th = Thread(self)
