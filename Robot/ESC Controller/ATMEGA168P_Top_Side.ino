@@ -21,7 +21,6 @@ int SpeedA1 = 0;
 int outputValueX = 0;
 int outputValueY = 0;
 
-int n = 0;
 
 int XDirection = 0;
 int YDirection = 0;
@@ -42,7 +41,6 @@ String strDirectX;
 String strDirectY;
 
 String ultimateStr;
-
 
 const int unitOne = 1;
 
