@@ -1,5 +1,5 @@
 /**
- * @author Jiajer Ho, Alexander Vazquez, snd Marcos De La Torre
+ * @author Jiajer Ho, Alexander Vazquez, and Marcos De La Torre
  * 
  * ROV ESC Controller Top Side Code (Transmitter)  7/29/2018
  * Use ATMEGA168P
@@ -10,23 +10,32 @@
  
 #include "Servo.h"
 
+/////////Port Numbers /////////
 const int InputA0 = A0;
 const int InputA1 = A1;
+///////////////////////////////
 
+///////Initialize values to 0//////
 int PotA0 = 0;        // value read from the pot
-int SpeedA0 = 0;
-int PotA1 = 0;        // value read from the pot
+int SpeedA0 = 0;      // relative speed from pot
+int PotA1 = 0;        
 int SpeedA1 = 0;
+///////////////////////////////////
 
+////////Get relative values for X and Y////////
 int outputValueX = 0;
 int outputValueY = 0;
+///////////////////////////////////////////////
 
-
+//////Make Values into Vectors//////
 int XDirection = 0;
 int YDirection = 0;
 
 int SpeedY = 0;
 int SpeedX = 0;
+///////////////////////////////////
+
+/////Format As Strings To Send Information//////
 
 char sendsig[25];
 
@@ -44,11 +53,16 @@ String ultimateStr;
 
 const int unitOne = 1;
 
+///////////////////////////////////////////////
+
+//////Init psuedo-Motors//////
 Servo f_Left;
 Servo f_Right;
 Servo b_Left;
 Servo b_Right;
+//////////////////////////////
 
+/////Create a fake instance of Moving Forward/////
 void goForward(int param) {
   int percent = abs(param / 10);
   int velocity = percent * 180;
@@ -61,9 +75,10 @@ void goForward(int param) {
   b_Right.write(velocity * -1);
 
 //  Serial.println("Current Command: Move Forward");
-
 }
+//////////////////////////////////////////////////
 
+/////Create a fake instance of Moving Backward/////
 void goBackward(int param) {
   int percent = abs(param / 10);
   int velocity = percent * 180;
@@ -76,9 +91,10 @@ void goBackward(int param) {
   b_Right.write(velocity);
 
 //  Serial.println("Current Command: Move Backward");
-  
 }
+///////////////////////////////////////////////////
 
+/////Create a fake instance of Moving Left/////
 void goLeft(int param) {
   int percent = abs(param/10);
   int velocity = percent * 180;
@@ -91,8 +107,10 @@ void goLeft(int param) {
   b_Right.write(velocity);
 
 // Serial.println("Current Command: Move Left");
-
 }
+///////////////////////////////////////////////
+
+/////Create a fake instance of Moving Right/////
 void goRight(int param) {
   int percent = abs(param/10);
   int velocity = percent * 180;
@@ -105,9 +123,10 @@ void goRight(int param) {
   b_Right.write(velocity * -1);
 
 //  Serial.println("Current Command: Move Right");
-
 }
+///////////////////////////////////////////////
 
+/////Create a fake instance of Not Moving/////
 void noMove() {
   int velocity = 0;
   f_Left.write(velocity);
@@ -117,18 +136,23 @@ void noMove() {
 
 //  Serial.println("Current Command: Don't Move");
 }
+//////////////////////////////////////////////
 
+//////Begin and Specify each port for a motor///////
 void setup() {
-  // Begin the Serial at 9600 Baud
 f_Left.attach(8);
 f_Right.attach(9);
 b_Left.attach(10);
 b_Right.attach(11);
- delay(500);
-  Serial.begin(9600);
+delay(500);
+Serial.begin(9600);
 }
+///////////////////////////////////////////////////
+
 
 void loop() {
+
+////////Read Values from Pot//////////
   PotA0 = analogRead(InputA0);
   PotA1 = analogRead(InputA1);
   
@@ -137,7 +161,9 @@ void loop() {
   
   int x = outputValueX;
   int y = outputValueY; 
+//////////////////////////////////////
 
+/////////////////////Limit Movement to one action at a time///////////////////////////
   if( ((x <= -2 and x >= -9) and abs(x) != unitOne) and ((abs(y) >= x ) and y != 10)){
      goLeft(outputValueX);
      XDirection = -1;
@@ -176,7 +202,6 @@ void loop() {
     YDirection = 1;
     XDirection = 0;
   }
-  
    
   if( ((x >= -9 and x <= 9 ) and x != 1) and (abs(y) < abs(x) * -1 )){
      goBackward(outputValueY);
@@ -199,8 +224,10 @@ void loop() {
     YDirection = 0;
     XDirection = 0; 
   }
-  
 
+//////////////////////////////////////////////////////////////////////////////
+
+//////////Prepare and Format Strings////////////
   SpeedY = YDirection * outputValueY;
   SpeedX = XDirection * outputValueX;
 
@@ -210,7 +237,9 @@ void loop() {
   
   strDirectY = String(YDirection);
   strDirectX = String(XDirection);
-  
+//////////////////////////////////////////////// 
+
+//Index Reading must be constant...Add symbols (ignore when reading//
   if(XDirection == 1){
     strDirectX = "+1";
   }
@@ -223,14 +252,17 @@ void loop() {
   if(YDirection == -1){
     strDirectY = "-1";
   }
-//  
-//
-  
+/////////////////////////////////////////////////////////////////////
+
+//Create Final String//
   strSpeedY = String(SpeedY);
   strSpeedX = String(SpeedX);
 
   ultimateStr = String(strDirectX + " ," + strDirectY + " ," + strSpeedX + " ," + strSpeedY + "\n");
-  
+//////////////////////
+
+////////Trouble Shooting/////////
+
 //  Serial.println("X and Y Coordinates: ");
 //  Serial.println(str3);
 //  
@@ -252,9 +284,12 @@ void loop() {
 //  strSpeedX.toCharArray(sendsig, 3);
 //  strSpeedY.toCharArray(sendsig, 3);
 
+///////////////////////////////
+
+/////Send Signal/////
   ultimateStr.toCharArray(sendsig, 25);
   Serial.write(sendsig, 25); //Write the serial data
- 
+/////////////////////
 
   delay(100);
 
