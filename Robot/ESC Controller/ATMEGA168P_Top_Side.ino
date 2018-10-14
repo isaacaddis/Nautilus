@@ -1,5 +1,5 @@
 /**
- * @author Jiajer Ho and Alexander Vazquez
+ * @author Jiajer Ho, Alexander Vazquez, snd Marcos De La Torre
  * 
  * ROV ESC Controller Top Side Code (Transmitter)  7/29/2018
  * Use ATMEGA168P
