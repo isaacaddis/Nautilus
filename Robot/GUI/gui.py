@@ -32,6 +32,8 @@ class App(QWidget):
         super(App, self).__init__()
         self.title = "45C Robotics 2019"
         self.initUI()
+        self.setStyleSheet(open('materialize.min.css').read())
+        self.setStyleSheet(open('style.css').read())
     @pyqtSlot(QImage)
     def setImage(self, image):
         self.videoCom.setPixmap(QPixmap.fromImage(image))
