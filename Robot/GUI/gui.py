@@ -1,7 +1,7 @@
 import sys
 import numpy as np
 import cv2
-
+from PyQt4 import QtGui
 from PyQt4.QtCore import (QThread, Qt, pyqtSignal, pyqtSlot)
 from PyQt4.QtGui import (QPixmap, QImage, QApplication, QWidget, QLabel)
 class Thread(QThread):
@@ -12,7 +12,7 @@ class Thread(QThread):
     def run(self):
         cap = cv2.VideoCapture(0)
         cap2 = cv2.VideoCapture(1)
-        while True:
+        while cap.isOpened() and cap2.isOpened():
             ret, frame = cap.read()
             ret2, frame2 = cap2.read()
             if ret:
@@ -25,6 +25,8 @@ class Thread(QThread):
                 convertToQtFormat2 = QImage(rgbImage2.data, rgbImage2.shape[1],rgbImage2.shape[0],QImage.Format_RGB888)
                 p2 = convertToQtFormat2.scaled(640,480,Qt.KeepAspectRatio)
                 self.changePixmap2.emit(p2)
+        #cap.release()
+        #cap2.release()
 class App(QWidget):
     def __init__(self):
         super(App, self).__init__()
@@ -42,13 +44,13 @@ class App(QWidget):
 
         # Video component 1
         self.videoCom = QLabel(self)
-        self.videoCom.move(0,120)
-        self.videoCom.resize(640,480)
+        self.videoCom.move(240,240)
+        self.videoCom.resize(960,540)
 
         # Video component 2
         self.videoCom2 = QLabel(self)
-        self.videoCom2.move(840,120)
-        self.videoCom2.resize(640,480)
+        self.videoCom2.move(1080,240)
+        self.videoCom2.resize(960,540)
 
         th = Thread(self)
         th.changePixmap.connect(self.setImage)
