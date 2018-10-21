@@ -18,12 +18,12 @@ class Thread(QThread):
             if ret:
                 rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 convertToQtFormat = QImage(rgbImage.data, rgbImage.shape[1],rgbImage.shape[0],QImage.Format_RGB888)
-                p = convertToQtFormat.scaled(640,480,Qt.KeepAspectRatio)
+                p = convertToQtFormat.scaled(960,540,Qt.KeepAspectRatio)
                 self.changePixmap.emit(p)
             if ret2:
                 rgbImage2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2RGB)
                 convertToQtFormat2 = QImage(rgbImage2.data, rgbImage2.shape[1],rgbImage2.shape[0],QImage.Format_RGB888)
-                p2 = convertToQtFormat2.scaled(640,480,Qt.KeepAspectRatio)
+                p2 = convertToQtFormat2.scaled(960,540,Qt.KeepAspectRatio)
                 self.changePixmap2.emit(p2)
         #cap.release()
         #cap2.release()
@@ -44,13 +44,13 @@ class App(QWidget):
 
         # Video component 1
         self.videoCom = QLabel(self)
-        self.videoCom.move(240,240)
+        self.videoCom.move(120,240)
         self.videoCom.resize(960,540)
 
         # Video component 2
         self.videoCom2 = QLabel(self)
         self.videoCom2.move(1080,240)
-        self.videoCom2.resize(960,540)
+        self.videoCom2.resize(1080,540)
 
         th = Thread(self)
         th.changePixmap.connect(self.setImage)
