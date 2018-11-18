@@ -15,7 +15,9 @@ sudo apt-get install libxvidcore-dev libx264-dev
 sudo apt-get install libgtk-3-dev
 sudo apt-get install libatlas-base-dev gfortran
 sudo apt-get install python3-dev
-
+###
+# OpenCV4 is pretty cool. Let's install it.
+###
 cd ~
 wget -O opencv.zip https://github.com/opencv/opencv/archive/4.0.0-alpha.zip
 wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.0.0-alpha.zip
@@ -60,3 +62,9 @@ workon cv
 cd ~/.virtualenvs/cv/lib/python3.5/site-packages/
 ln -s /usr/local/lib/python3.5/site-packages/cv2.cpython-35m-x86_64-linux-gnu.so cv2.so
 cd ~
+
+#########
+# Clone the Git Repo
+#########
+sudo apt-get install git #I'm pretty sure git is installed by default, but better to be on the safe side
+git clone https://isaacaddis@bitbucket.org/isaacaddis/rov2019.git
