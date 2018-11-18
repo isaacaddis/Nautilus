@@ -1,8 +1,9 @@
 import sys
 import numpy as np
 import cv2
+import speedowidget
 from PyQt4 import QtGui
-from PyQt4.QtCore import (QThread, Qt, pyqtSignal, pyqtSlot)
+from PyQt4.QtCore import (QThread, Qt, pyqtSignal, pyqtSlot, QUrl)
 from PyQt4.QtGui import (QPixmap, QImage, QApplication, QWidget, QLabel)
 class Thread(QThread):
     changePixmap = pyqtSignal(QImage)
@@ -43,7 +44,6 @@ class App(QWidget):
     def initUI(self):
         self.setWindowTitle(self.title)
         self.resize(1920,1080)
-
         # Video component 1
         self.videoCom = QLabel(self)
         self.videoCom.move(120,240)
@@ -61,5 +61,8 @@ class App(QWidget):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     run = App()
+    widget = speedowidget.speedowidget()
+    widget.show()
+    widget.resize(200,200)
     run.show()
     sys.exit(app.exec_())
