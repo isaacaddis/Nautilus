@@ -1,13 +1,10 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-import copy
 
 class ImagePreProcess(object):
     def __init__(self, image):
         self.img = image
-        self.orig = self.img.copy()
-        return
     def process(self):
         kernel = np.ones((5,5), np.uint8)
         self.erosion = cv2.erode(self.img, kernel, iterations=1)
