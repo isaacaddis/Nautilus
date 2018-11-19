@@ -597,7 +597,7 @@ void loop() {
       ultimateStr = String(strDirectX + " ," + strDirectY + " ," + strSpeedX + " ," + strSpeedY + " ,"  + strDirectZ + " ," + strSpeedZ +"\n");
     }
     if( (Vertical) and (Tilt) and ! (Pivot)) {
-      ultimateStr = String(strDirectX + " ," + strDirectY + " ," + strSpeedX + " ," + strSpeedY + " ,"  + strDirectZ + " ," + strSpeedZ + " ," + strDirectT + " ," + strSpeedT +"\n");
+      ultimateStr = String(strDirectX + " https://bitbucket.org/isaacaddis/rov2019/src/37ec872ca2a7/Sender/Sender_updated_code__may_work_/?at=master," + strDirectY + " ," + strSpeedX + " ," + strSpeedY + " ,"  + strDirectZ + " ," + strSpeedZ + " ," + strDirectT + " ," + strSpeedT +"\n");
     }
     if( !(Vertical) and !(Tilt) and (Pivot)){
       ultimateStr = String(strDirectX + " ," + strDirectY + " ," + strSpeedX + " ," + strSpeedY + " ," +strDirectP + " ," + strSpeedP +"\n");
@@ -614,26 +614,6 @@ void loop() {
   }
 
   
-//  Serial.println("X and Y Coordinates: ");
-//  Serial.println(str3);
-//  
-//  Serial.println("Speed along the Y axis: ");
-//  Serial.println(strSpeedY);
-//    
-//  Serial.println("Speed along the X axis: ");
-//  Serial.println(strSpeedX);
-//
-//  Serial.println("Direction along the Y axis: ");
-//  Serial.println(strDirectY);
-//  
-//  Serial.println("Direction along the X axis: ");
-//  Serial.println(strDirectX);
-//  
- 
-//  strDirectY.toCharArray(sendsig, 3);
-//  strDirectX.toCharArray(sendsig, 3);
-//  strSpeedX.toCharArray(sendsig, 3);
-//  strSpeedY.toCharArray(sendsig, 3);
 
 ultimateStr.toCharArray(sendsig,max_len );
 Serial.write(sendsig,max_len ); //Write the serial data 
