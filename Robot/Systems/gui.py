@@ -2,6 +2,8 @@ import sys
 import numpy as np
 import cv2
 import speedowidget
+from Vision.ImagePreProcess import ImagePreProcess
+from Vision.Image import Operation
 from PyQt4 import QtGui
 from PyQt4.QtCore import (QThread, Qt, pyqtSignal, pyqtSlot, QUrl)
 from PyQt4.QtGui import (QPixmap, QImage, QApplication, QWidget, QLabel)
@@ -61,8 +63,8 @@ class App(QWidget):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     run = App()
-    widget = speedowidget.speedowidget()
-    widget.show()
-    widget.resize(200,200)
+    #widget = speedowidget.speedowidget()
+    #widget.show()
+    #widget.resize(200,200)
     run.show()
     sys.exit(app.exec_())
