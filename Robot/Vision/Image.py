@@ -10,15 +10,17 @@ class Operation():
         #cv2.imshow("frame", self.frame)
         #assert self.ret is not None
         #print("Type: " + str(type(self.frame)))
-        cv2.imshow("Frame", self.frame)
+        #cv2.imshow("Frame", self.frame)
+        return self.frame
     def close(self):
         self.cap.release()
 if __name__ == "__main__":
     op = Operation()
-    i = 0
+    proc = ImagePreProcess()
     while True:
-        i+=1
-        op.retrieval()
+        raw = op.retrieval()
+        img = proc.process(raw)
+        cv2.imshow("Frame",img)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
     op.close()
