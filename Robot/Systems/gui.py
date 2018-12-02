@@ -1,9 +1,9 @@
+#!/usr/bin/env python
+from Vision.Image import Operation
 import sys
 import numpy as np
 import cv2
 import speedowidget
-from Vision.ImagePreProcess import ImagePreProcess
-from Vision.Image import Operation
 from PyQt4 import QtGui
 from PyQt4.QtCore import (QThread, Qt, pyqtSignal, pyqtSlot, QUrl)
 from PyQt4.QtGui import (QPixmap, QImage, QApplication, QWidget, QLabel)
@@ -13,21 +13,28 @@ class Thread(QThread):
     def __init__(self, parent=None):
         QThread.__init__(self, parent=parent)
     def run(self):
-        cap = cv2.VideoCapture(0)
-        cap2 = cv2.VideoCapture(1)
-        while cap.isOpened() and cap2.isOpened():
-            ret, frame = cap.read()
-            ret2, frame2 = cap2.read()
-            if ret:
-                rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                convertToQtFormat = QImage(rgbImage.data, rgbImage.shape[1],rgbImage.shape[0],QImage.Format_RGB888)
-                p = convertToQtFormat.scaled(960,540,Qt.KeepAspectRatio)
-                self.changePixmap.emit(p)
+        op = Operation()
+        #cap2 = cv2.VideoCapture(1)
+        while True:
+            #ret2, frame2 = cap2.read()
+
+            img = op.retrieval()
+            rgbImage = img
+            convertToQtFormat = QImage(rgbImage.data, rgbImage.shape[1],rgbImage.shape[0],QImage.Format_RGB888)
+            p = convertToQtFormat.scaled(960,540,Qt.KeepAspectRatio)
+            self.changePixmap.emit(p)
+
+            #if cv2.waitKey(1) & 0xFF == ord('q'):
+                #break
+        #op.close()
+        #cv2.destroyAllWindows()
+        '''
             if ret2:
                 rgbImage2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2RGB)
                 convertToQtFormat2 = QImage(rgbImage2.data, rgbImage2.shape[1],rgbImage2.shape[0],QImage.Format_RGB888)
                 p2 = convertToQtFormat2.scaled(960,540,Qt.KeepAspectRatio)
                 self.changePixmap2.emit(p2)
+        '''
         #cap.release()
         #cap2.release()
 class App(QWidget):
@@ -35,8 +42,8 @@ class App(QWidget):
         super(App, self).__init__()
         self.title = "45C Robotics 2019"
         self.initUI()
-        self.setStyleSheet(open('materialize.min.css').read())
-        self.setStyleSheet(open('style.css').read())
+        #self.setStyleSheet(open('materialize.min.css').read())
+        #self.setStyleSheet(open('style.css').read())
     @pyqtSlot(QImage)
     def setImage(self, image):
         self.videoCom.setPixmap(QPixmap.fromImage(image))
@@ -58,13 +65,15 @@ class App(QWidget):
 
         th = Thread(self)
         th.changePixmap.connect(self.setImage)
-        th.changePixmap2.connect(self.setImage2)
+        #th.changePixmap2.connect(self.setImage2)
         th.start()
 if __name__ == "__main__":
+    #from Vision.Image import Operation
+    #print("K")
     app = QApplication(sys.argv)
     run = App()
-    #widget = speedowidget.speedowidget()
-    #widget.show()
-    #widget.resize(200,200)
+    widget = speedowidget.speedowidget()
+    widget.show()
+    widget.resize(200,200)
     run.show()
     sys.exit(app.exec_())

@@ -1,6 +1,6 @@
 import cv2
 import time
-
+from ImagePreProcess import (ImagePreProcess, WhatsCrackin)
 '''
     Image retrieval tools
 '''
@@ -14,7 +14,7 @@ class Operation():
         return self.frame
     def close(self):
         self.cap.release()
-'''
+
 if __name__ == "__main__":
     op = Operation()
     proc = ImagePreProcess()
@@ -26,4 +26,4 @@ if __name__ == "__main__":
             break
     op.close()
     cv2.destroyAllWindows()
-'''
+
