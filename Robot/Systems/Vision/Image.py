@@ -18,9 +18,12 @@ class Operation():
 if __name__ == "__main__":
     op = Operation()
     proc = ImagePreProcess()
+    wc = WhatsCrackin()
     while True:
         raw = op.retrieval()
         img = proc.process(raw)
+        cracks = wc.findCracks(img)
+        #p, l = wc.findLength(cracks)
         cv2.imshow("Frame",img)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
