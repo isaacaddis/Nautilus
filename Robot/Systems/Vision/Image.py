@@ -1,10 +1,14 @@
 import cv2
 import time
 
+'''
+    Image retrieval tools
+'''
 class Operation():
     def __init__(self):
         self.cap = cv2.VideoCapture(0)
     def retrieval(self):
+        print("Retrieving")
         self.ret, self.frame = self.cap.read()
         assert self.ret is not None
         return self.frame
