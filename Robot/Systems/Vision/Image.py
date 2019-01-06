@@ -26,7 +26,7 @@ if __name__ == "__main__":
         print(cnt)
         for i in cnt:
             x, y, w, h = cv2.boundingRect(i)
-            cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),3)
+            cv2.rectangle(img.copy(),(x,y),(x+w,y+h),(0,255,0),3)
         #p, l = wc.findLength(cracks)
         cv2.imshow("Frame",img)
         if cv2.waitKey(1) & 0xFF == ord('q'):
