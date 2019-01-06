@@ -20,6 +20,9 @@ Note: The constants in the file must be tuned, and in their current state they a
 
 #### Vision
 
+**Note**: Press 'Q' to terminate vision session.
+
+
 [https://github.com/opencv/opencv/wiki/OE-4.-OpenCV-4](OpenCV4) has been released. 
 
 Images should be processed using the pipeline created in the  **imagePreProcess** class, which erodes/dilates and blurs input video. 
