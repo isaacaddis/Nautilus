@@ -12,6 +12,9 @@ class Magic():
         mask /= 255
         return mask
     def kadabra(self):
+        '''
+            LOL .. hey .. it would be incomplete without this
+        '''
         pass
     def alakazam(self, img):
         return model.predict(mask.reshape(1, self.dot_product))[0].tolist()
