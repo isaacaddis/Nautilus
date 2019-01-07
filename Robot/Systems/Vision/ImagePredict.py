@@ -1,6 +1,6 @@
 import cv2
-import numpy
-from keras.models import load_model
+import numpy as np
+from tensorflow.keras.models import load_model
 
 class Magic():
     def __init__(self):
