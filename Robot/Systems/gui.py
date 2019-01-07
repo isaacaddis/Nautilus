@@ -1,8 +1,11 @@
 #!/usr/bin/env python
-from Vision.Image import Operation
+#from Vision.Image import Operation
 import sys
+sys.path.insert(0,'/home/robotics45c/Desktop/rov2019/Robot/Systems/Vision/')
+from Image import Operation
 import numpy as np
 import cv2
+import keyboard
 import speedowidget
 from PyQt4 import QtGui
 from PyQt4.QtCore import (QThread, Qt, pyqtSignal, pyqtSlot, QUrl)
@@ -42,6 +45,13 @@ class App(QWidget):
         super(App, self).__init__()
         self.title = "45C Robotics 2019"
         self.initUI()
+        if keyboard.is_pressed('space'):
+            print("Hotkey pressed!")
+            self.close()
+        #self.actionExit = QAction(("E&xit"),self)
+        #self.actionExit.setShortcut(QKeySequence("Ctrl+Q"))
+        #self.addAction(self.actionExit)
+        #self.actionExit.triggered.connect(self.abort)
         #self.setStyleSheet(open('materialize.min.css').read())
         #self.setStyleSheet(open('style.css').read())
     @pyqtSlot(QImage)
@@ -67,6 +77,10 @@ class App(QWidget):
         th.changePixmap.connect(self.setImage)
         #th.changePixmap2.connect(self.setImage2)
         th.start()
+
+
+    def abort(self):
+        self.close()
 if __name__ == "__main__":
     #from Vision.Image import Operation
     #print("K")
@@ -76,4 +90,6 @@ if __name__ == "__main__":
     widget.show()
     widget.resize(200,200)
     run.show()
+    if keyboard.is_pressed('space'):
+        sys.exit(app.exec_())
     sys.exit(app.exec_())
