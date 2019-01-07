@@ -1,4 +1,5 @@
 import cv2
+import numpy
 from keras.models import load_model
 
 class Magic():
