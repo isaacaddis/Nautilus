@@ -6,6 +6,7 @@
 
 We will be adding more components as the season progresses, but for now, these are the components we are adding to this year's system:
 
+[https://raw.githubusercontent.com/milq/milq/master/scripts/bash/install-opencv.sh] (Here's a really nice OpenCV install script for Debian/Ubuntu-based users)
 
 ### ESC Control
 
