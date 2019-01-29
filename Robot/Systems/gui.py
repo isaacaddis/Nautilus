@@ -16,79 +16,75 @@ class Thread(QThread):
     def __init__(self, parent=None):
         QThread.__init__(self, parent=parent)
     def run(self):
+        '''
+            4 usb port setup
+        '''
         op = Operation()
-        #cap2 = cv2.VideoCapture(1)
-        while True:
-            #ret2, frame2 = cap2.read()
-
-            img = op.retrieval()
-            rgbImage = img
-            convertToQtFormat = QImage(rgbImage.data, rgbImage.shape[1],rgbImage.shape[0],QImage.Format_RGB888)
-            p = convertToQtFormat.scaled(960,540,Qt.KeepAspectRatio)
-            self.changePixmap.emit(p)
-
-            #if cv2.waitKey(1) & 0xFF == ord('q'):
-                #break
-        #op.close()
-        #cv2.destroyAllWindows()
-        '''
-            if ret2:
-                rgbImage2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2RGB)
-                convertToQtFormat2 = QImage(rgbImage2.data, rgbImage2.shape[1],rgbImage2.shape[0],QImage.Format_RGB888)
-                p2 = convertToQtFormat2.scaled(960,540,Qt.KeepAspectRatio)
-                self.changePixmap2.emit(p2)
-        '''
-        #cap.release()
-        #cap2.release()
+        op2 = Operation()
+        op3 = Operation()
+        op4 = Operation()
+        op_list = [op,op2,op3,op4]
+        n = 0
+        for i in op_list:
+            i.setPort(n)
+            n+=1
+        img = op.retrieval()
+        img_2 = op2.retrieval()
+        img_3 = op3.retrieval()
+        img_4 = op4.retrieval()
+        img_list = [img,img_2,img_3,img_4]
+        if op.status() and op2.status() and op3.status() and op4.status():
+            while True:
+                for rgbImage in img_list:
+                    convertToQtFormat = QImage(rgbImage.data, rgbImage.shape[1],rgbImage.shape[0],QImage.Format_RGB888)
+                    p = convertToQtFormat.scaled(960,540,Qt.KeepAspectRatio)
+                    self.changePixmap.emit(p)
+        else:
+            print("One or more of your cameras is not working as intended. Please re-evaluate your setup and re-run the script.")
 class App(QWidget):
     def __init__(self):
         super(App, self).__init__()
         self.title = "45C Robotics 2019"
         self.initUI()
-        if keyboard.is_pressed('space'):
-            print("Hotkey pressed!")
-            self.close()
-        #self.actionExit = QAction(("E&xit"),self)
-        #self.actionExit.setShortcut(QKeySequence("Ctrl+Q"))
-        #self.addAction(self.actionExit)
-        #self.actionExit.triggered.connect(self.abort)
-        #self.setStyleSheet(open('materialize.min.css').read())
-        #self.setStyleSheet(open('style.css').read())
+        self.setStyleSheet(open('style.css').read())
+        '''
+            Utilities
+        '''
+        self.setWindowFlags(Qt.FramelessWindowHint)
     @pyqtSlot(QImage)
     def setImage(self, image):
         self.videoCom.setPixmap(QPixmap.fromImage(image))
     @pyqtSlot(QImage)
     def setImage2(self, image):
         self.videoCom2.setPixmap(QPixmap.fromImage(image))
+    @classmethod
+    def setText(self, text):
+        self.temp_label.setText(text)
     def initUI(self):
+        self.temp_label = QLabel()
+        #self.temp_label.setReadOnly(True)
+        self.temp_label.setAlignment(Qt.AlignRight)
+        self.temp_label.setText('text')
         self.setWindowTitle(self.title)
         self.resize(1920,1080)
         # Video component 1
         self.videoCom = QLabel(self)
         self.videoCom.move(120,240)
         self.videoCom.resize(960,540)
-
         # Video component 2
         self.videoCom2 = QLabel(self)
         self.videoCom2.move(1080,240)
         self.videoCom2.resize(1080,540)
-
-        th = Thread(self)
-        th.changePixmap.connect(self.setImage)
+        #th = Thread(self)
+        #th_2 = Thread(self)
+        #th.changePixmap.connect(self.setImage)
         #th.changePixmap2.connect(self.setImage2)
-        th.start()
-
-
+        #th.start()
     def abort(self):
         self.close()
 if __name__ == "__main__":
-    #from Vision.Image import Operation
-    #print("K")
     app = QApplication(sys.argv)
     run = App()
-    widget = speedowidget.speedowidget()
-    widget.show()
-    widget.resize(200,200)
     run.show()
     if keyboard.is_pressed('space'):
         sys.exit(app.exec_())
