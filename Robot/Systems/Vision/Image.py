@@ -9,7 +9,8 @@ size = 60
 '''
 class Operation():
     def __init__(self):
-        pass
+        self.ret = False
+        self.cap = cv2.VideoCapture(0)
     def setPort(self,num=0):
         self.cap = cv2.VideoCapture(num)
     def retrieval(self):
@@ -19,6 +20,7 @@ class Operation():
         return self.frame
     def status(self):
         # use ret to determine if you're getting an image
+        self.ret, self.frame = self.cap.read()
         return self.ret
     def close(self):
         self.cap.release()
