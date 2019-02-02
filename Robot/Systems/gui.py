@@ -19,15 +19,22 @@ class Thread(QThread):
     def run(self):
         # ONE USB PORT SETUP
         op = Operation()
-        proc = ImagePreProcess()
+        op2 = Operation()
+        op2.setPort(1)
+        #proc = ImagePreProcess()
         #assert op.status()
         while True:
             img = op.retrieval()
+            img_2 = op2.retrieval()
             rgbImage = img.copy()
+            rgbImage_2 = img_2.copy()
             convertToQtFormat = QImage(rgbImage.data, rgbImage.shape[1],rgbImage.shape[0],QImage.Format_RGB888)
+            convertToQtFormat_2 = QImage(rgbImage_2.data, rgbImage_2.shape[1],rgbImage.shape[0],QImage.Format_RGB888)
             #LOAD IMAGE PIPELINE HERE
             p = convertToQtFormat.scaled(960,540,Qt.KeepAspectRatio)
+            p_2 = convertToQtFormat.scaled(960,540,Qt.KeepAspectRatio)
             self.changePixmap.emit(p)
+            self.changePixmap2.emit(p_2)
 class App(QWidget):
     def __init__(self):
         super(App, self).__init__()
@@ -38,6 +45,7 @@ class App(QWidget):
     @pyqtSlot(QImage)
     def setImage(self, image):
         self.videoCom.setPixmap(QPixmap.fromImage(image))
+        self.videoCom2.setPixmap(QPixmap.fromImage(image))
     def initUI(self):
         self.temp_label = QLabel()
         #self.temp_label.setReadOnly(True)
@@ -56,8 +64,11 @@ class App(QWidget):
         self.videoCom2.move(1080,240)
         self.videoCom2.resize(1080,540)
         th = Thread(self)
+        th2 = Thread(self)
         th.changePixmap.connect(self.setImage)
         th.start()
+        th2.changePixmap2.connect(self.setImage)
+        th2.start()
     def abort(self):
         self.close()
 if __name__ == "__main__":
