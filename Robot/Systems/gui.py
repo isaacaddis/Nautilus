@@ -44,6 +44,8 @@ class App(QWidget):
     def setImage(self, image):
         self.videoCom.setPixmap(QPixmap.fromImage(image))
         self.videoCom2.setPixmap(QPixmap.fromImage(image))
+        self.videoCom3.setPixmap(QPixmap.fromImage(image))
+        self.videoCom4.setPixmap(QPixmap.fromImage(image))
     def initUI(self):
         self.temp_label = QLabel()
         #self.temp_label.setReadOnly(True)
@@ -55,12 +57,20 @@ class App(QWidget):
         self.resize(1920,1080)
         # Video component 1
         self.videoCom = QLabel(self)
-        self.videoCom.move(120,240)
-        self.videoCom.resize(960,540)
+        self.videoCom.move(240,240)
+        self.videoCom.resize(480,270)
         # Video component 2
         self.videoCom2 = QLabel(self)
-        self.videoCom2.move(1080,240)
-        self.videoCom2.resize(1080,540)
+        self.videoCom2.move(960,240)
+        self.videoCom2.resize(480,270)
+        # Video component 3
+        self.videoCom3 = QLabel(self)
+        self.videoCom3.move(240,520)
+        self.videoCom3.resize(480,270)
+        # Video component 4
+        self.videoCom4 = QLabel(self)
+        self.videoCom4.move(960,520)
+        self.videoCom4.resize(480,270)
         th = Thread(self)
         #th2 = Thread(self)
         th.changePixmap.connect(self.setImage)
