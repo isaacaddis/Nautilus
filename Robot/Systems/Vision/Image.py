@@ -10,7 +10,7 @@ size = 60
 class Operation():
     def __init__(self):
         self.ret = False
-        self.cap = cv2.VideoCapture(0)
+        self.cap = cv2.VideoCapture(1)
     def setPort(self,num=0):
         self.cap = cv2.VideoCapture(num)
     def retrieval(self):
