@@ -18,5 +18,5 @@ class Magic():
         '''
         pass
     def alakazam(self, img):
-        return model.predict(mask.reshape(1, self.dot_product))[0].tolist()
+        return self.model.predict(img.reshape(1, self.dot_product))[0].tolist()
 
