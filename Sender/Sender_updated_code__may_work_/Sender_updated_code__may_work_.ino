@@ -1,5 +1,5 @@
 #include "Servo.h"
-#define max_len 37
+#define max_len 40
 
 //
 
@@ -532,10 +532,10 @@ void loop() {
     strDirectZ = "D";
   }
   if(TDirection == -1){
-    strDirectT = "-1";    
+    strDirectT = "TU";    
   }
   if(TDirection == 1){
-    strDirectT = "+1";
+    strDirectT = "TD";
   }
   
   strSpeedY = String(SpeedY);
@@ -617,26 +617,6 @@ void loop() {
   }
 
   
-//  Serial.println("X and Y Coordinates: ");
-//  Serial.println(str3);
-//  
-//  Serial.println("Speed along the Y axis: ");
-//  Serial.println(strSpeedY);
-//    
-//  Serial.println("Speed along the X axis: ");
-//  Serial.println(strSpeedX);
-//
-//  Serial.println("Direction along the Y axis: ");
-//  Serial.println(strDirectY);
-//  
-//  Serial.println("Direction along the X axis: ");
-//  Serial.println(strDirectX);
-//  
- 
-//  strDirectY.toCharArray(sendsig, 3);
-//  strDirectX.toCharArray(sendsig, 3);
-//  strSpeedX.toCharArray(sendsig, 3);
-//  strSpeedY.toCharArray(sendsig, 3);
 
 ultimateStr.toCharArray(sendsig,max_len );
 Serial.write(sendsig,max_len ); //Write the serial data 

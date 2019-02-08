@@ -31,17 +31,16 @@
 
 #include "Servo.h"
 
-char sendsig[35]; //Initialized variable to store recieved data
-char sending[35]; //Initialized variable to store recieved data
+
+char sending[40]; //Initialized variable to store recieved data
 
 
 
-int speed01; 
-int speed02; 
-int speed03; 
-int speed04;
-int luigiInt;
-int yoshiInt;
+int side_speed; // left right speed
+int fb_speed; // forward backward speed
+int vertcial_speed; // up  down speed
+int turn_speed; // turning speed
+int tilt_speed; // tilting speed
 Servo OutputM1; //Motor 1 FRD/BCK AND PLFT/PRGT AND LFT/RGT
 Servo OutputM2; //Motor 2 FRD/BCK AND PLFT/PRGT AND LFT/RGT
 Servo OutputM3; //Motor 3 FRD/BCK AND PLFT/PRGT AND LFT/RGT
@@ -61,18 +60,26 @@ void setup() {
 }
 
 void loop() {
-  Serial.readBytes(sending,35);
+  Serial.readBytes(sending,40);
   Serial.println(sending);
   
-  Serial.readBytes(sendsig,35); 
+  Serial.readBytes(sendsig,40); 
   String myString = String(sendsig);
-  String mario = myString.substring(10,12);
-  String luigi = myString.substring(13,15);
-  String yoshi = myString.substring(16,18);
-  String zerO = "0";
-  int marioInt = mario.toInt();
-  int luigiInt = luigi.toInt();
-  int yoshiInt = yoshi.toInt(); 
+ 
+  String for_back_speed = myString.substring( ,);
+  String left_right_speed = myString.substring( , );
+  String verticalSpeed = myString.substring( ,);
+  String turningSpeed = myString.substring( , );
+  String tiltSpeed = myString.substring(,);
+  
+  fb_speed = for_back_speed.toInt();
+  side_speed = left_right_speed.toInt();
+  vertcial_speed = verticalSpeed.toInt(); 
+  turn_speed = turningSpeed.toInt(); 
+  tilt_speed= tiltSpeed.toInt(); 
+  
+  
+
   
   if (myString.charAt(0) == '-') { //PLeft
     Serial.println("L" + mario);

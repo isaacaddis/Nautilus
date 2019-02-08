@@ -14,7 +14,8 @@ int16_t Acc_rawX, Acc_rawY, Acc_rawZ,Gyr_rawX, Gyr_rawY, Gyr_rawZ;
 float Acceleration_angle[2];
 float Gyro_angle[2];
 float Total_angle[2];
-
+String text;
+char message[20];
 
 
 
@@ -37,13 +38,16 @@ float desired_angle = 0; //This is the angle in which we whant the
                          //balance to stay steady
 
 
+String Gyro;
+char m_Gyro[20];
+
 void setup() {
   Wire.begin(); //begin the wire comunication
   Wire.beginTransmission(0x68);
   Wire.write(0x6B);
   Wire.write(0);
   Wire.endTransmission(true);
-  Serial.begin(250000);
+  Serial2.begin(9600);
   right_prop.attach(3); //attatch the right motor to pin 3
   left_prop.attach(5);  //attatch the left motor to pin 5
 
@@ -131,6 +135,8 @@ void loop() {
    /*---Y---*/
    Gyro_angle[1] = Gyr_rawY/131.0;
 
+
+
    /*Now in order to obtain degrees we have to multiply the degree/seconds
    *value by the elapsedTime.*/
    /*Finnaly we can apply the final filter where we add the acceleration
@@ -144,6 +150,8 @@ void loop() {
    /*Now we have our angles in degree and values from -10º0 to 100º aprox*/
     //Serial.println(Total_angle[1]);
 
+   String x_AxisGyro = String( Gyro_angle[0], 2);
+   String y_AxisGyro = String(Gyro_angle[1], 2);
    
   
 /*///////////////////////////P I D///////////////////////////////////*/
@@ -214,7 +222,7 @@ if(pwmRight > 2000)
 {
   pwmRight=2000;
 }
-//Left
+//Left;
 if(pwmLeft < 1000)
 {
   pwmLeft= 1000;
@@ -229,6 +237,14 @@ width for each pulse*/
 left_prop.writeMicroseconds(pwmLeft);
 right_prop.writeMicroseconds(pwmRight);
 previous_error = error; //Remember to store the previous error.
+Gyro = x_AxisGyro + ", " + y_AxisGyro;
+text = "HelloHumanHelloHuman";
+text.toCharArray(message,20);
+Gyro.toCharArray(m_Gyro, 20);
+
+//Serial2.write(m_Gyro);
+Serial2.write(message);
+delay(400);
 
 }//end of loop void
  
