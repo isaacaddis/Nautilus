@@ -1,5 +1,5 @@
 #include "Servo.h"
-#define max_len 35
+#define max_len 40
 
 //
 
@@ -514,28 +514,28 @@ void loop() {
   strDirectP = String(PDirection);
   
   if(XDirection == 1){
-    strDirectX = "+1";
+    strDirectX = "R";
   }
   if(YDirection == 1){
-    strDirectY = "+1";
+    strDirectY = "F";
   }
   if(XDirection == -1){
-    strDirectX = "-1";
+    strDirectX = L";
   }
   if(YDirection == -1){
-    strDirectY = "-1";
+    strDirectY = "B";
   }  
   if(ZDirection == 1){
-    strDirectZ= "+1";
+    strDirectZ= "U";
   }
   if(ZDirection == -1){
-    strDirectZ = "-1";
+    strDirectZ = "D";
   }
   if(TDirection == -1){
-    strDirectT = "-1";    
+    strDirectT = "TU";    
   }
   if(TDirection == 1){
-    strDirectT = "+1";
+    strDirectT = "TD";
   }
   
   strSpeedY = String(SpeedY);
@@ -562,12 +562,15 @@ void loop() {
 
 
  if ((Pan) and (Pivot) and (Tilt) and (Vertical)){
-    ultimateStr = String(strDirectX + " ," + strDirectY + " ," + strSpeedX + " ," + strSpeedY + " ,"  + strDirectZ + " ," + strSpeedZ + " ," + strDirectT + " ," + strSpeedT + ' , "+ strDirectP + " ," + strSpeedP +"\n");
+    // string length  = ranges from 32-37
+     
+    ultimateStr = String(strDirectX + " ," + strSpeedX + " ," + strDirectY  + " ," + strSpeedY + " ,"  + strDirectZ + " ," + strSpeedZ + " ," + strDirectT + " ," + strSpeedT + ' ,"+ strDirectP + " ," + strSpeedP +"\n");
  }
 
  
  if( !(Pan)){
-    if((Vertical) and (Tilt) and (Pivot)){
+    if((Vertical) and (Tilt) and (Pivot)){ 
+      // string length = 
       ultimateStr = String(strDirectZ + " ," + strSpeedZ + " ,"+ strDirectT + " ," + strSpeedT + " ,"+ strDirectP + " ," + strSpeedP +"\n");
     }
     if( !(Vertical) and (Tilt)and (Pivot) )){
@@ -591,25 +594,25 @@ void loop() {
   }
   else if ((Pan)) {
     if( !(Vertical) and ! (Tilt) and !(Pivot)){
-      ultimateStr = String(strDirectX + " ," + strDirectY + " ," + strSpeedX + " ," + strSpeedY +"\n");
+      ultimateStr = String(strDirectX + " ," + strSpeedX  + " ,"  + strDirectY + " ," + strSpeedY +"\n");
     }
     if( (Vertical) and !(Tilt) and !(Pivot)){
-      ultimateStr = String(strDirectX + " ," + strDirectY + " ," + strSpeedX + " ," + strSpeedY + " ,"  + strDirectZ + " ," + strSpeedZ +"\n");
+      ultimateStr = String(strDirectX + " ," + strSpeedX  + " ," +strDirectY + " ," + strSpeedY + " ,"  + strDirectZ + " ," + strSpeedZ +"\n");
     }
     if( (Vertical) and (Tilt) and ! (Pivot)) {
-      ultimateStr = String(strDirectX + " https://bitbucket.org/isaacaddis/rov2019/src/37ec872ca2a7/Sender/Sender_updated_code__may_work_/?at=master," + strDirectY + " ," + strSpeedX + " ," + strSpeedY + " ,"  + strDirectZ + " ," + strSpeedZ + " ," + strDirectT + " ," + strSpeedT +"\n");
+      ultimateStr = String(strDirectX + " ," + strSpeedX  + " ," + strDirectY + " ," + strSpeedY + " ,"  + strDirectZ + " ," + strSpeedZ + " ," + strDirectT + " ," + strSpeedT +"\n");
     }
     if( !(Vertical) and !(Tilt) and (Pivot)){
-      ultimateStr = String(strDirectX + " ," + strDirectY + " ," + strSpeedX + " ," + strSpeedY + " ," +strDirectP + " ," + strSpeedP +"\n");
+      ultimateStr = String(strDirectX + " ," +  strSpeedX  + " ," + strDirectY + " ," + strSpeedY + " ," +strDirectP + " ," + strSpeedP +"\n");
     }
     if( !(Vertical) and (Tilt) and !(Pivot){
-      ultimateStr = String(strDirectX + " ," + strDirectY + " ," + strSpeedX + " ," + strSpeedY + " ," + strDirectT + " ," + strSpeedT + "\n");  
+      ultimateStr = String(strDirectX + " ," + strSpeedX + " ," +  strDirectY + " ," + strSpeedY + " ," + strDirectT + " ," + strSpeedT + "\n");  
     }
     if( !(Vertical) and (Tilt) and (Pivot)){
-      ultimateStr = String(strDirectX + " ," + strDirectY + " ," + strSpeedX + " ," + strSpeedY + " ,"  + strDirectT + " ," + strSpeedT + " , "+ strDirectP + " ," + strSpeedP +"\n");
+      ultimateStr = String(strDirectX + " ," + strSpeedX+ " ," + strDirectY  + " ," + strSpeedY + " ,"  + strDirectT + " ," + strSpeedT + " , "+ strDirectP + " ," + strSpeedP +"\n");
     }
     if( (Vertical) and !(Tilt) and (Pivot)){
-      ultimateStr = String(strDirectX + " ," + strDirectY + " ," + strSpeedX + " ," + strSpeedY + " ,"  + strDirectZ + " ," + strSpeedZ + ' , "+ strDirectP + " ," + strSpeedP +"\n");
+      ultimateStr = String(strDirectX + " ," + strSpeedX + " ," +  strDirectY + " ," + strSpeedY + " ,"  + strDirectZ + " ," + strSpeedZ + ' , "+ strDirectP + " ," + strSpeedP +"\n");
     }
   }
 
