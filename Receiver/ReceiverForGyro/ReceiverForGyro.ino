@@ -16,6 +16,6 @@ void loop() {
     String Gyro = String(m_gyro);
     Serial.println(Gyro);
     Serial.println(" ");
-    delay(300);
+    delay(10);
     
 }
