@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 #parameters
-working_dir = '/home/isaac/Desktop/rov2019/Robot/Systems/Util/shapes/'
+working_dir = '/home/robotics45c/Desktop/rov2019/Robot/Systems/Util/shapes/'
 os.chdir(working_dir)
 img_size = 60 #size of image fed into model
 
