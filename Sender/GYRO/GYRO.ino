@@ -175,17 +175,17 @@ void loop() {
  Gyro.toCharArray(gyro,25);
  Wire.write(gyro,25);
  Serial2.write(gyro,25); 
- delay(300);
+ delay(10);
  
 
  
  
  /*Uncoment the rest of the serial prines
  * I only print the Y angle value for this test */
- //Serial.print("XÂº: ");
+ //Serial.print("Xº: ");
  //Serial.print(Total_angle_x);
  //Serial.print("   |   ");
- //Serial.print("YÂº: ");
+ //Serial.print("Yº: ");
  //Serial.print(Total_angle_y);
  //Serial.println(" ");
 
