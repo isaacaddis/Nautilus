@@ -1,4 +1,8 @@
 *{
+    font-family:Comic Sans;
     background-color:black;
-    color:black;
+    color:white;
+}
+QLabel{
+    color: white;
 }

@@ -50,14 +50,15 @@ class App(QWidget):
     def setImage3(self, image):
         self.videoCom3.setPixmap(QPixmap.fromImage(image))
     def initUI(self):
-        self.temp_label = QLabel()
-        #self.temp_label.setReadOnly(True)
-        self.temp_label.setAlignment(Qt.AlignRight)
-        self.temp_label.setText('text')
-        self.temp_label.setOpenExternalLinks(True)
-        self.temp_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
         self.setWindowTitle(self.title)
         self.resize(1920,1080)
+        self.temp_label = QLabel(self)
+        #self.temp_label.setReadOnly(True)
+        self.temp_label.setText('text')
+        self.temp_label.setAlignment(Qt.AlignRight)
+        self.temp_label.setOpenExternalLinks(True)
+        self.temp_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
+        self.temp_label.move(0,1000)
         # Video component 1
         self.videoCom = QLabel(self)
         self.videoCom.move(80,0)
