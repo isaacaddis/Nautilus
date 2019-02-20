@@ -1,6 +1,6 @@
 import cv2
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 cv2.namedWindow("val", cv2.WND_PROP_FULLSCREEN)
 cv2.setWindowProperty("val",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
 
