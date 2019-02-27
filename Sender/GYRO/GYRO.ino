@@ -176,20 +176,27 @@ void loop() {
  gyro_X = String(Total_angle_x,2);
  gyro_Y = String(Total_angle_y,2);
  Gyro = gyro_X + ", " + gyro_Y;
+<<<<<<< HEAD
  Gyro.toCharArray(gyro,18);
  Wire.write(gyro,18);
  Serial2.write(gyro,18); 
  delay(300);
+=======
+ Gyro.toCharArray(gyro,25);
+ Wire.write(gyro,25);
+ Serial2.write(gyro,25); 
+ delay(10);
+>>>>>>> ce6d1906b899a09546849746e6d28e82665949af
  
 
  
  
  /*Uncoment the rest of the serial prines
  * I only print the Y angle value for this test */
- //Serial.print("XÂº: ");
+ //Serial.print("Xº: ");
  //Serial.print(Total_angle_x);
  //Serial.print("   |   ");
- //Serial.print("YÂº: ");
+ //Serial.print("Yº: ");
  //Serial.print(Total_angle_y);
  //Serial.println(" ");
 

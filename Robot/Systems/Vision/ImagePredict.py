@@ -4,7 +4,7 @@ from keras.models import load_model
 
 class Magic():
     def __init__(self):
-        self.model = load_model("../Util/shapes_model.h5")
+        self.model = load_model('/home/robotics45c/Desktop/rov2019/Robot/Systems/Util/shapes_model.h5')
         self.dot_product = np.prod([60,60])
     def abra(self, img):
         mask = cv2.resize(img, (60,60))
