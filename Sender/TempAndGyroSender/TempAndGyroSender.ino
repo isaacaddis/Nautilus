@@ -31,7 +31,7 @@ String Temp_Gyro;
 char m_Temp_Gyro[45];
 char gyroData[20];
 String GyroData;
-
+String NewGyroData;
 
 String temp_out;
 uint16_t samples[NUMSAMPLES];
@@ -44,6 +44,7 @@ void setup() {
   pinMode(leaksensor,INPUT);
   dht.begin();
   delay(500);
+
 }
  /////////////////////////////////
 void loop(void) {
@@ -97,12 +98,12 @@ val = analogRead(leaksensor);
   float h = dht.readHumidity();
   temp_in = String(t,2);
   humidity = String(h,2);
+    Serial.readBytes(gyroData,20);
 
-  Serial.readBytes(gyroData,20);
     GyroData = String(gyroData);
   if (GyroData.substring(0,2)== "45"){
-    
-      Temp_Gyro = temp_in + " ,"+ temp_out + " ," + humidity + " ,"+ Leak+ ", "+ GyroData;   
+      NewGyroData = GyroData.substring(4,19);
+      Temp_Gyro = temp_in + " ,"+ temp_out + " ," + humidity + " ,"+ Leak+ ", "+ NewGyroData;   
       Temp_Gyro.toCharArray(m_Temp_Gyro,45);
       Serial.write(m_Temp_Gyro,45);
       digitalWrite(LED_BUILTIN, HIGH); 
