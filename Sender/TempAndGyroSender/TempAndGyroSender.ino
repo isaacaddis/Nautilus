@@ -1,4 +1,4 @@
-
+//Revision: 2/27/2019 9:12AM
 #define THERMISTORPIN A1         
 // resistance at 25 degrees C
 #define THERMISTORNOMINAL 10000      
@@ -38,8 +38,7 @@ uint16_t samples[NUMSAMPLES];
 
  
 void setup() {
-  //Serial.begin(57600);
-  Serial.begin(74880);
+  Serial.begin(57600);
   //Serial.println("DHT11 Moniter System");
   analogReference(EXTERNAL); 
   pinMode(leaksensor,INPUT);
@@ -56,13 +55,15 @@ void loop(void) {
    *  Temp outside : three decimaml places)
    */
 
-  val = digitalRead(leaksensor);
-  if(val == HIGH){
-    Leak = "1";
+val = analogRead(leaksensor); 
+
+  if (val > 300){
+  Leak = "1";
   }
-  if(val == LOW){
-    Leak= "0";
+  else{
+    Leak = "0";
   }
+
   
   uint8_t i;
   float average;
