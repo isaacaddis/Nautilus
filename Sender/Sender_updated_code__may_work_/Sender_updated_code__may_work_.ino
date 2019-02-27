@@ -68,7 +68,7 @@ String strDirectP;
 String ultimateStr;
 
 
-const int unitOne = 1;
+const int unitOne = 10;
 
 boolean Left;
 boolean Right;
@@ -236,11 +236,11 @@ void loop() {
   PotA4 = analogRead(InputA4);
   
   
-  outputValueY = map(PotA0, 0, 1023, -10, 10);
-  outputValueX = map(PotA1, 0, 1023, -10, 10);
-  outputValueZ = map(PotA2, 0, 1023, -10, 10);
-  outputValueT = map(PotA3, 0, 1023, -10, 10);
-  outputValueP = map(PotA4, 0, 1023, -10, 10);
+  outputValueY = map(PotA0, 0, 1023, -100, 100);
+  outputValueX = map(PotA1, 0, 1023, -100, 100);
+  outputValueZ = map(PotA2, 0, 1023, -100, 100);
+  outputValueT = map(PotA3, 0, 1023, -100, 100);
+  outputValueP = map(PotA4, 0, 1023, -100, 100);
   
   int x = outputValueX;
   int y = outputValueY; 
@@ -248,7 +248,7 @@ void loop() {
   int t = outputValueT;
   int p = outputValueP;
 
-  if( ((x <= -2 and x >= -9) and abs(x) != unitOne) and ((abs(y) >= x ) and y != 10)){
+  if( ((x <= -20 and x >= -90) and abs(x) != unitOne) and ((abs(y) >= x ) and y != 100)){
     goLeft(outputValueX);
     XDirection = -1;
     YDirection = 0;
@@ -257,7 +257,7 @@ void loop() {
     boolean Forward = false;
     boolean Backward = false;
 }
-  else if((x == -10) and (abs(y) <= 9)){
+  else if((x == -100) and (abs(y) <= 90)){
     goLeft(outputValueX);
     XDirection = -1;
     YDirection = 0;
@@ -267,7 +267,7 @@ void loop() {
     boolean Backward = false;
 }
        
-  if( (x >= 2 and x <= 9) and (abs(y) <= x)){
+  if( (x >= 20 and x <= 90) and (abs(y) <= x)){
     goRight(outputValueX);
     XDirection = 1;
     YDirection = 0;
@@ -276,7 +276,7 @@ void loop() {
     boolean Forward = false;
     boolean Backward = false;
   }
-  else if((x == 10) and ( abs(y) <= 9)){
+  else if((x == 100) and ( abs(y) <= 90)){
     goRight(outputValueX);
     XDirection = 1;
     YDirection = 0;
@@ -287,7 +287,7 @@ void loop() {
   }
 
  
-  if( ((x >= -9 and x <= 9) and y != 1) and (y > abs(x))){
+  if( ((x >= -90 and x <= 90) and y != 10) and (y > abs(x))){
     goForward(outputValueY);
     YDirection = 1;
     XDirection = 0;
@@ -296,7 +296,7 @@ void loop() {
     boolean Forward = true;
     boolean Backward = false;
   }
-  if( ( abs(x) == 10 ) and (y == 10 )){
+  if( ( abs(x) == 100 ) and (y == 100 )){
     goForward(outputValueY);
     YDirection = 1;
     XDirection = 0;
@@ -305,7 +305,7 @@ void loop() {
     boolean Forward = true;
     boolean Backward = false;
   }
-  else if((x == 0) and (y >= 2 and abs(y) != unitOne) ){
+  else if((x == 0) and (y >= 20 and abs(y) != unitOne) ){
     goForward(outputValueY);
     YDirection = 1;
     XDirection = 0;
@@ -316,7 +316,7 @@ void loop() {
   }
   
    
-  if( ((x >= -9 and x <= 9 ) and x != 1) and (abs(y) < abs(x) * -1 )){
+  if( ((x >= -90 and x <= 90 ) and x != 10) and (abs(y) < abs(x) * -10 )){
      goBackward(outputValueY);
      YDirection = -1;
      XDirection = 0;
@@ -325,7 +325,7 @@ void loop() {
     boolean Forward = false;
     boolean Backward = true;
   }
-  if( ( abs(x) == 10 ) and (y == -10 )){
+  if( ( abs(x) == 100 ) and (y == -100 )){
      goBackward(outputValueY);
      YDirection = -1;
      XDirection = 0;
@@ -334,7 +334,7 @@ void loop() {
     boolean Forward = false;
     boolean Backward = true;
   }
-  else if((x == 0) and (y <= -2 and abs(y) != unitOne) ){
+  else if((x == 0) and (y <= -20 and abs(y) != unitOne) ){
     goBackward(outputValueY);
     YDirection = -1;
     XDirection = 0;
@@ -344,7 +344,7 @@ void loop() {
     boolean Backward = true;
   }    
 
-  if( (x < 2 and x > -2) and (y < 2 and y > -2) ){
+  if( (x < 20 and x > -20) and (y < 20 and y > -20) ){
 //    noMove();
     YDirection = 0;
     XDirection = 0;
@@ -356,7 +356,7 @@ void loop() {
 }
  // if(!(Left) and !(Right) and !(Forward) and !(Backward)){
    
-  if(z >= 2){
+  if(z >= 20){
      goVertical(outputValueZ, true);
      ZDirection = 1;
 //     x = 0;
@@ -366,7 +366,7 @@ void loop() {
      boolean Up = true;
      boolean Down = false;
    }
-    if(z <= -2){
+    if(z <= -20){
      goVertical(outputValueZ, false);
      ZDirection = -1;
 //     x = 0;
@@ -376,7 +376,7 @@ void loop() {
      boolean Up = false;
      boolean Down = true;
    }
-    else if ((z< 2) and (z> -2 )) {
+    else if ((z< 20) and (z> -20 )) {
 //     noMove();
 //     YDirection = 0;
 //     XDirection = 0;
@@ -386,7 +386,7 @@ void loop() {
    }
   
 
-  if( ((p <= -2 and p >= -9) and abs(p) != unitOne) and ((abs(t) >= p ) and t != 10)){
+  if( ((p <= -20 and p >= -90) and abs(p) != unitOne) and ((abs(t) >= p ) and t != 100)){
     goPivot(outputValueP, false);
     PDirection = -1;
     TDirection = 0;
@@ -395,7 +395,7 @@ void loop() {
     boolean fTilt= false;
     boolean bTilt= false;
 }
-  else if((p == -10) and (abs(t) <= 9)){
+  else if((p == -100) and (abs(t) <= 90)){
     goPivot(outputValueP, false);
     PDirection = -1;
     TDirection = 0;
@@ -405,7 +405,7 @@ void loop() {
     boolean bTilt = false;
 }
        
-  if( (p >= 2 and p <= 9) and (abs(t) <= p)){
+  if( (p >= 20 and p <= 90) and (abs(t) <= p)){
     goPivot(outputValueP, true);
     PDirection = 1;
     TDirection = 0;
@@ -414,7 +414,7 @@ void loop() {
     boolean fTilt = false;
     boolean bTilt = false;
   }
-  else if((p == 10) and ( abs(t) <= 9)){
+  else if((p == 100) and ( abs(t) <= 90)){
     goPivot(outputValueP, true);
     PDirection = 1;
     TDirection = 0;
@@ -425,7 +425,7 @@ void loop() {
   }
 
  
-  if( ((p >= -9 and p <= 9) and t != 1) and (t > abs(p))){
+  if( ((p >= -90 and p <= 90) and t != 10) and (t > abs(p))){
     goTilt(outputValueT, true);
     TDirection = 1;
     PDirection = 0;
@@ -434,7 +434,7 @@ void loop() {
     boolean fTilt = true;
     boolean bTilt = false;
   }
-  if( ( abs(p) == 10 ) and (t == 10 )){
+  if( ( abs(p) == 100 ) and (t == 100 )){
     goTilt(outputValueT, true);
     TDirection = 1;
     PDirection = 0;
@@ -443,7 +443,7 @@ void loop() {
     boolean fTilt = true;
     boolean bTilt = false;
   }
-  else if((p == 0) and (t >= 2 and abs(t) != unitOne) ){
+  else if((p == 0) and (t >= 20 and abs(t) != unitOne) ){
     goTilt(outputValueT, true);
     TDirection = 1;
     PDirection = 0;
@@ -454,7 +454,7 @@ void loop() {
   }
   
    
-  if( ((p >= -9 and p <= 9 ) and p != 1) and (abs(t) < abs(p) * -1 )){
+  if( ((p >= -90 and p <= 90 ) and p != 10) and (abs(t) < abs(p) * -1 )){
      goTilt(outputValueT, false);
      TDirection = -1;
      PDirection = 0;
@@ -463,7 +463,7 @@ void loop() {
     boolean fTilt = false;
     boolean bTilt = true;
   }
-  if( ( abs(p) == 10 ) and (t == -10 )){
+  if( ( abs(p) == 100 ) and (t == -100 )){
      goTilt(outputValueT, false);
      TDirection = -1;
      PDirection = 0;
@@ -472,7 +472,7 @@ void loop() {
     boolean fTilt = false;
     boolean bTilt = true;
   }
-  else if((p == 0) and (t <= -2 and abs(t) != unitOne) ){
+  else if((p == 0) and (t <= -20 and abs(t) != unitOne) ){
     goTilt(outputValueT, false);
     TDirection = -1;
     PDirection = 0;
@@ -482,7 +482,7 @@ void loop() {
     boolean bTilt = true;
   }    
 
-  if( (p < 2 and p > -2) and (t < 2 and t > -2) ){
+  if( (p < 20 and p > -20) and (t < 20 and t > -20) ){
 //    noMove();
     TDirection = 0;
     PDirection = 0;
@@ -562,57 +562,54 @@ void loop() {
 
 
  if ((Pan) and (Pivot) and (Tilt) and (Vertical)){
-    // string length  = ranges from 32-37
-     
-    ultimateStr = String(strDirectX + " ," + strSpeedX + " ," + strDirectY  + " ," + strSpeedY + " ,"  + strDirectZ + " ," + strSpeedZ + " ," + strDirectT + " ," + strSpeedT + ' ,"+ strDirectP + " ," + strSpeedP +"\n");
+    
+     // this string length ranges from 24-34
+    ultimateStr = String(strDirectX + ":" + strSpeedX + ", " + strDirectY  + ":" + strSpeedY + ", "  + strDirectZ + ":" + strSpeedZ + ", " + strDirectT + ":" + strSpeedT + ', "+ strDirectP + ":" + strSpeedP +"\n");
  }
 
  
  if( !(Pan)){
-    if((Vertical) and (Tilt) and (Pivot)){ 
-      // string length = 
-      ultimateStr = String(strDirectZ + " ," + strSpeedZ + " ,"+ strDirectT + " ," + strSpeedT + " ,"+ strDirectP + " ," + strSpeedP +"\n");
-    }
-    if( !(Vertical) and (Tilt)and (Pivot) )){
-      ultimateStr = String(strDirectT + " ," + strSpeedT + " ,"+ strDirectP + " ," + strSpeedP +"\n");
+    if((Tilt) and (Pivot)){ 
+      // string length ranges from 14-20
+      ultimateStr = String(strDirectZ + ":" + strSpeedZ + ", "+ strDirectT + ":" + strSpeedT + ", "+ strDirectP + ":" + strSpeedP +"\n");
     }
     if( !(Vertical) and !(Tilt) and (Pivot)){
-      ultimateStr = String(strDirectP + " ," + strSpeedP +"\n");
+      // string length ranges from 3-5
+      ultimateStr = String(strDirectP + ":" + strSpeedP +"\n");
     }
     if( (Vertical) and (Tilt) and !(Pivot)){
-      ultimateStr = String(strDirectZ + " ," + strSpeedZ + " ,"+ strDirectT + " ," + strSpeedT + "\n");
+      //string length ranges from 9-13
+      ultimateStr = String(strDirectZ + ":" + strSpeedZ + ", "+ strDirectT + ":" + strSpeedT + "\n");
     }
-    if( (Vertical) !(Tilt) and (Pivot)){
-      ultimateStr = String(strDirectZ + " ," + strSpeedZ + " ,"+ strDirectP + " ," + strSpeedP +"\n");
+    if( (Vertical)and !(Tilt) and (Pivot)){
+      //string length ranges from 8-12
+      ultimateStr = String(strDirectZ + ":" + strSpeedZ + ", "+ strDirectP + ":" + strSpeedP +"\n");
     }
     if( !(Vertcial) and (Tilt) and !(Pivot){
-      ultimateStr = String(strDirectT + " ," + strSpeedT +"\n");
+      //string length ranges from 4-6
+      ultimateStr = String(strDirectT + ":" + strSpeedT +"\n");
     }
     if((Vertical) and !(Tilt) and !(Pivot){
-      ultimateStr = String(strDirectZ + " ," + strSpeedZ + "\n");  
+      //string length ranges from 3-5
+      ultimateStr = String(strDirectZ + ":" + strSpeedZ + "\n");  
     }
   }
   else if ((Pan)) {
     if( !(Vertical) and ! (Tilt) and !(Pivot)){
-      ultimateStr = String(strDirectX + " ," + strSpeedX  + " ,"  + strDirectY + " ," + strSpeedY +"\n");
+      //string lengtyh ranges from 8-12
+      ultimateStr = String(strDirectX + ":" + strSpeedX  + ", "  + strDirectY + ":" + strSpeedY +"\n");
     }
     if( (Vertical) and !(Tilt) and !(Pivot)){
-      ultimateStr = String(strDirectX + " ," + strSpeedX  + " ," +strDirectY + " ," + strSpeedY + " ,"  + strDirectZ + " ," + strSpeedZ +"\n");
-    }
-    if( (Vertical) and (Tilt) and ! (Pivot)) {
-      ultimateStr = String(strDirectX + " ," + strSpeedX  + " ," + strDirectY + " ," + strSpeedY + " ,"  + strDirectZ + " ," + strSpeedZ + " ," + strDirectT + " ," + strSpeedT +"\n");
+      //string length ranges from 13-19
+      ultimateStr = String(strDirectX + ":" + strSpeedX  + ", " +strDirectY + ":" + strSpeedY + ", "  + strDirectZ + ":" + strSpeedZ +"\n");
     }
     if( !(Vertical) and !(Tilt) and (Pivot)){
-      ultimateStr = String(strDirectX + " ," +  strSpeedX  + " ," + strDirectY + " ," + strSpeedY + " ," +strDirectP + " ," + strSpeedP +"\n");
+      //string length ranges from 13- 19
+      ultimateStr = String(strDirectX + ":" +  strSpeedX  + ", " + strDirectY + ":" + strSpeedY + ", " +strDirectP + ":" + strSpeedP +"\n");
     }
     if( !(Vertical) and (Tilt) and !(Pivot){
-      ultimateStr = String(strDirectX + " ," + strSpeedX + " ," +  strDirectY + " ," + strSpeedY + " ," + strDirectT + " ," + strSpeedT + "\n");  
-    }
-    if( !(Vertical) and (Tilt) and (Pivot)){
-      ultimateStr = String(strDirectX + " ," + strSpeedX+ " ," + strDirectY  + " ," + strSpeedY + " ,"  + strDirectT + " ," + strSpeedT + " , "+ strDirectP + " ," + strSpeedP +"\n");
-    }
-    if( (Vertical) and !(Tilt) and (Pivot)){
-      ultimateStr = String(strDirectX + " ," + strSpeedX + " ," +  strDirectY + " ," + strSpeedY + " ,"  + strDirectZ + " ," + strSpeedZ + ' , "+ strDirectP + " ," + strSpeedP +"\n");
+      //string length ranges form 14-20
+      ultimateStr = String(strDirectX + ":" + strSpeedX + ", " +  strDirectY + ":" + strSpeedY + ", " + strDirectT + ":" + strSpeedT + "\n");  
     }
   }
 

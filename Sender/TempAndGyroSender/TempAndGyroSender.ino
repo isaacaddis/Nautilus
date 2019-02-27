@@ -1,8 +1,9 @@
 
+
 #define THERMISTORPIN A1         
 // resistance at 25 degrees C
 #define THERMISTORNOMINAL 10000      
-// temp. for nominal resistance (almost always 25 C)
+// temp. for nominal resistance (almost always 25 C)    `
 #define TEMPERATURENOMINAL 25   
 // number of samples to take and average, more takes longer
 #define NUMSAMPLES 5
@@ -13,14 +14,22 @@
    
 #include "DHT.h"
 #define DHTPIN A0 // pin for connecting sensor
-#define DHTTYPE DHT11 // DHT 11 : type of sensor you are using
+#define DHTTYPE DHT11 // DHT 11 : type o
+
+
+int leaksensor=3;
+int val = 0; 
+String Leak;
+ 
+ 
+ 
 
 DHT dht(DHTPIN, DHTTYPE);
 String temp_in;
 String humidity;
 String Temp_Gyro; 
-char m_Temp_Gyro[24];
-char gyroData[25];
+char m_Temp_Gyro[45];
+char gyroData[18];
 String GyroData;
 
 
@@ -28,12 +37,14 @@ String temp_out;
 uint16_t samples[NUMSAMPLES];
 
  
-void setup(void) {
-  Serial.begin(57600);
+void setup() {
+  //Serial.begin(57600);
+  Serial.begin(74880);
   //Serial.println("DHT11 Moniter System");
-  analogReference(EXTERNAL);  
+  analogReference(EXTERNAL); 
+  pinMode(leaksensor,INPUT);
   dht.begin();
-  delay(10000);
+  delay(1000);
 }
  /////////////////////////////////
 void loop(void) {
@@ -45,8 +56,13 @@ void loop(void) {
    *  Temp outside : three decimaml places)
    */
 
-  Serial.readBytes(gyroData,25);
-  GyroData = String(gyroData);
+  val = digitalRead(leaksensor);
+  if(val == HIGH){
+    Leak = "1";
+  }
+  if(val == LOW){
+    Leak= "0";
+  }
   
   uint8_t i;
   float average;
@@ -81,10 +97,12 @@ void loop(void) {
   temp_in = String(t,2);
   humidity = String(h,2);
 
-
-  Temp_Gyro = temp_in + " ,"+ temp_out + " ," + humidity + ", " + GyroData;
-  Temp_Gyro.toCharArray(m_Temp_Gyro,40);
-  Serial.write(m_Temp_Gyro,40);
+  Serial.readBytes(gyroData,18);
+  GyroData = String(gyroData);
+  
+  Temp_Gyro = temp_in+", "+ temp_out+ ", "+humidity +", "+ Leak+ ", "+ GyroData ;
+  Temp_Gyro.toCharArray(m_Temp_Gyro,45);
+  Serial.write(m_Temp_Gyro,45);
  
   delay(300);
 }

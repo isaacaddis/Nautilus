@@ -18,9 +18,9 @@ float Acc_angle_error_x, Acc_angle_error_y; //Here we store the initial Acc data
 
 float Total_angle_x, Total_angle_y;
 String Gyro, gyro_X, gyro_Y;
-char gyro[25];
+char gyro[18];
 
-
+ 
 
 void setup() {
   Wire.begin();                           //begin the wire comunication
@@ -40,8 +40,12 @@ void setup() {
   Wire.write(0x10);                       //Set the register bits as 00010000 (+/- 8g full scale range)
   Wire.endTransmission(true); 
 
-  Serial2.begin(57600);                     //Remember to set this same baud rate to the serial monitor  
-  time = millis();                        //Start counting time in milliseconds
+  //Serial2.begin(57600); 
+  Serial2.begin(74880);
+  //Remember to set this same baud rate to the serial monitor      
+  delay(1000);
+  time = millis();
+  //Start counting time in milliseconds
 
 
 /*Here we calculate the acc data error before we start the loop
@@ -163,7 +167,7 @@ void loop() {
  Acc_angle_y = (atan(-1*(Acc_rawX)/sqrt(pow((Acc_rawY),2) + pow((Acc_rawZ),2)))*rad_to_deg) - Acc_angle_error_y;    
 
 
- //////////////////////////////////////Total angle and filter/////////////////////////////////////
+ //////////////////////////////////////Total angle and filter////U/////////////////////////////////
  /*---X axis angle---*/
  Total_angle_x = 0.98 *(Total_angle_x + Gyro_angle_x) + 0.02*Acc_angle_x;
  /*---Y axis angle---*/
@@ -172,9 +176,9 @@ void loop() {
  gyro_X = String(Total_angle_x,2);
  gyro_Y = String(Total_angle_y,2);
  Gyro = gyro_X + ", " + gyro_Y;
- Gyro.toCharArray(gyro,25);
- Wire.write(gyro,25);
- Serial2.write(gyro,25); 
+ Gyro.toCharArray(gyro,18);
+ Wire.write(gyro,18);
+ Serial2.write(gyro,18); 
  delay(300);
  
 
@@ -189,7 +193,6 @@ void loop() {
  //Serial.print(Total_angle_y);
  //Serial.println(" ");
 
-
+}
 
  
-}
