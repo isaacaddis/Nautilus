@@ -1,4 +1,4 @@
-//Revision: 2/27/2019 9:12AM
+//Revision: 2/27/2019 2:04PM
 #define THERMISTORPIN A1         
 // resistance at 25 degrees C
 #define THERMISTORNOMINAL 10000      
@@ -43,7 +43,7 @@ void setup() {
   analogReference(EXTERNAL); 
   pinMode(leaksensor,INPUT);
   dht.begin();
-  delay(1000);
+  delay(500);
 }
  /////////////////////////////////
 void loop(void) {
@@ -106,8 +106,10 @@ val = analogRead(leaksensor);
       Temp_Gyro.toCharArray(m_Temp_Gyro,45);
       Serial.write(m_Temp_Gyro,45);
       digitalWrite(LED_BUILTIN, HIGH); 
+  
   }
 
+  
   delay(100);
 
 }
