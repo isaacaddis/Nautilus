@@ -1,5 +1,4 @@
 
-
 #define THERMISTORPIN A1         
 // resistance at 25 degrees C
 #define THERMISTORNOMINAL 10000      
@@ -11,7 +10,8 @@
 #define BCOEFFICIENT 3950
 // the value of the 'other' resistor
 #define SERIESRESISTOR 10000 
-   
+//Library
+//https://www.instructables.com/id/Simple-DHT11-Temperature-Moniter/
 #include "DHT.h"
 #define DHTPIN A0 // pin for connecting sensor
 #define DHTTYPE DHT11 // DHT 11 : type o
@@ -29,7 +29,7 @@ String temp_in;
 String humidity;
 String Temp_Gyro; 
 char m_Temp_Gyro[45];
-char gyroData[18];
+char gyroData[20];
 String GyroData;
 
 
@@ -97,12 +97,16 @@ void loop(void) {
   temp_in = String(t,2);
   humidity = String(h,2);
 
-  Serial.readBytes(gyroData,18);
-  GyroData = String(gyroData);
-  
-  Temp_Gyro = temp_in+", "+ temp_out+ ", "+humidity +", "+ Leak+ ", "+ GyroData ;
-  Temp_Gyro.toCharArray(m_Temp_Gyro,45);
-  Serial.write(m_Temp_Gyro,45);
- 
-  delay(300);
+  Serial.readBytes(gyroData,20);
+    GyroData = String(gyroData);
+  if (GyroData.substring(0,2)== "45"){
+    
+      Temp_Gyro = temp_in + " ,"+ temp_out + " ," + humidity + " ,"+ Leak+ ", "+ GyroData;   
+      Temp_Gyro.toCharArray(m_Temp_Gyro,45);
+      Serial.write(m_Temp_Gyro,45);
+      digitalWrite(LED_BUILTIN, HIGH); 
+  }
+
+  delay(100);
+
 }
