@@ -18,7 +18,7 @@ float Acc_angle_error_x, Acc_angle_error_y; //Here we store the initial Acc data
 
 float Total_angle_x, Total_angle_y;
 String Gyro, gyro_X, gyro_Y;
-char gyro[18];
+char gyro[20];
 
  
 
@@ -175,28 +175,21 @@ void loop() {
 
  gyro_X = String(Total_angle_x,2);
  gyro_Y = String(Total_angle_y,2);
- Gyro = gyro_X + ", " + gyro_Y;
-<<<<<<< HEAD
- Gyro.toCharArray(gyro,18);
- Wire.write(gyro,18);
- Serial2.write(gyro,18); 
+ Gyro = "45 :"+ gyro_X + ", " + gyro_Y;
+ Gyro.toCharArray(gyro,20);
+ Wire.write(gyro,20);
+ Serial2.write(gyro,20); 
  delay(300);
-=======
- Gyro.toCharArray(gyro,25);
- Wire.write(gyro,25);
- Serial2.write(gyro,25); 
- delay(10);
->>>>>>> ce6d1906b899a09546849746e6d28e82665949af
  
 
  
  
  /*Uncoment the rest of the serial prines
  * I only print the Y angle value for this test */
- //Serial.print("Xº: ");
+ //Serial.print("Xï¿½: ");
  //Serial.print(Total_angle_x);
  //Serial.print("   |   ");
- //Serial.print("Yº: ");
+ //Serial.print("Yï¿½: ");
  //Serial.print(Total_angle_y);
  //Serial.println(" ");
 
