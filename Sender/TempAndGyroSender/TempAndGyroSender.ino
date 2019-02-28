@@ -43,7 +43,7 @@ void setup() {
   analogReference(EXTERNAL); 
   pinMode(leaksensor,INPUT);
   dht.begin();
-  delay(500);
+  delay(1500);
 
 }
  /////////////////////////////////
