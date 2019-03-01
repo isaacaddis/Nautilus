@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+from Vision.ImagePreProcess import *
+from Vision.Image import *
 #from Vision.Image import Operation
 import os
 import sys
@@ -14,16 +16,29 @@ class Thread(QThread):
     def __init__(self, parent=None):
         QThread.__init__(self, parent=parent)
     def run(self):
-        op = cv2.VideoCapture(0)
-        op2 = cv2.VideoCapture(1)
-        op3 = cv2.VideoCapture(2)
+        wc = WhatsCrackin()
+        proc = ImagePreProcess()
+        op = Operation(0)
+        op2 = Operation(1)
+        op3 = Operation(2)
         while True:
-            ret, img = op.read()
-            ret, img_2 = op2.read()
-            ret, img_3 = op2.read()
-            rgbImage = img.copy()
-            rgbImage_2 = img_2.copy()
-            rgbImage_3 = img_3.copy()
+            ret, img = op2.get()
+            ret, img_2 = op2.get()
+            ret, img_3 = op2.get()
+            rgbImage = proc.process(img.copy())
+            rgbImage_2 = proc.process(img_2.copy())
+            rgbImage_3 = proc.process(img_3.copy())
+            image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            _____,cnts1,__ = cv2.findContours(image.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            #cnts2 = wc.findCracks(rgbImage_2)
+            #cnts3 = wc.findCracks(rgbImage_3)
+            for i in cnts1:
+                wc.integrate(rgbImage, cnts1)
+            '''
+            wc.integrate(rgbImage, cnts1)
+            wc.integrate(rgbImage_2, cnts2)
+            wc.integrate(rgbImage_3, cnts3)
+            '''
             convertToQtFormat = QImage(rgbImage.data, rgbImage.shape[1],rgbImage.shape[0],QImage.Format_RGB888).rgbSwapped()
             convertToQtFormat_2 = QImage(rgbImage_2.data, rgbImage_2.shape[1],rgbImage_2.shape[0],QImage.Format_RGB888).rgbSwapped()
             convertToQtFormat_3 = QImage(rgbImage_3.data, rgbImage_3.shape[1],rgbImage_3.shape[0],QImage.Format_RGB888).rgbSwapped()
@@ -39,7 +54,7 @@ class App(QWidget):
         self.title = "45C Robotics 2019"
         self.initUI()
         self.setStyleSheet(open('style.css').read())
-        self.setWindowFlags(Qt.FramelessWindowHint)
+        #self.setWindowFlags(Qt.FramelessWindowHint)
     @pyqtSlot(QImage)
     def setImage(self, image):
         self.videoCom.setPixmap(QPixmap.fromImage(image))
@@ -54,11 +69,9 @@ class App(QWidget):
         self.resize(1920,1080)
         self.temp_label = QLabel(self)
         #self.temp_label.setReadOnly(True)
-        self.temp_label.setText('text')
+        self.temp_label.setText('--- Operator Data ---')
         self.temp_label.setAlignment(Qt.AlignRight)
-        self.temp_label.setOpenExternalLinks(True)
-        self.temp_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
-        self.temp_label.move(0,1000)
+        self.temp_label.move(20,800)
         # Video component 1
         self.videoCom = QLabel(self)
         self.videoCom.move(80,0)

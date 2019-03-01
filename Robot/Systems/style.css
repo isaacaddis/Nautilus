@@ -1,8 +1,7 @@
 *{
     font-family:Comic Sans;
     background-color:black;
-    color:white;
 }
 QLabel{
-    color: white;
+    color: green;
 }
