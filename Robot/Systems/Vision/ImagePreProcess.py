@@ -15,7 +15,7 @@ class ImagePreProcess():
         self.erosion = cv2.erode(self.img, self.kernel, iterations=1)
         self.dilation = cv2.dilate(self.erosion, self.kernel, iterations=1)
         self.canny = cv2.Canny(self.dilation, 100,200)
-        return self.dilation
+        return self.canny
 class WhatsCrackin():
     def __init__(self):
         pass

@@ -3,7 +3,8 @@ import numpy as np
 import os
 
 #parameters
-working_dir = '/home/robotics45c/Desktop/rov2019/Robot/Systems/Util/shapes/'
+working_dir = '/home/physicsalex/Desktop/master/Robot/Systems/Util/shapes'
+
 os.chdir(working_dir)
 img_size = 60 #size of image fed into model
 
@@ -16,7 +17,8 @@ def flatten(dimData, images):
 
 #-------------get train/test data-----------------
 #get data
-folders, labels, images = ['triangle', 'star', 'square', 'circle','line'], [], []
+folders, labels, images = ['triangle', 'star', 'square', 'circle'], [], []
+print("Folders: {}".format(folders))
 for folder in folders:
     print(folder)
     for path in os.listdir(os.getcwd()+'/'+folder):
@@ -71,4 +73,4 @@ history = model.fit(train_data, train_labels_one_hot, batch_size = 256, epochs=5
 
 [test_loss, test_acc] = model.evaluate(test_data, test_labels_one_hot)
 print("Evaluation result on Test Data : Loss = {}, accuracy = {}".format(test_loss, test_acc))
-model.save('/home/isaac/Desktop/rov2019/Robot/Systems/Util/shapesmodel.h5')
+model.save('/home/physicsalex/Desktop/master/Robot/Systems/Util/shapesmodel.h5')
