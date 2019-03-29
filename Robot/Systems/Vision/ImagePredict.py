@@ -13,39 +13,40 @@ class Magic:
             load_model('/home/robotics45c/Desktop/rov2019/Robot/Systems/Util/shapes_model.h5'
                        )
         self.dot_product = np.prod([60, 60])
+        self.img_dir = '/home/robotics45c/Desktop/rov2019/Robot/Systems/Vision/Images'
 
-    def only_color(img, h, s, v, h1, s1, v1):
-        hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    def only_color(self,img, h, s, v, h1, s1, v1):
+        # hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         (lower, upper) = (np.array([h, s, v]), np.array([h1, s1, v1]))
-        mask = cv2.inRange(hsv, lower, upper)
-        res = cv2.bitwise_and(img, img, mask=mask)
+        # mask = cv2.inRange(hsv, lower, upper)
+        # res = cv2.bitwise_and(img, img, mask=mask)
         kernel = np.ones((3, 3), np.uint)
-        mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+        mask = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
         return mask
 
     def abra(self, img):
-        mask = cv2.resize(img, (60, 60))
-        mask = only_color(mask, 
-            48,
-            92,
-            0,
-            64,
-            255,
-            255,
-            )
-        mask = 255 - mask
-        mask = cv2.resize(img, (60, 60))
-        cv2.imwrite('{}.jpg'.format(time.time()),mask)
-        mask = mask.reshape(self.dot_product)
-        mask = mask.astype('float32')
-        mask /= 255
-        return mask
+        # mask = cv2.resize(img, (60, 60))
+        cv2.imwrite('1.jpg', img)
+        mask = self.only_color(img, 0,0,0,180,255,100)
+        # mask = 255 - mask
+        mask = cv2.resize(mask, (60, 60))
+        # zeroes = np.zeros((60,60))
+        # n_zeroes = zeroes[...,np.newaxis]
+        mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
+        # height, width, channels = zeroes.shape
+        # print('Channels: {}'.format(channels))
+        # mask = 255 - mask
+        # mask = cv2.resize(img, (60, 60))
+        # cv2.imshow('mask', mask)\
+        cv2.imwrite('2.jpg', mask)
+        # n_mask = mask.reshape(60, 60,1)
+        print('Shape: {}'.format(mask.shape))
+        n_mask = mask.astype('float32')
+        n_mask /= 255
+        cv2.imwrite('mask.jpg', n_mask)
+        return n_mask
 
     def kadabra(self):
-        '''
-            LOL .. hey .. it would be incomplete without this
-        '''
-
         pass
 
     def alakazam(self, img):
