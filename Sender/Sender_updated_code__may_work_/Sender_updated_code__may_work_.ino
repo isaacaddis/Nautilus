@@ -1,19 +1,16 @@
 #include "Servo.h"
-#define max_len 40
-
-//
 
 const int InputA0 = A0; // Forward and Backward
 const int InputA1 = A1; // Left and Right
-const int InputA2 = A2; // Up and down
-const int InputA3 = A3; // Tilt 
-const int InputA4 = A4; // Turning
+const int InputA2 = A4; // Up and down
+const int InputA3 = A2; // Tilt 
+const int InputA4 = A3; // Turning
 
 
 
-int PotA0 = 0;        // value read from the pot
+int PotA0 = 0;       
 int SpeedA0 = 0;
-int PotA1 = 0;// value read from the pot
+int PotA1 = 0;
 int SpeedA1 = 0;
 int PotA2 = 0;
 int SpeedA2 = 0;
@@ -44,7 +41,6 @@ int SpeedZ = 0;
 int SpeedT = 0;
 int SpeedP = 0;
 
-char sendsig[max_len];
 
 String str1;
 String str2;
@@ -66,166 +62,17 @@ String strDirectT;
 String strDirectP; 
 
 String ultimateStr;
+char joy[25];
 
-
-const int unitOne = 10;
-
-boolean Left;
-boolean Right;
-boolean Forward;
-boolean Backward;
-boolean Up;
-boolean Down;
-boolean bTilt;
-boolean fTilt;
-boolean CounterCW;
-boolean Clockwise;
-
-boolean Pan;
-boolean Vertical;
-boolean Tilt;
-boolean Pivot;
-
-
-Servo f_Left;
-Servo f_Right;
-Servo b_Left;
-Servo b_Right;
-Servo vert_Motor1;
-Servo vert_Motor2;
-
-void goForward(int param) {
-  int percent = abs(param / 10);
-  int velocity = percent * 180;
-  if(velocity > 150) {
-    velocity = 150;
-  }
-  f_Left.write(velocity * -1);
-  f_Right.write(velocity * -1);
-  b_Left.write(velocity * -1);
-  b_Right.write(velocity * -1);
-
-//  Serial.println("Current Command: Move Forward");
-
-}
-
-void goBackward(int param) {
-  int percent = abs(param / 10);
-  int velocity = percent * 180;
-  if(velocity > 150) {
-    velocity = 150;
-  }
-  f_Left.write(velocity);
-  f_Right.write(velocity);
-  b_Left.write(velocity);
-  b_Right.write(velocity);
-
-//  Serial.println("Current Command: Move Backward");
-  
-}
-
-void goLeft(int param) {
-  int percent = abs(param/10);
-  int velocity = percent * 180;
-  if(velocity > 150) {
-    velocity = 150;
-  }
-  f_Left.write(velocity);
-  f_Right.write(velocity * -1);
-  b_Left.write(velocity * -1);
-  b_Right.write(velocity);
-
-// Serial.println("Current Command: Move Left");
-
-}
-void goRight(int param) {
-  int percent = abs(param/10);
-  int velocity = percent * 180;
-  if(velocity > 150) {
-    velocity = 150;
-  }
-  f_Left.write(velocity * -1);
-  f_Right.write(velocity);
-  b_Left.write(velocity);
-  b_Right.write(velocity * -1);
-
-//  Serial.println("Current Command: Move Right");
-
-}
-
-void noMove() {
-  int velocity = 0;
-  f_Left.write(velocity);
-  f_Right.write(velocity);
-  b_Left.write(velocity);
-  b_Right.write(velocity );
-
-//  Serial.println("Current Command: Don't Move");
-}
-
-void goVertical(int param, boolean direct){
-  int percent = abs(param/10);
-  int velocity = percent * 180;
-  if(velocity > 150) {
-    velocity = 150;
-  }
-  if(direct){
-    vert_Motor1.write(velocity);
-    vert_Motor2.write(velocity);
-  }
-  else{
-    vert_Motor1.write(velocity * -1);
-    vert_Motor2.write(velocity * -1);
-  }
-}
-
-void goTilt(int param, boolean direct) {
-  int percent = abs(param/10);
-  int velocity = percent * 180;
-  if(velocity > 150) {
-    velocity = 150;
-  }
-  if(direct){
-    vert_Motor1.write(velocity *-1);
-    vert_Motor2.write(velocity);
-  }
-  else{
-    vert_Motor1.write(velocity);
-    vert_Motor2.write(velocity * -1);
-  }
-
- void goPivot( int param, boolean Clockwise){
-  int percent = abs(param/10);
-  int velocity = percent * 180;
-  if(velocity > 150) {
-    velocity = 150;
-  }
-  if (Clockwise) {
-    f_Left.write( velocity * -1);
-    b_Left.write( velocity * -1);
-    f_Right.write(velocity * 1);
-    b_Right.write(velocity * 1);
-  }
-  else if (CounterCW) {
-    f_Left.write(velocity *1);
-    b_Left.write(velocity *1);
-    f_Right.write(velocity * -1);
-    f_Right.write(velocity * -1);
-    
-  }
- }
-}
 
 void setup() {
-  // Begin the Serial at 9600 Baud
-f_Left.attach(8);
-f_Right.attach(9);
-b_Left.attach(10);
-b_Right.attach(11);
-vert_Motor1.attach(12);
-vert_Motor2.attach(13);
+
+
+Serial.begin(57600);
+Serial1.begin(57600);
+//Serial1.begin(57600);
  delay(500);
-  Serial.begin(9600);
+
 }
 
 void loop() {
@@ -236,11 +83,11 @@ void loop() {
   PotA4 = analogRead(InputA4);
   
   
-  outputValueY = map(PotA0, 0, 1023, -100, 100);
-  outputValueX = map(PotA1, 0, 1023, -100, 100);
-  outputValueZ = map(PotA2, 0, 1023, -100, 100);
-  outputValueT = map(PotA3, 0, 1023, -100, 100);
-  outputValueP = map(PotA4, 0, 1023, -100, 100);
+  outputValueY = map(PotA0, 0, 1023, -25, 25);
+  outputValueX = map(PotA1, 0, 1023, -25, 25);
+  outputValueZ = map(PotA2, 0, 1023, -25, 25);
+  outputValueT = map(PotA3, 0, 1023, -25, 25);
+  outputValueP = map(PotA4, 0, 1023, -25, 25);
   
   int x = outputValueX;
   int y = outputValueY; 
@@ -248,251 +95,171 @@ void loop() {
   int t = outputValueT;
   int p = outputValueP;
 
-  if( ((x <= -20 and x >= -90) and abs(x) != unitOne) and ((abs(y) >= x ) and y != 100)){
-    goLeft(outputValueX);
+  if((x <= -5 and x >= -24) and (y <= abs(x) and y >= 0) and (y != 25)){
     XDirection = -1;
     YDirection = 0;
-    boolean Left = true;
-    boolean Right = false;
-    boolean Forward = false;
-    boolean Backward = false;
 }
-  else if((x == -100) and (abs(y) <= 90)){
-    goLeft(outputValueX);
+  
+if( (x <= -5 and x >= -24) and (y >= x and y < 0) and (y != 25)){
     XDirection = -1;
     YDirection = 0;
-    boolean Left = true;
-    boolean Right = false;
-    boolean Forward = false;
-    boolean Backward = false;
+
+}
+  if((x == -25) and (abs(y) <= 24)){
+    XDirection = -1;
+    YDirection = 0;
+
 }
        
-  if( (x >= 20 and x <= 90) and (abs(y) <= x)){
-    goRight(outputValueX);
+  if( (x >= 5 and x <= 24) and (abs(y)<= x and y < 0) and (y != 25)){
     XDirection = 1;
     YDirection = 0;
-    boolean Left = false;
-    boolean Right = true;
-    boolean Forward = false;
-    boolean Backward = false;
-  }
-  else if((x == 100) and ( abs(y) <= 90)){
-    goRight(outputValueX);
-    XDirection = 1;
-    YDirection = 0;
-    boolean Left = false;
-    boolean Right = true;
-    boolean Forward = false;
-    boolean Backward = false;
-  }
 
- 
-  if( ((x >= -90 and x <= 90) and y != 10) and (y > abs(x))){
-    goForward(outputValueY);
-    YDirection = 1;
-    XDirection = 0;
-    boolean Left = false;
-    boolean Right = false;
-    boolean Forward = true;
-    boolean Backward = false;
-  }
-  if( ( abs(x) == 100 ) and (y == 100 )){
-    goForward(outputValueY);
-    YDirection = 1;
-    XDirection = 0;
-    boolean Left = false;
-    boolean Right = false;
-    boolean Forward = true;
-    boolean Backward = false;
-  }
-  else if((x == 0) and (y >= 20 and abs(y) != unitOne) ){
-    goForward(outputValueY);
-    YDirection = 1;
-    XDirection = 0;
-    boolean Left = false;
-    boolean Right = false;
-    boolean Forward = true;
-    boolean Backward = false;
   }
   
-   
-  if( ((x >= -90 and x <= 90 ) and x != 10) and (abs(y) < abs(x) * -10 )){
-     goBackward(outputValueY);
+  if( (x >= 5 and x <= 24) and (y <= x and y >= 0) and (y != 25)){
+    XDirection = 1;
+    YDirection = 0;
+  }
+  if((x == 25) and ( abs(y) <= 24)){
+    XDirection = 1;
+    YDirection = 0;
+
+  }
+
+  if((x >= -24 and x <= -5) and (x >= 5 and x <= 24) and (y > 0 and y > abs(x))){
+    YDirection = 1;
+    XDirection = 0;
+  }
+  if(( abs(x) == 25 ) and (y == 25)){
+    YDirection = 1;
+    XDirection = 0;
+  }
+  if((x >= -3 and x <= 3) and (y >= 5)) {
+    YDirection = 1;
+    XDirection = 0;
+
+  }
+  
+     if( (x >= -24 and x <= -5) and (x >= 5 and x <= 24) and ( y < 0 and y < (-1 * abs(x)))){
      YDirection = -1;
      XDirection = 0;
-    boolean Left = false;
-    boolean Right = false;
-    boolean Forward = false;
-    boolean Backward = true;
   }
-  if( ( abs(x) == 100 ) and (y == -100 )){
-     goBackward(outputValueY);
+  
+  if( ( abs(x) == 25 ) and (y == -25 )){
      YDirection = -1;
      XDirection = 0;
-    boolean Left = false;
-    boolean Right = false;
-    boolean Forward = false;
-    boolean Backward = true;
   }
-  else if((x == 0) and (y <= -20 and abs(y) != unitOne) ){
-    goBackward(outputValueY);
+  
+  if((x >= -3 and x <= 3) and y <= -5){
     YDirection = -1;
     XDirection = 0;
-    boolean Left = false;
-    boolean Right = false;
-    boolean Forward = false;
-    boolean Backward = true;
   }    
 
-  if( (x < 20 and x > -20) and (y < 20 and y > -20) ){
-//    noMove();
+  if( (x < 5 and x > -5) and (y < 5 and y > -5) ){
     YDirection = 0;
     XDirection = 0;
     boolean Left = false;
     boolean Right = false;
     boolean Forward = false;
     boolean Backward = false; 
-
 }
- // if(!(Left) and !(Right) and !(Forward) and !(Backward)){
+
    
-  if(z >= 20){
-     goVertical(outputValueZ, true);
+  if(z >= 5){
      ZDirection = 1;
-//     x = 0;
-//     y = 0;
-//     YDirection = 0;
-//     XDirection = 0; 
-     boolean Up = true;
-     boolean Down = false;
    }
-    if(z <= -20){
-     goVertical(outputValueZ, false);
+    if(z <= -5){
      ZDirection = -1;
-//     x = 0;
-//     y = 0;
-//     YDirection = 0;
-//     XDirection = 0;
-     boolean Up = false;
-     boolean Down = true;
    }
-    else if ((z< 20) and (z> -20 )) {
-//     noMove();
-//     YDirection = 0;
-//     XDirection = 0;
+    if ((z< 5) and (z> -5) ) {
        ZDirection = 0;
-       boolean Up = false;
-       boolean Down = false;
    }
-  
-
-  if( ((p <= -20 and p >= -90) and abs(p) != unitOne) and ((abs(t) >= p ) and t != 100)){
-    goPivot(outputValueP, false);
+   
+//Serial.println(z); 
+  if((p <= -5 and p >= -24) and (t <= abs(p) and t >= 0) and (t != 25)){
     PDirection = -1;
     TDirection = 0;
-    boolean CounterCW = true;
-    boolean Clockwise= false;
-    boolean fTilt= false;
-    boolean bTilt= false;
 }
-  else if((p == -100) and (abs(t) <= 90)){
-    goPivot(outputValueP, false);
+  
+if( (p <= -5 and p >= -24) and (t >= p and t < 0) and (t != 25)){
     PDirection = -1;
     TDirection = 0;
-    boolean CounterCW= true;
-    boolean Clockwise = false;
-    boolean fTilt = false;
-    boolean bTilt = false;
+
+}
+  if((p == -25) and (abs(t) <= 24)){
+    PDirection = -1;
+    TDirection = 0;
 }
        
-  if( (p >= 20 and p <= 90) and (abs(t) <= p)){
-    goPivot(outputValueP, true);
+  if( (p >= 5 and p <= 24) and (abs(t)<= p and t < 0) and (t != 25)){
     PDirection = 1;
     TDirection = 0;
-    boolean CounterCW = false;
-    boolean Clockwise = true;
-    boolean fTilt = false;
-    boolean bTilt = false;
   }
-  else if((p == 100) and ( abs(t) <= 90)){
-    goPivot(outputValueP, true);
+  
+  if( (p >= 5 and p <= 24) and (t <= p and t >= 0) and (t != 25)){
     PDirection = 1;
     TDirection = 0;
-    boolean CounterCW = false;
-    boolean Clockwise = true;
-    boolean fTilt = false;
-    boolean bTilt = false;
+  }
+  if((p == 25) and ( abs(t) <= 24)){
+    PDirection = 1;
+    TDirection = 0;
   }
 
  
-  if( ((p >= -90 and p <= 90) and t != 10) and (t > abs(p))){
-    goTilt(outputValueT, true);
+  
+  
+  
+  if((p >= -24 and p <= -5) and (p >= 5 and p <= 24) and (t > 0 and t > abs(p))){
     TDirection = 1;
     PDirection = 0;
-    boolean CounterCW = false;
-    boolean Clockwise = false;
-    boolean fTilt = true;
-    boolean bTilt = false;
   }
-  if( ( abs(p) == 100 ) and (t == 100 )){
-    goTilt(outputValueT, true);
+  if(( abs(p) == 25 ) and (t == 25 )){
     TDirection = 1;
     PDirection = 0;
-    boolean CounterCW = false;
-    boolean Clockwise = false;
-    boolean fTilt = true;
-    boolean bTilt = false;
   }
-  else if((p == 0) and (t >= 20 and abs(t) != unitOne) ){
-    goTilt(outputValueT, true);
+  if((p >= -3 and p <= 3) and (t >= 5)) {
     TDirection = 1;
     PDirection = 0;
-    boolean CounterCW = false;
-    boolean Clockwise = false;
-    boolean fTilt = true;
-    boolean bTilt = false;
   }
   
    
-  if( ((p >= -90 and p <= 90 ) and p != 10) and (abs(t) < abs(p) * -1 )){
-     goTilt(outputValueT, false);
+     if( (p >= -24 and p <= -5) and (p >= 5 and p <= 24) and ( t < 0 and t < (-1 * abs(p)))){
      TDirection = -1;
      PDirection = 0;
-    boolean CounterCW = false;
-    boolean Clockwise = false;
-    boolean fTilt = false;
-    boolean bTilt = true;
   }
-  if( ( abs(p) == 100 ) and (t == -100 )){
-     goTilt(outputValueT, false);
+  
+  if( ( abs(p) == 25) and (t == -25 )){
      TDirection = -1;
      PDirection = 0;
-    boolean CounterCW = false;
-    boolean Clockwise = false;
-    boolean fTilt = false;
-    boolean bTilt = true;
   }
-  else if((p == 0) and (t <= -20 and abs(t) != unitOne) ){
-    goTilt(outputValueT, false);
+  
+  if((p >= -3 and p <= 3) and t <= -5){
     TDirection = -1;
     PDirection = 0;
-    boolean CounterCW = false;
-    boolean Clockwise = false;
-    boolean fTilt = false;
-    boolean bTilt = true;
   }    
 
-  if( (p < 20 and p > -20) and (t < 20 and t > -20) ){
+  if( (p < 5 and p > -5) and (t < 5 and t > -5) ){
 //    noMove();
     TDirection = 0;
     PDirection = 0;
-    boolean CounterCW = false;
-    boolean Clockwise = false;
-    boolean fTilt = false;
-    boolean bTilt = false; 
-
 }
-  
+
+ if( outputValueY > 25 or outputValueY < -25){
+   outputValueY = 0;
+  }
+ if( outputValueX > 25 or outputValueX < -25){
+     outputValueX = 0;
+  }
+ if( outputValueZ > 25 or outputValueZ < -25){
+    outputValueZ = 0;
+  }
+  if( outputValueT > 25 or outputValueT < -25){
+    outputValueT = 0;
+  }
+ if( outputValueP > 25 or outputValueP < -25){
+    outputValueP = 0;
+  }
   
   SpeedY = YDirection * outputValueY;
   SpeedX = XDirection * outputValueX;
@@ -506,21 +273,38 @@ void loop() {
   str3 = String(outputValueZ); 
   str4 = String(outputValueT); 
   str5 = String(outputValueP);
-  
+
+    
   strDirectY = String(YDirection);
   strDirectX = String(XDirection);
   strDirectZ = String(ZDirection);
   strDirectT = String(TDirection);
   strDirectP = String(PDirection);
   
+ // if( SpeedY > 25 or SpeedY < -25){
+   // SpeedY = 0;
+  //}
+ // if( SpeedX > 25 or SpeedX < -25){
+   // SpeedX = 0;
+  //}
+  //if( SpeedZ > 25 or SpeedZ < -25){
+   // SpeedZ = 0;
+  //}
+ // if( SpeedT > 25 or SpeedT < -25){
+    //SpeedT = 0;
+  //}
+//  if( SpeedP > 25 or SpeedP < -25){
+    //SpeedP = 0;
+  //}
+//Serial.println(strDirectT);  
   if(XDirection == 1){
-    strDirectX = "R";
+    strDirectX = "L";
   }
   if(YDirection == 1){
     strDirectY = "F";
   }
   if(XDirection == -1){
-    strDirectX = L";
+    strDirectX = "R";
   }
   if(YDirection == -1){
     strDirectY = "B";
@@ -532,94 +316,61 @@ void loop() {
     strDirectZ = "D";
   }
   if(TDirection == -1){
-    strDirectT = "TU";    
+    strDirectT = "TD";    
   }
   if(TDirection == 1){
-    strDirectT = "TD";
+    strDirectT = "TU";
   }
-  
+  if(PDirection == -1){
+  strDirectP = "RR";    
+  }
+  if(PDirection == 1){
+    strDirectP = "RL";
+  }
+
+
+  SpeedY = abs(SpeedY);
+  SpeedX = abs(SpeedX);
+  SpeedZ = abs(SpeedZ);
+  SpeedT = abs(SpeedT);
+  SpeedP = abs(SpeedP);
+
   strSpeedY = String(SpeedY);
   strSpeedX = String(SpeedX);
   strSpeedZ = String(SpeedZ);
   strSpeedT = String(SpeedT);
   strSpeedP = String(SpeedP);
 
- if((Left) or (Right) or (Forward) or (Backward)){
-    boolean Pan = true;    
- }
 
- if((CounterCW) or (Clockwise)){
-    boolean Pivot = true;    
- }
-  
- if((fTilt) or (bTilt)){
-    boolean Tilt = true;    
- }
- 
- if((Up) or (Down)){
-    boolean Vertical = true;    
- }
-
-
- if ((Pan) and (Pivot) and (Tilt) and (Vertical)){
-    
-     // this string length ranges from 24-34
-    ultimateStr = String(strDirectX + ":" + strSpeedX + ", " + strDirectY  + ":" + strSpeedY + ", "  + strDirectZ + ":" + strSpeedZ + ", " + strDirectT + ":" + strSpeedT + ', "+ strDirectP + ":" + strSpeedP +"\n");
- }
-
- 
- if( !(Pan)){
-    if((Tilt) and (Pivot)){ 
-      // string length ranges from 14-20
-      ultimateStr = String(strDirectZ + ":" + strSpeedZ + ", "+ strDirectT + ":" + strSpeedT + ", "+ strDirectP + ":" + strSpeedP +"\n");
-    }
-    if( !(Vertical) and !(Tilt) and (Pivot)){
-      // string length ranges from 3-5
-      ultimateStr = String(strDirectP + ":" + strSpeedP +"\n");
-    }
-    if( (Vertical) and (Tilt) and !(Pivot)){
-      //string length ranges from 9-13
-      ultimateStr = String(strDirectZ + ":" + strSpeedZ + ", "+ strDirectT + ":" + strSpeedT + "\n");
-    }
-    if( (Vertical)and !(Tilt) and (Pivot)){
-      //string length ranges from 8-12
-      ultimateStr = String(strDirectZ + ":" + strSpeedZ + ", "+ strDirectP + ":" + strSpeedP +"\n");
-    }
-    if( !(Vertcial) and (Tilt) and !(Pivot){
-      //string length ranges from 4-6
-      ultimateStr = String(strDirectT + ":" + strSpeedT +"\n");
-    }
-    if((Vertical) and !(Tilt) and !(Pivot){
-      //string length ranges from 3-5
-      ultimateStr = String(strDirectZ + ":" + strSpeedZ + "\n");  
-    }
+  if(strDirectY == "B"){
+   strSpeedY = "-"+ String(SpeedY);
   }
-  else if ((Pan)) {
-    if( !(Vertical) and ! (Tilt) and !(Pivot)){
-      //string lengtyh ranges from 8-12
-      ultimateStr = String(strDirectX + ":" + strSpeedX  + ", "  + strDirectY + ":" + strSpeedY +"\n");
-    }
-    if( (Vertical) and !(Tilt) and !(Pivot)){
-      //string length ranges from 13-19
-      ultimateStr = String(strDirectX + ":" + strSpeedX  + ", " +strDirectY + ":" + strSpeedY + ", "  + strDirectZ + ":" + strSpeedZ +"\n");
-    }
-    if( !(Vertical) and !(Tilt) and (Pivot)){
-      //string length ranges from 13- 19
-      ultimateStr = String(strDirectX + ":" +  strSpeedX  + ", " + strDirectY + ":" + strSpeedY + ", " +strDirectP + ":" + strSpeedP +"\n");
-    }
-    if( !(Vertical) and (Tilt) and !(Pivot){
-      //string length ranges form 14-20
-      ultimateStr = String(strDirectX + ":" + strSpeedX + ", " +  strDirectY + ":" + strSpeedY + ", " + strDirectT + ":" + strSpeedT + "\n");  
-    }
+  
+  
+   if(strDirectX == "L"){
+   strSpeedX = "-"+ String(SpeedX); 
+  }
+   
+  if(strDirectZ == "D"){
+   strSpeedZ = "-"+ String(SpeedZ); 
+  }
+  if(strDirectT == "TD"){
+   strSpeedT = "-"+ String(SpeedT);
+  }
+  
+  if(strDirectP == "RL"){
+   strSpeedP = "-"+ String(SpeedP); 
   }
 
-  
+ultimateStr = "R"+strSpeedX + "F"+ strSpeedY + "U"  +strSpeedZ + "T" +strSpeedT + "P"+ strSpeedP;
+//Serial.println(ultimateStr);
+//Serial.println(ultimateStr);
+ultimateStr.toCharArray(joy,25);
 
-ultimateStr.toCharArray(sendsig,max_len );
-Serial.write(sendsig,max_len ); //Write the serial data 
+Serial1.write(joy,25);
+
  
 
-  delay(100);
+  delay(300);
 
 }
-  
