@@ -259,8 +259,8 @@ void loop() {
  // Serial.println(Joystick);
   //digitalWrite(LED_BUILTIN, HIGH);
   
-  FBSpeed = Joystick.substring((Joystick.indexOf("R") + 1), Joystick.indexOf("F"));
-  SideSpeed = Joystick.substring((Joystick.indexOf("F") + 1), Joystick.indexOf("U"));
+  SideSpeed = Joystick.substring((Joystick.indexOf("R") + 1), Joystick.indexOf("F"));
+  FBSpeed = Joystick.substring((Joystick.indexOf("F") + 1), Joystick.indexOf("U"));
   VertSpeed = Joystick.substring((Joystick.indexOf("U") + 1), Joystick.indexOf("T"));
   TurnSpeed = Joystick.substring((Joystick.indexOf("T") + 1), Joystick.indexOf("P"));
   TiltSpeed = Joystick.substring((Joystick.indexOf("P") + 1), Joystick.length());
