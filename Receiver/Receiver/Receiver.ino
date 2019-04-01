@@ -299,7 +299,7 @@ void loop() {
 
    if (tiltSpeed > 0) { //Tilt Up
     speed05 = map( tiltSpeed, 0, 25, 90, 163);
-    speed06 = map( tiltSpeed, 0, 25, 25, 90);
+    speed06 = map( speed05, 90, 163, 25, 90);
     OutputM5.write(speed06);
     OutputM6.write(speed05);
 //    speedSix = String(speed06);
@@ -311,7 +311,7 @@ void loop() {
   if (tiltSpeed < 0) { //Tilt Down
     tiltSpeed = abs(tiltSpeed);
     speed05 = map( tiltSpeed, 0, 25, 90, 163);
-    speed06 = map( tiltSpeed, 0, 25, 25, 90);
+    speed06 = map( speed05, 90, 163, 25, 90);
     OutputM5.write(speed05);
     OutputM6.write(speed06);
 //    speedSix = String(speed06);
