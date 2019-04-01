@@ -299,9 +299,9 @@ void loop() {
 
    if (tiltSpeed > 0) { //Tilt Up
     speed05 = map( tiltSpeed, 0, 25, 94, 163);
-    speed06 = map( speed05, 94, 163, 25, 94);
-    OutputM3.write(speed06);
-    OutputM4.write(speed05);
+    speed06 = map( speed05, 94, 163, 94, 25);
+    OutputM5.write(speed06);
+    OutputM6.write(speed05);
 //    speedSix = String(speed06);
 //    speedFive = String(speed05);
 //    Serial2.println("Tilt Up" +speedSix);
@@ -311,9 +311,9 @@ void loop() {
   if (tiltSpeed < 0) { //Tilt Down
     tiltSpeed = abs(tiltSpeed);
     speed05 = map( tiltSpeed, 0, 25, 94, 163);
-    speed06 = map( speed05, 94, 163, 25, 94);
-    OutputM3.write(speed05);
-    OutputM4.write(speed06);
+    speed06 = map( speed05, 94, 163, 94, 25);
+    OutputM5.write(speed05);
+    OutputM6.write(speed06);
 //    speedSix = String(speed06);
 //    speedFive = String(speed05);
 //    Serial2.println("Tilt Down" +speedSix);
