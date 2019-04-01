@@ -97,23 +97,23 @@ void setup() {
   OutputM5.attach(11);
   OutputM6.attach(12);
   
-  OutputM1.write(94);
-  OutputM2.write(94);
-  OutputM3.write(94);
-  OutputM4.write(94);  
-  OutputM5.write(94);
-  OutputM6.write(94);
+  OutputM1.writeMicroseconds(1500);
+  OutputM2.writeMicroseconds(1500);
+  OutputM3.writeMicroseconds(1500);
+  OutputM4.writeMicroseconds(1500);  
+  OutputM5.writeMicroseconds(1500);
+  OutputM6.writeMicroseconds(1500);
 
-    speed01 = 94;
-    speed02 = 94;
-    speed03 = 94;
-    speed04 = 94;
-    speed05 = 94;
-    speed06 = 94;
-    speed07 = 94;
-    speed08 = 94;
-    speed09 = 94;
-    speed10 = 94;
+    speed01 = 1500;
+    speed02 = 1500;
+    speed03 = 1500;
+    speed04 = 1500;
+    speed05 = 1500;
+    speed06 = 1500;
+    speed07 = 1500;
+    speed08 = 1500;
+    speed09 = 1500;
+    speed10 = 1500;
   
 
   // put your setup code here, to run once:
@@ -280,28 +280,28 @@ void loop() {
 
 
    if (vertSpeed > 0) { //Up    
-    speed08= map( vertSpeed, 0, 25, 94, 25);
-    OutputM5.write(speed08);
-    OutputM6.write(speed08);
+    speed08= map( vertSpeed, 0, 25, 1500, 1100);
+    OutputM5.writeMicroseconds(speed08);
+    OutputM6.writeMicroseconds(speed08);
 //    speedEight = String(speed08);
 //    Serial2.println("Up"+ speedEight);
   }
         
   if (vertSpeed < 0) { //Down 
     vertSpeed = abs(vertSpeed);
-    speed10 = map(vertSpeed,0, 25, 94, 163);
-    OutputM5.write(speed10);
-    OutputM6.write(speed10);
+    speed10 = map(vertSpeed,0, 25, 1500, 1900);
+    OutputM5.writeMicroseconds(speed10);
+    OutputM6.writeMicroseconds(speed10);
 //    speedTen = String(speed10);
 //    Serial2.println("Vertical"+ speedTen);
     
   }
 
    if (tiltSpeed > 0) { //Tilt Up
-    speed05 = map( tiltSpeed, 0, 25, 94, 163);
-    speed06 = map( speed05, 94, 163, 94, 25);
-    OutputM5.write(speed06);
-    OutputM6.write(speed05);
+    speed05 = map( tiltSpeed, 0, 25, 1500, 1900);
+    speed06 = map( speed05, 1500, 1900, 1500, 1100);
+    OutputM5.writeMicroseconds(speed06);
+    OutputM6.writeMicroseconds(speed05);
 //    speedSix = String(speed06);
 //    speedFive = String(speed05);
 //    Serial2.println("Tilt Up" +speedSix);
@@ -310,10 +310,10 @@ void loop() {
         
   if (tiltSpeed < 0) { //Tilt Down
     tiltSpeed = abs(tiltSpeed);
-    speed05 = map( tiltSpeed, 0, 25, 94, 163);
-    speed06 = map( speed05, 94, 163, 94, 25);
-    OutputM5.write(speed05);
-    OutputM6.write(speed06);
+    speed05 = map( tiltSpeed, 0, 25, 1500, 1900);
+    speed06 = map( speed05, 1500, 1900, 1500, 1100);
+    OutputM5.writeMicroseconds(speed05);
+    OutputM6.writeMicroseconds(speed06);
 //    speedSix = String(speed06);
 //    speedFive = String(speed05);
 //    Serial2.println("Tilt Down" +speedSix);
@@ -323,31 +323,31 @@ void loop() {
 
 
    if (fbSpeed > 0) { //Forwards
-    speed07 = map(fbSpeed, 0, 25, 94, 25);
-    OutputM1.write(speed07);
-    OutputM2.write(speed07);
-    OutputM3.write(speed07);
-    OutputM4.write(speed07);
+    speed07 = map(fbSpeed, 0, 25, 1500, 1100);
+    OutputM1.writeMicroseconds(speed07);
+    OutputM2.writeMicroseconds(speed07);
+    OutputM3.writeMicroseconds(speed07);
+    OutputM4.writeMicroseconds(speed07);
 //    speedSeven = String(speed07);
 //    Serial2.println("Forward"+speedSeven);
   }
   if (fbSpeed < 0) { //Backwards
     fbSpeed = abs(fbSpeed);
-    speed09 = map(fbSpeed, 0, 25, 94, 163);
-    OutputM1.write(speed09);
-    OutputM2.write(speed09);
-    OutputM3.write(speed09);
-    OutputM4.write(speed09);
+    speed09 = map(fbSpeed, 0, 25, 1500, 1900);
+    OutputM1.writeMicroseconds(speed09);
+    OutputM2.writeMicroseconds(speed09);
+    OutputM3.writeMicroseconds(speed09);
+    OutputM4.writeMicroseconds(speed09);
 //    speedNine = String(speed09);
 //    Serial2.println("Forward"+speedNine);
   }
  if (sideSpeed > 0) { //Right 
-    speed01 = map(sideSpeed, 0, 25, 94, 163);
-    speed02 = map(sideSpeed, 0, 25, 94, 25);
-    OutputM1.write(speed02);
-    OutputM2.write(speed01);
-    OutputM3.write(speed01);
-    OutputM4.write(speed02);
+    speed01 = map(sideSpeed, 0, 25, 1500, 1900);
+    speed02 = map(sideSpeed, 0, 25, 1500, 1100);
+    OutputM1.writeMicroseconds(speed02);
+    OutputM2.writeMicroseconds(speed01);
+    OutputM3.writeMicroseconds(speed01);
+    OutputM4.writeMicroseconds(speed02);
 //    speedOne = String(speed01);
 //    speedTwo = String(speed01);
 //    Serial2.println("Right"+ speedOne);
@@ -357,24 +357,24 @@ void loop() {
 
    if (sideSpeed < 0) { // Left
     sideSpeed = abs(sideSpeed);
-    speed01 = map(sideSpeed, 0, 25, 94, 163);
-    speed02 = map(sideSpeed, 0, 25, 94, 25);
-    OutputM1.write(speed01);
-    OutputM2.write(speed02);
-    OutputM3.write(speed02);
-    OutputM4.write(speed01);
+    speed01 = map(sideSpeed, 0, 25, 1500, 1900);
+    speed02 = map(sideSpeed, 0, 25, 1500, 1100);
+    OutputM1.writeMicroseconds(speed01);
+    OutputM2.writeMicroseconds(speed02);
+    OutputM3.writeMicroseconds(speed02);
+    OutputM4.writeMicroseconds(speed01);
 //    speedOne = String(speed01);
 //    speedTwo = String(speed01);
 //    Serial2.println("Left"+ speedOne);
 //    Serial2.println("Left" + speedTwo);
   }
     if (turnSpeed > 0) { //Turn Clock Wise ( turn Right)
-    speed03 = map(turnSpeed, 0, 25, 94, 163);
-    speed04 = map(turnSpeed, 0, 25, 94, 25);
-    OutputM1.write(speed04);
-    OutputM2.write(speed03);
-    OutputM3.write(speed04);
-    OutputM4.write(speed03);
+    speed03 = map(turnSpeed, 0, 25, 1500, 1900);
+    speed04 = map(turnSpeed, 0, 25, 1500, 1100);
+    OutputM1.writeMicroseconds(speed04);
+    OutputM2.writeMicroseconds(speed03);
+    OutputM3.writeMicroseconds(speed04);
+    OutputM4.writeMicroseconds(speed03);
 //    speedThree = String(speed04);
 //    speedFour = String(speed03);
 //    Serial2.println("Turn Right"+ speedThree);
@@ -382,12 +382,12 @@ void loop() {
   }
   if (turnSpeed <0) { //Turn Counter ClockwIse ( Turn Left)
     turnSpeed = abs(turnSpeed);
-    speed03 = map(turnSpeed, 0, 25, 94, 163);
-    speed04 = map(turnSpeed, 0, 25, 94, 25);
-    OutputM1.write(speed03);
-    OutputM2.write(speed04);
-    OutputM3.write(speed03);
-    OutputM4.write(speed04);
+    speed03 = map(turnSpeed, 0, 25, 1500, 1900);
+    speed04 = map(turnSpeed, 0, 25, 1500, 1100);
+    OutputM1.writeMicroseconds(speed03);
+    OutputM2.writeMicroseconds(speed04);
+    OutputM3.writeMicroseconds(speed03);
+    OutputM4.writeMicroseconds(speed04);
 //    speedThree = String(speed03);
 //    speedFour = String(speed04);
 //    Serial2.println("Turn Left"+ speedThree);
@@ -396,22 +396,22 @@ void loop() {
   
   if ((fbSpeed == 0) and (sideSpeed == 0) and (vertSpeed  == 0)  and (turnSpeed == 0)  and (tiltSpeed == 0) ){
 
-    OutputM1.write(94);
-    OutputM2.write(94);
-    OutputM3.write(94);
-    OutputM4.write(94);  
-    OutputM5.write(94);
-    OutputM6.write(94); 
-    speed01 = 94;
-    speed02 = 94;
-    speed03 = 94;
-    speed04 = 94;
-    speed05 = 94;
-    speed06 = 94;
-    speed07 = 94;
-    speed08 = 94;
-    speed09 = 94;
-    speed10 = 94;
+    OutputM1.writeMicroseconds(1500);
+    OutputM2.writeMicroseconds(1500);
+    OutputM3.writeMicroseconds(1500);
+    OutputM4.writeMicroseconds(1500);  
+    OutputM5.writeMicroseconds(1500);
+    OutputM6.writeMicroseconds(1500); 
+    speed01 = 1500;
+    speed02 = 1500;
+    speed03 = 1500;
+    speed04 = 1500;
+    speed05 = 1500;
+    speed06 = 1500;
+    speed07 = 1500;
+    speed08 = 1500;
+    speed09 = 1500;
+    speed10 = 1500;
    }  
 
  gyro_X = String(Total_angle_x,2);
