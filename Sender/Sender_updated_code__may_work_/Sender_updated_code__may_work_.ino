@@ -1,5 +1,5 @@
 #include "Servo.h"
-
+char m_str[45];
 const int InputA0 = A0; // Forward and Backward
 const int InputA1 = A1; // Left and Right
 const int InputA2 = A4; // Up and down
@@ -369,8 +369,10 @@ ultimateStr.toCharArray(joy,25);
 
 Serial1.write(joy,25);
 
- 
-
-  delay(300);
+     Serial1.readBytes(m_str,45);
+    
+    String TempAndGyro = String(m_str);
+    Serial.println(TempAndGyro); 
+    Serial.println(" ");
 
 }
