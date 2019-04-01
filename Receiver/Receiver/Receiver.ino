@@ -342,8 +342,8 @@ void loop() {
 //    Serial2.println("Forward"+speedNine);
   }
  if (sideSpeed > 0) { //Right 
-    speed01 = map(turnSpeed, 0, 25, 94, 163);
-    speed02 = map(turnSpeed, 0, 25, 94, 25);
+    speed01 = map(sideSpeed, 0, 25, 94, 163);
+    speed02 = map(sideSpeed, 0, 25, 94, 25);
     OutputM1.write(speed02);
     OutputM2.write(speed01);
     OutputM3.write(speed01);
@@ -357,8 +357,8 @@ void loop() {
 
    if (sideSpeed < 0) { // Left
     sideSpeed = abs(sideSpeed);
-    speed01 = map(turnSpeed, 0, 25, 94, 163);
-    speed02 = map(turnSpeed, 0, 25, 94, 25);
+    speed01 = map(sideSpeed, 0, 25, 94, 163);
+    speed02 = map(sideSpeed, 0, 25, 94, 25);
     OutputM1.write(speed01);
     OutputM2.write(speed02);
     OutputM3.write(speed02);
