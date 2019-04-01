@@ -3,8 +3,8 @@ char m_str[45];
 const int InputA0 = A0; // Forward and Backward
 const int InputA1 = A1; // Left and Right
 const int InputA2 = A4; // Up and down
-const int InputA3 = A3; // Tilt 
-const int InputA4 = A2; // Turning
+const int InputA3 = A2; // Tilt 
+const int InputA4 = A3; // Turning
 
 
 
