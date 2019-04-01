@@ -97,23 +97,23 @@ void setup() {
   OutputM5.attach(11);
   OutputM6.attach(12);
   
-  OutputM1.write(90);
-  OutputM2.write(90);
-  OutputM3.write(90);
-  OutputM4.write(90);  
-  OutputM5.write(90);
-  OutputM6.write(90);
+  OutputM1.write(94);
+  OutputM2.write(94);
+  OutputM3.write(94);
+  OutputM4.write(94);  
+  OutputM5.write(94);
+  OutputM6.write(94);
 
-    speed01 = 90;
-    speed02 = 90;
-    speed03 = 90;
-    speed04 = 90;
-    speed05 = 90;
-    speed06 = 90;
-    speed07 = 90;
-    speed08 = 90;
-    speed09 = 90;
-    speed10 = 90;
+    speed01 = 94;
+    speed02 = 94;
+    speed03 = 94;
+    speed04 = 94;
+    speed05 = 94;
+    speed06 = 94;
+    speed07 = 94;
+    speed08 = 94;
+    speed09 = 94;
+    speed10 = 94;
   
 
   // put your setup code here, to run once:
@@ -280,7 +280,7 @@ void loop() {
 
 
    if (vertSpeed > 0) { //Up    
-    speed08= map( vertSpeed, 0, 25, 90, 25);
+    speed08= map( vertSpeed, 0, 25, 94, 25);
     OutputM5.write(speed08);
     OutputM6.write(speed08);
 //    speedEight = String(speed08);
@@ -289,7 +289,7 @@ void loop() {
         
   if (vertSpeed < 0) { //Down 
     vertSpeed = abs(vertSpeed);
-    speed10 = map(vertSpeed,0, 25, 90, 163);
+    speed10 = map(vertSpeed,0, 25, 94, 163);
     OutputM5.write(speed10);
     OutputM6.write(speed10);
 //    speedTen = String(speed10);
@@ -298,9 +298,9 @@ void loop() {
   }
 
    if (tiltSpeed > 0) { //Tilt Up
-    speed05 = map( tiltSpeed, 0, 25, 90, 163);
-    speed06 = map( speed05, 90, 163, 25, 90);
-    OutputM5.write(speed06);
+    speed05 = map( tiltSpeed, 0, 25, 94, 163);
+    speed06 = map( speed05, 94, 163, 25, 94);
+    OutputM5.write(speed05);
     OutputM6.write(speed05);
 //    speedSix = String(speed06);
 //    speedFive = String(speed05);
@@ -310,10 +310,10 @@ void loop() {
         
   if (tiltSpeed < 0) { //Tilt Down
     tiltSpeed = abs(tiltSpeed);
-    speed05 = map( tiltSpeed, 0, 25, 90, 163);
-    speed06 = map( speed05, 90, 163, 25, 90);
+    speed05 = map( tiltSpeed, 0, 25, 94, 163);
+    speed06 = map( speed05, 94, 163, 25, 94);
     OutputM5.write(speed05);
-    OutputM6.write(speed06);
+    OutputM6.write(speed05);
 //    speedSix = String(speed06);
 //    speedFive = String(speed05);
 //    Serial2.println("Tilt Down" +speedSix);
@@ -323,7 +323,7 @@ void loop() {
 
 
    if (fbSpeed > 0) { //Forwards
-    speed07 = map(fbSpeed, 0, 25, 90, 25);
+    speed07 = map(fbSpeed, 0, 25, 94, 25);
     OutputM1.write(speed07);
     OutputM2.write(speed07);
     OutputM3.write(speed07);
@@ -333,7 +333,7 @@ void loop() {
   }
   if (fbSpeed < 0) { //Backwards
     fbSpeed = abs(fbSpeed);
-    speed09 = map(fbSpeed, 0, 25, 90, 163);
+    speed09 = map(fbSpeed, 0, 25, 94, 163);
     OutputM1.write(speed09);
     OutputM2.write(speed09);
     OutputM3.write(speed09);
@@ -342,8 +342,8 @@ void loop() {
 //    Serial2.println("Forward"+speedNine);
   }
  if (sideSpeed > 0) { //Right 
-    speed01 = map(turnSpeed, 0, 25, 90, 163);
-    speed02 = map(turnSpeed, 0, 25, 90, 25);
+    speed01 = map(turnSpeed, 0, 25, 94, 163);
+    speed02 = map(turnSpeed, 0, 25, 94, 25);
     OutputM1.write(speed02);
     OutputM2.write(speed01);
     OutputM3.write(speed01);
@@ -357,8 +357,8 @@ void loop() {
 
    if (sideSpeed < 0) { // Left
     sideSpeed = abs(sideSpeed);
-    speed01 = map(turnSpeed, 0, 25, 90, 163);
-    speed02 = map(turnSpeed, 0, 25, 90, 25);
+    speed01 = map(turnSpeed, 0, 25, 94, 163);
+    speed02 = map(turnSpeed, 0, 25, 94, 25);
     OutputM1.write(speed01);
     OutputM2.write(speed02);
     OutputM3.write(speed02);
@@ -369,8 +369,8 @@ void loop() {
 //    Serial2.println("Left" + speedTwo);
   }
     if (turnSpeed > 0) { //Turn Clock Wise ( turn Right)
-    speed03 = map(turnSpeed, 0, 25, 90, 163);
-    speed04 = map(turnSpeed, 0, 25, 90, 25);
+    speed03 = map(turnSpeed, 0, 25, 94, 163);
+    speed04 = map(turnSpeed, 0, 25, 94, 25);
     OutputM1.write(speed04);
     OutputM2.write(speed03);
     OutputM3.write(speed04);
@@ -382,8 +382,8 @@ void loop() {
   }
   if (turnSpeed <0) { //Turn Counter ClockwIse ( Turn Left)
     turnSpeed = abs(turnSpeed);
-    speed03 = map(turnSpeed, 0, 25, 90, 163);
-    speed04 = map(turnSpeed, 0, 25, 90, 25);
+    speed03 = map(turnSpeed, 0, 25, 94, 163);
+    speed04 = map(turnSpeed, 0, 25, 94, 25);
     OutputM1.write(speed03);
     OutputM2.write(speed04);
     OutputM3.write(speed03);
@@ -396,22 +396,22 @@ void loop() {
   
   if ((fbSpeed == 0) and (sideSpeed == 0) and (vertSpeed  == 0)  and (turnSpeed == 0)  and (tiltSpeed == 0) ){
 
-    OutputM1.write(90);
-    OutputM2.write(90);
-    OutputM3.write(90);
-    OutputM4.write(90);  
-    OutputM5.write(90);
-    OutputM6.write(90); 
-    speed01 = 90;
-    speed02 = 90;
-    speed03 = 90;
-    speed04 = 90;
-    speed05 = 90;
-    speed06 = 90;
-    speed07 = 90;
-    speed08 = 90;
-    speed09 = 90;
-    speed10 = 90;
+    OutputM1.write(94);
+    OutputM2.write(94);
+    OutputM3.write(94);
+    OutputM4.write(94);  
+    OutputM5.write(94);
+    OutputM6.write(94); 
+    speed01 = 94;
+    speed02 = 94;
+    speed03 = 94;
+    speed04 = 94;
+    speed05 = 94;
+    speed06 = 94;
+    speed07 = 94;
+    speed08 = 94;
+    speed09 = 94;
+    speed10 = 94;
    }  
 
  gyro_X = String(Total_angle_x,2);
