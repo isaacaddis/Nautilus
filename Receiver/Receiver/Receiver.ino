@@ -83,13 +83,16 @@ String speedEight;
 String speedNine;
 String speedTen;
 
-
+Boolean twoMotors;
+Boolean fourMotors;
 
 
 
 void setup() {
   Serial.begin(57600);
   Serial1.begin(57600);
+  twoMotors = false;
+  fourMotors = false;
   pinMode(LED_BUILTIN, OUTPUT);
 
   OutputM1.attach(10);
@@ -281,119 +284,238 @@ void loop() {
  //  Serial.println(tiltSpeed);
 
 
-   if (vertSpeed > 0) { //Up    
-    speed08= map( vertSpeed, 0, 25, 1500, 1198);
-    OutputM5.writeMicroseconds(speed08);
-    OutputM6.writeMicroseconds(speed08);
-//    speedEight = String(speed08);
-//    Serial2.println("Up"+ speedEight);
+   if (vertSpeed > 0) { //Up  
+       
+       if (fourMotors == true){
+          speed08= map( vertSpeed, 0, 25, 1500, 1315);
+          OutputM5.writeMicroseconds(speed08);
+          OutputM6.writeMicroseconds(speed08);
+        }
+        
+        if(fourMotors == false){
+            speed08= map( vertSpeed, 0, 25, 1500, 1198);
+            OutputM5.writeMicroseconds(speed08);
+            OutputM6.writeMicroseconds(speed08);
+        }
+        
+        twoMotors = true;
+
+
   }
         
-  if (vertSpeed < 0) { //Down 
-    vertSpeed = abs(vertSpeed);
-    speed10 = map(vertSpeed,0, 25, 1500, 1795);
-    OutputM5.writeMicroseconds(speed10);
-    OutputM6.writeMicroseconds(speed10);
-//    speedTen = String(speed10);
-//    Serial2.println("Vertical"+ speedTen);
+  if (vertSpeed < 0) { //Down     
+     
+     vertSpeed = abs(vertSpeed);
+  
+      if (fourMotors == true){
+          speed08= map( vertSpeed, 0, 25, 1500, 1682);
+          OutputM5.writeMicroseconds(speed08);
+          OutputM6.writeMicroseconds(speed08);
+      }
+      
+      if(fourMotors ==false){
+          speed10 = map(vertSpeed,0, 25, 1500, 1795);
+          OutputM5.writeMicroseconds(speed10);
+          OutputM6.writeMicroseconds(speed10);
+      }
+    
+    twoMotors = true;
+
+
     
   }
 
    if (tiltSpeed > 0) { //Tilt Up
-    speed05 = map( tiltSpeed, 0, 25, 1500, 1795);
-    speed06 = map( speed05, 1500, 1795, 1500, 1198);
-    OutputM5.writeMicroseconds(speed06);
-    OutputM6.writeMicroseconds(speed05);
-//    speedSix = String(speed06);
-//    speedFive = String(speed05);
-//    Serial2.println("Tilt Up" +speedSix);
-//    Serial2.println("Tilt Up" + speedFive);
+       if(fourMotors == false){  
+            speed05 = map( tiltSpeed, 0, 25, 1500, 1795);
+            speed06 = map( speed05, 1500, 1795, 1500, 1198);
+            OutputM5.writeMicroseconds(speed06);
+            OutputM6.writeMicroseconds(speed05);
+        }
+        
+        if(fourMotors == true){
+            speed05 = map( tiltSpeed, 0, 25, 1500, 1682);
+            speed06 = map( speed05, 1500, 1682, 1500, 1315);
+            OutputM5.writeMicroseconds(speed06);
+            OutputM6.writeMicroseconds(speed05);
+        }
+        
+        twoMotors = true;
+
   }
         
   if (tiltSpeed < 0) { //Tilt Down
     tiltSpeed = abs(tiltSpeed);
-    speed05 = map( tiltSpeed, 0, 25, 1500, 1795);
-    speed06 = map( speed05, 1500, 1795, 1500, 1198);
-    OutputM5.writeMicroseconds(speed05);
-    OutputM6.writeMicroseconds(speed06);
-//    speedSix = String(speed06);
-//    speedFive = String(speed05);
-//    Serial2.println("Tilt Down" +speedSix);
-//    Serial2.println("Tilt Down" + speedFive);
+       
+       if(fourMotors == false){
+            speed05 = map( tiltSpeed, 0, 25, 1500, 1795);
+            speed06 = map( speed05, 1500, 1795, 1500, 1198);
+            OutputM5.writeMicroseconds(speed05);
+            OutputM6.writeMicroseconds(speed06);
+        }
+        
+       if(fourMotors == true){
+            speed05 = map( tiltSpeed, 0, 25, 1500, 1682);
+            speed06 = map( speed05, 1500, 1682, 1500, 1315);
+            OutputM5.writeMicroseconds(speed05);
+            OutputM6.writeMicroseconds(speed06);
+       }
+    twoMotors = true;
   }
 
 
 
    if (fbSpeed > 0) { //Forwards
-    speed07 = map(fbSpeed, 0, 25, 1500, 1275);
-    OutputM1.writeMicroseconds(speed07);
-    OutputM2.writeMicroseconds(speed07);
-    OutputM3.writeMicroseconds(speed07);
-    OutputM4.writeMicroseconds(speed07);
-//    speedSeven = String(speed07);
-//    Serial2.println("Forward"+speedSeven);
+       
+       if(twoMotors == false){
+    
+          speed07 = map(fbSpeed, 0, 25, 1500, 1275);
+          OutputM1.writeMicroseconds(speed07);
+          OutputM2.writeMicroseconds(speed07);
+          OutputM3.writeMicroseconds(speed07);
+          OutputM4.writeMicroseconds(speed07);
+       }
+       
+       if(twoMotors == true){
+          speed07 = map(fbSpeed, 0, 25, 1500, 1315);
+          OutputM1.writeMicroseconds(speed07);
+          OutputM2.writeMicroseconds(speed07);
+          OutputM3.writeMicroseconds(speed07);
+          OutputM4.writeMicroseconds(speed07);
+       
+       }
+       
+       fourMotors = true;
+
   }
   if (fbSpeed < 0) { //Backwards
     fbSpeed = abs(fbSpeed);
-    speed09 = map(fbSpeed, 0, 25, 1500, 1715);
-    OutputM1.writeMicroseconds(speed09);
-    OutputM2.writeMicroseconds(speed09);
-    OutputM3.writeMicroseconds(speed09);
-    OutputM4.writeMicroseconds(speed09);
-//    speedNine = String(speed09);
-//    Serial2.println("Forward"+speedNine);
+    
+      if(twoMotors == false){
+          speed09 = map(fbSpeed, 0, 25, 1500, 1715);
+          OutputM1.writeMicroseconds(speed09);
+          OutputM2.writeMicroseconds(speed09);
+          OutputM3.writeMicroseconds(speed09);
+          OutputM4.writeMicroseconds(speed09);
+     }
+     
+     if(twoMotors == true){
+          speed09 = map(fbSpeed, 0, 25, 1500, 1682);
+          OutputM1.writeMicroseconds(speed09);
+          OutputM2.writeMicroseconds(speed09);
+          OutputM3.writeMicroseconds(speed09);
+          OutputM4.writeMicroseconds(speed09);   
+     }
+     
+     fourMotors = true;
+
   }
  if (sideSpeed > 0) { //Right 
-    speed01 = map(sideSpeed, 0, 25, 1500, 1715);
-    speed02 = map(sideSpeed, 0, 25, 1500, 1275);
-    OutputM1.writeMicroseconds(speed02);
-    OutputM2.writeMicroseconds(speed01);
-    OutputM3.writeMicroseconds(speed01);
-    OutputM4.writeMicroseconds(speed02);
-//    speedOne = String(speed01);
-//    speedTwo = String(speed01);
-//    Serial2.println("Right"+ speedOne);
-//    Serial2.println("Right" + speedTwo);
+ 
+    if(twoMotors == false){
+    
+        speed01 = map(sideSpeed, 0, 25, 1500, 1715);
+        speed02 = map(sideSpeed, 0, 25, 1500, 1275);
+        OutputM1.writeMicroseconds(speed02);
+        OutputM2.writeMicroseconds(speed01);
+        OutputM3.writeMicroseconds(speed01);
+        OutputM4.writeMicroseconds(speed02);
+    }
+    
+    if(twoMotors == true){
+    
+        speed01 = map(sideSpeed, 0, 25, 1500, 1682);
+        speed02 = map(sideSpeed, 0, 25, 1500, 1315);
+        OutputM1.writeMicroseconds(speed02);
+        OutputM2.writeMicroseconds(speed01);
+        OutputM3.writeMicroseconds(speed01);
+        OutputM4.writeMicroseconds(speed02);
+    }
+    
+    fourMotors = true;
+
     
   }
 
    if (sideSpeed < 0) { // Left
     sideSpeed = abs(sideSpeed);
+    
+    if(twoMotors == false){
+    
     speed01 = map(sideSpeed, 0, 25, 1500, 1715);
     speed02 = map(sideSpeed, 0, 25, 1500, 1275);
     OutputM1.writeMicroseconds(speed01);
     OutputM2.writeMicroseconds(speed02);
     OutputM3.writeMicroseconds(speed02);
     OutputM4.writeMicroseconds(speed01);
-//    speedOne = String(speed01);
-//    speedTwo = String(speed01);
-//    Serial2.println("Left"+ speedOne);
-//    Serial2.println("Left" + speedTwo);
+    }
+    
+    if (twoMotors == true){
+        speed01 = map(sideSpeed, 0, 25, 1500, 1682);
+        speed02 = map(sideSpeed, 0, 25, 1500, 1315);
+        OutputM1.writeMicroseconds(speed01);
+        OutputM2.writeMicroseconds(speed02);
+        OutputM3.writeMicroseconds(speed02);
+        OutputM4.writeMicroseconds(speed01);
+    }
+    
+    fourMotors = true;
+    
+
   }
+  
+  
     if (turnSpeed > 0) { //Turn Clock Wise ( turn Right)
-    speed03 = map(turnSpeed, 0, 25, 1500, 1715);
-    speed04 = map(turnSpeed, 0, 25, 1500, 1275);
-    OutputM1.writeMicroseconds(speed04);
-    OutputM2.writeMicroseconds(speed03);
-    OutputM3.writeMicroseconds(speed04);
-    OutputM4.writeMicroseconds(speed03);
-//    speedThree = String(speed04);
-//    speedFour = String(speed03);
-//    Serial2.println("Turn Right"+ speedThree);
-//    Serial2.println("Turn Right" + speedFour);
+    
+    if(twoMotors == false){
+    
+        speed03 = map(turnSpeed, 0, 25, 1500, 1715);
+        speed04 = map(turnSpeed, 0, 25, 1500, 1275);
+        OutputM1.writeMicroseconds(speed04);
+        OutputM2.writeMicroseconds(speed03);
+        OutputM3.writeMicroseconds(speed04);
+        OutputM4.writeMicroseconds(speed03);
+    }
+    
+    if(twoMotors == true){
+    
+        speed03 = map(turnSpeed, 0, 25, 1500, 1682);
+        speed04 = map(turnSpeed, 0, 25, 1500, 1315);
+        OutputM1.writeMicroseconds(speed04);
+        OutputM2.writeMicroseconds(speed03);
+        OutputM3.writeMicroseconds(speed04);
+        OutputM4.writeMicroseconds(speed03);
+    }
+    
+    fourMotors = true;
+
   }
   if (turnSpeed <0) { //Turn Counter ClockwIse ( Turn Left)
     turnSpeed = abs(turnSpeed);
-    speed03 = map(turnSpeed, 0, 25, 1500, 1715);
-    speed04 = map(turnSpeed, 0, 25, 1500, 1275);
-    OutputM1.writeMicroseconds(speed03);
-    OutputM2.writeMicroseconds(speed04);
-    OutputM3.writeMicroseconds(speed03);
-    OutputM4.writeMicroseconds(speed04);
-//    speedThree = String(speed03);
-//    speedFour = String(speed04);
-//    Serial2.println("Turn Left"+ speedThree);
-//    Serial2.println("Turn Left" + speedFour);
+    
+    if(twoMotors == false){
+    
+        speed03 = map(turnSpeed, 0, 25, 1500, 1715);
+        speed04 = map(turnSpeed, 0, 25, 1500, 1275);
+        OutputM1.writeMicroseconds(speed03);
+        OutputM2.writeMicroseconds(speed04);
+        OutputM3.writeMicroseconds(speed03);
+        OutputM4.writeMicroseconds(speed04);
+    }
+    
+    if(twoMotors == true){
+    
+        speed03 = map(turnSpeed, 0, 25, 1500, 1682);
+        speed04 = map(turnSpeed, 0, 25, 1500, 1315);
+        OutputM1.writeMicroseconds(speed03);
+        OutputM2.writeMicroseconds(speed04);
+        OutputM3.writeMicroseconds(speed03);
+        OutputM4.writeMicroseconds(speed04);
+    }
+    
+    fourMotors = true;
+
+
   }
   
   if ((fbSpeed == 0) and (sideSpeed == 0) and (vertSpeed  == 0)  and (turnSpeed == 0)  and (tiltSpeed == 0) ){
