@@ -84,7 +84,6 @@ String speedNine;
 String speedTen;
 
 
-Boolean 
 
 
 
