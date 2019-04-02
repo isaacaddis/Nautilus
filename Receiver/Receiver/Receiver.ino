@@ -1,4 +1,4 @@
-#include "Servo.h"
+2#include "Servo.h"
 #include <Wire.h>
 
 
@@ -283,6 +283,15 @@ void loop() {
  //  Serial.println(turnSpeed);
  //  Serial.println(tiltSpeed);
 
+   if((fbSpeed == 0) and (sideSpeed == 0) and (turnSpeed == 0)){
+      fourMotors = false;
+      
+    }
+    
+   if( (vertSpeed == 0) and (tiltSpeed == 0)){
+    twoMotors = false;
+   }
+    
 
    if (vertSpeed > 0) { //Up  
        
