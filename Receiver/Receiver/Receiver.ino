@@ -83,8 +83,8 @@ String speedEight;
 String speedNine;
 String speedTen;
 
-Boolean twoMotors;
-Boolean fourMotors;
+bool twoMotors;
+bool fourMotors;
 
 
 
