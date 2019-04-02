@@ -84,6 +84,9 @@ String speedNine;
 String speedTen;
 
 
+Boolean 
+
+
 
 void setup() {
   Serial.begin(57600);
@@ -280,7 +283,7 @@ void loop() {
 
 
    if (vertSpeed > 0) { //Up    
-    speed08= map( vertSpeed, 0, 25, 1500, 1315);
+    speed08= map( vertSpeed, 0, 25, 1500, 1198);
     OutputM5.writeMicroseconds(speed08);
     OutputM6.writeMicroseconds(speed08);
 //    speedEight = String(speed08);
@@ -289,7 +292,7 @@ void loop() {
         
   if (vertSpeed < 0) { //Down 
     vertSpeed = abs(vertSpeed);
-    speed10 = map(vertSpeed,0, 25, 1500, 1682);
+    speed10 = map(vertSpeed,0, 25, 1500, 1795);
     OutputM5.writeMicroseconds(speed10);
     OutputM6.writeMicroseconds(speed10);
 //    speedTen = String(speed10);
@@ -298,8 +301,8 @@ void loop() {
   }
 
    if (tiltSpeed > 0) { //Tilt Up
-    speed05 = map( tiltSpeed, 0, 25, 1500, 1682);
-    speed06 = map( speed05, 1500, 1682, 1500, 1315);
+    speed05 = map( tiltSpeed, 0, 25, 1500, 1795);
+    speed06 = map( speed05, 1500, 1795, 1500, 1198);
     OutputM5.writeMicroseconds(speed06);
     OutputM6.writeMicroseconds(speed05);
 //    speedSix = String(speed06);
@@ -310,8 +313,8 @@ void loop() {
         
   if (tiltSpeed < 0) { //Tilt Down
     tiltSpeed = abs(tiltSpeed);
-    speed05 = map( tiltSpeed, 0, 25, 1500, 1682);
-    speed06 = map( speed05, 1500, 1682, 1500, 1315);
+    speed05 = map( tiltSpeed, 0, 25, 1500, 1795);
+    speed06 = map( speed05, 1500, 1795, 1500, 1198);
     OutputM5.writeMicroseconds(speed05);
     OutputM6.writeMicroseconds(speed06);
 //    speedSix = String(speed06);
