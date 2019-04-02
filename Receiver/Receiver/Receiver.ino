@@ -280,7 +280,7 @@ void loop() {
 
 
    if (vertSpeed > 0) { //Up    
-    speed08= map( vertSpeed, 0, 25, 1500, 1100);
+    speed08= map( vertSpeed, 0, 25, 1500, 1315);
     OutputM5.writeMicroseconds(speed08);
     OutputM6.writeMicroseconds(speed08);
 //    speedEight = String(speed08);
@@ -289,7 +289,7 @@ void loop() {
         
   if (vertSpeed < 0) { //Down 
     vertSpeed = abs(vertSpeed);
-    speed10 = map(vertSpeed,0, 25, 1500, 1900);
+    speed10 = map(vertSpeed,0, 25, 1500, 1682);
     OutputM5.writeMicroseconds(speed10);
     OutputM6.writeMicroseconds(speed10);
 //    speedTen = String(speed10);
@@ -298,8 +298,8 @@ void loop() {
   }
 
    if (tiltSpeed > 0) { //Tilt Up
-    speed05 = map( tiltSpeed, 0, 25, 1500, 1900);
-    speed06 = map( speed05, 1500, 1900, 1500, 1100);
+    speed05 = map( tiltSpeed, 0, 25, 1500, 1682);
+    speed06 = map( speed05, 1500, 1682, 1500, 1315);
     OutputM5.writeMicroseconds(speed06);
     OutputM6.writeMicroseconds(speed05);
 //    speedSix = String(speed06);
@@ -310,8 +310,8 @@ void loop() {
         
   if (tiltSpeed < 0) { //Tilt Down
     tiltSpeed = abs(tiltSpeed);
-    speed05 = map( tiltSpeed, 0, 25, 1500, 1900);
-    speed06 = map( speed05, 1500, 1900, 1500, 1100);
+    speed05 = map( tiltSpeed, 0, 25, 1500, 1682);
+    speed06 = map( speed05, 1500, 1682, 1500, 1315);
     OutputM5.writeMicroseconds(speed05);
     OutputM6.writeMicroseconds(speed06);
 //    speedSix = String(speed06);
@@ -323,7 +323,7 @@ void loop() {
 
 
    if (fbSpeed > 0) { //Forwards
-    speed07 = map(fbSpeed, 0, 25, 1500, 1100);
+    speed07 = map(fbSpeed, 0, 25, 1500, 1275);
     OutputM1.writeMicroseconds(speed07);
     OutputM2.writeMicroseconds(speed07);
     OutputM3.writeMicroseconds(speed07);
@@ -333,7 +333,7 @@ void loop() {
   }
   if (fbSpeed < 0) { //Backwards
     fbSpeed = abs(fbSpeed);
-    speed09 = map(fbSpeed, 0, 25, 1500, 1900);
+    speed09 = map(fbSpeed, 0, 25, 1500, 1715);
     OutputM1.writeMicroseconds(speed09);
     OutputM2.writeMicroseconds(speed09);
     OutputM3.writeMicroseconds(speed09);
@@ -342,8 +342,8 @@ void loop() {
 //    Serial2.println("Forward"+speedNine);
   }
  if (sideSpeed > 0) { //Right 
-    speed01 = map(sideSpeed, 0, 25, 1500, 1900);
-    speed02 = map(sideSpeed, 0, 25, 1500, 1100);
+    speed01 = map(sideSpeed, 0, 25, 1500, 1715);
+    speed02 = map(sideSpeed, 0, 25, 1500, 1275);
     OutputM1.writeMicroseconds(speed02);
     OutputM2.writeMicroseconds(speed01);
     OutputM3.writeMicroseconds(speed01);
@@ -357,8 +357,8 @@ void loop() {
 
    if (sideSpeed < 0) { // Left
     sideSpeed = abs(sideSpeed);
-    speed01 = map(sideSpeed, 0, 25, 1500, 1900);
-    speed02 = map(sideSpeed, 0, 25, 1500, 1100);
+    speed01 = map(sideSpeed, 0, 25, 1500, 1715);
+    speed02 = map(sideSpeed, 0, 25, 1500, 1275);
     OutputM1.writeMicroseconds(speed01);
     OutputM2.writeMicroseconds(speed02);
     OutputM3.writeMicroseconds(speed02);
@@ -369,8 +369,8 @@ void loop() {
 //    Serial2.println("Left" + speedTwo);
   }
     if (turnSpeed > 0) { //Turn Clock Wise ( turn Right)
-    speed03 = map(turnSpeed, 0, 25, 1500, 1900);
-    speed04 = map(turnSpeed, 0, 25, 1500, 1100);
+    speed03 = map(turnSpeed, 0, 25, 1500, 1715);
+    speed04 = map(turnSpeed, 0, 25, 1500, 1275);
     OutputM1.writeMicroseconds(speed04);
     OutputM2.writeMicroseconds(speed03);
     OutputM3.writeMicroseconds(speed04);
@@ -382,8 +382,8 @@ void loop() {
   }
   if (turnSpeed <0) { //Turn Counter ClockwIse ( Turn Left)
     turnSpeed = abs(turnSpeed);
-    speed03 = map(turnSpeed, 0, 25, 1500, 1900);
-    speed04 = map(turnSpeed, 0, 25, 1500, 1100);
+    speed03 = map(turnSpeed, 0, 25, 1500, 1715);
+    speed04 = map(turnSpeed, 0, 25, 1500, 1275);
     OutputM1.writeMicroseconds(speed03);
     OutputM2.writeMicroseconds(speed04);
     OutputM3.writeMicroseconds(speed03);
