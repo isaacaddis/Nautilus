@@ -21,10 +21,6 @@ class Magic:
         mask = cv2.resize(img, (60, 60))
         mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
         cv2.imwrite('1_channel.jpg', mask)
-        # print('Shape: {}'.format(mask.shape))
-        n_mask = mask.astype('float32')
-        n_mask /= 255
-        cv2.imwrite('mask.jpg', mask)
         return mask
 
     def kadabra(self):
