@@ -283,14 +283,22 @@ void loop() {
  //  Serial.println(turnSpeed);
  //  Serial.println(tiltSpeed);
 
+
    if((fbSpeed == 0) and (sideSpeed == 0) and (turnSpeed == 0)){
       fourMotors = false;
-      
+      OutputM1.writeMicroseconds(1500);
+      OutputM2.writeMicroseconds(1500);
+      OutputM3.writeMicroseconds(1500);
+      OutputM4.writeMicroseconds(1500);
+
     }
     
-   if( (vertSpeed == 0) and (tiltSpeed == 0)){
-    twoMotors = false;
+   if( ((vertSpeed == 0) and (tiltSpeed == 0))){
+      twoMotors = false;
+      OutputM5.writeMicroseconds(1500);
+      OutputM6.writeMicroseconds(1500);
    }
+    
     
 
    if (vertSpeed > 0) { //Up  
