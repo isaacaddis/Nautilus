@@ -274,7 +274,7 @@ void loop() {
   sideSpeed = SideSpeed.toInt();
   vertSpeed = VertSpeed.toInt();
   turnSpeed = TurnSpeed.toInt();
-  tiltSpeed = TiltSpeed.toInt() ;
+  tiltSpeed = TiltSpeed.toInt();
 
 
  //  Serial.println(fbSpeed);
@@ -386,7 +386,7 @@ void loop() {
        
        if(twoMotors == false){
     
-          speed07 = map(fbSpeed, 0, 25, 1500, 1275);
+          speed07 = map(fbSpeed, 0, 25, 1500, 1198);
           OutputM1.writeMicroseconds(speed07);
           OutputM2.writeMicroseconds(speed07);
           OutputM3.writeMicroseconds(speed07);
@@ -409,7 +409,7 @@ void loop() {
     fbSpeed = abs(fbSpeed);
     
       if(twoMotors == false){
-          speed09 = map(fbSpeed, 0, 25, 1500, 1715);
+          speed09 = map(fbSpeed, 0, 25, 1500, 1795);
           OutputM1.writeMicroseconds(speed09);
           OutputM2.writeMicroseconds(speed09);
           OutputM3.writeMicroseconds(speed09);
@@ -431,8 +431,8 @@ void loop() {
  
     if(twoMotors == false){
     
-        speed01 = map(sideSpeed, 0, 25, 1500, 1715);
-        speed02 = map(sideSpeed, 0, 25, 1500, 1275);
+        speed01 = map(sideSpeed, 0, 25, 1500, 1795);
+        speed02 = map(sideSpeed, 0, 25, 1500, 1198);
         OutputM1.writeMicroseconds(speed02);
         OutputM2.writeMicroseconds(speed01);
         OutputM3.writeMicroseconds(speed01);
@@ -459,8 +459,8 @@ void loop() {
     
     if(twoMotors == false){
     
-    speed01 = map(sideSpeed, 0, 25, 1500, 1715);
-    speed02 = map(sideSpeed, 0, 25, 1500, 1275);
+    speed01 = map(sideSpeed, 0, 25, 1500, 1795);
+    speed02 = map(sideSpeed, 0, 25, 1500, 1198);
     OutputM1.writeMicroseconds(speed01);
     OutputM2.writeMicroseconds(speed02);
     OutputM3.writeMicroseconds(speed02);
@@ -486,8 +486,8 @@ void loop() {
     
     if(twoMotors == false){
     
-        speed03 = map(turnSpeed, 0, 25, 1500, 1715);
-        speed04 = map(turnSpeed, 0, 25, 1500, 1275);
+        speed03 = map(turnSpeed, 0, 25, 1500, 1795);
+        speed04 = map(turnSpeed, 0, 25, 1500, 1198);
         OutputM1.writeMicroseconds(speed04);
         OutputM2.writeMicroseconds(speed03);
         OutputM3.writeMicroseconds(speed04);
@@ -512,8 +512,8 @@ void loop() {
     
     if(twoMotors == false){
     
-        speed03 = map(turnSpeed, 0, 25, 1500, 1715);
-        speed04 = map(turnSpeed, 0, 25, 1500, 1275);
+        speed03 = map(turnSpeed, 0, 25, 1500, 1795);
+        speed04 = map(turnSpeed, 0, 25, 1500, 1198);
         OutputM1.writeMicroseconds(speed03);
         OutputM2.writeMicroseconds(speed04);
         OutputM3.writeMicroseconds(speed03);
