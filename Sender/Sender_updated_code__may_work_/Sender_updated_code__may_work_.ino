@@ -281,22 +281,7 @@ if( (p <= -5 and p >= -24) and (t >= p and t < 0) and (t != 25)){
   strDirectT = String(TDirection);
   strDirectP = String(PDirection);
   
- // if( SpeedY > 25 or SpeedY < -25){
-   // SpeedY = 0;
-  //}
- // if( SpeedX > 25 or SpeedX < -25){
-   // SpeedX = 0;
-  //}
-  //if( SpeedZ > 25 or SpeedZ < -25){
-   // SpeedZ = 0;
-  //}
- // if( SpeedT > 25 or SpeedT < -25){
-    //SpeedT = 0;
-  //}
-//  if( SpeedP > 25 or SpeedP < -25){
-    //SpeedP = 0;
-  //}
-//Serial.println(strDirectT);  
+
   if(XDirection == 1){
     strDirectX = "L";
   }
