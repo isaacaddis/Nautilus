@@ -66,7 +66,7 @@ String strDirectP;
 
 String ultimateStr;
 char joy[30];
-
+char m_str[45];
 const int clawPin1 = 2;
 const int clawPin2 = 3;
 
@@ -396,5 +396,18 @@ ultimateStr = "R"+strSpeedX + "F"+ strSpeedY + "U"  +strSpeedZ + "T" +strSpeedT 
 ultimateStr.toCharArray(joy,30);
 
 Serial1.write(joy,30);
- // delay(300);
+
+    Serial.readBytes(m_str,45);
+    
+    String TempAndGyro = String(m_str);
+    //String temp_in = TempAndGyro.substring(0,5);
+    //String temp_out = TempAndGyro.substring(7,13);
+    //String humidity = TempandGyro.substring(15,20);
+    
+    //Serial1.println("Temp In: " +temp_in );
+    //Serial1.println("Temp Out: " +temp_out );
+    //Serial1.println("Humidity: " +humidity );
+   
+    Serial.println(TempAndGyro); 
+    Serial.println(" ");
 }
