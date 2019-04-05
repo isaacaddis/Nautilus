@@ -28,7 +28,7 @@ while cap.isOpened():
     current_len = 0
     for i in cnts:
         area = cv2.contourArea(i)
-        if area > 600 and area < 11800:
+        if area > 550 and area < 11800:
             current_len += 1
             x, y, w, h = cv2.boundingRect(i)
             cv2.rectangle(val, (x, y), (x+w, y+h), (0, 255, 0), 1)
@@ -43,6 +43,10 @@ while cap.isOpened():
             elif s == "circle":
                 n_text[3] += 1 
             print("# of shapes {}".format(current_len))
+            print("# of triangles {}".format(n_text[0]))
+            print("# of squares {}".format(n_text[1]))
+            print("# of lines {}".format(n_text[2]))
+            print("# of circles {}".format(n_text[3]))
             if current_len > 0:
                 cv2.putText(val,'Number of Shapes: {}'.format(current_len),(val.shape[1]-400,val.shape[0]-300), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
             else:
@@ -63,11 +67,9 @@ while cap.isOpened():
                 cv2.putText(val,'Circle: {}'.format(n_text[3]),(val.shape[1]-350,val.shape[0]-20), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
             else:
                 cv2.putText(val,'Circle: {}'.format(past_text[3]),(val.shape[1]-350,val.shape[0]-20), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
-
     past_text = n_text
     last_len = current_len
     n_text = [0, 0, 0, 0, 0]
-
     cv2.imshow('Scratch',image)
     cv2.imshow('Unfiltered',val)
     if cv2.waitKey(1) & 0xFF == ord('q'):
