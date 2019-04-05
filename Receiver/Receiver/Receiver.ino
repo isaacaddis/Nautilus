@@ -242,17 +242,18 @@ void loop() {
  Acc_angle_y = (atan(-1*(Acc_rawX)/sqrt(pow((Acc_rawY),2) + pow((Acc_rawZ),2)))*rad_to_deg) - Acc_angle_error_y;    
 
 
- //////////////////////////////////////Total angle and filter////U/////////////////////////////////
+ //////////////////////////////////////Total angle and filter/////////////////////////////////
  /*---X axis angle---*/
  Total_angle_x = 0.98 *(Total_angle_x + Gyro_angle_x) + 0.02*Acc_angle_x;
  /*---Y axis angle---*/
  Total_angle_y = 0.98 *(Total_angle_y + Gyro_angle_y) + 0.02*Acc_angle_y;
 
 
+////////////////////////////////Joystick Code////////////////////////////////////////////////
+  Serial1.readBytes(joy,25);
+
   Joystick = String(joy);
-  //Serial.println(Joystick);
- // Serial.println(Joystick);
-  //digitalWrite(LED_BUILTIN, HIGH);
+
   
   SideSpeed = Joystick.substring((Joystick.indexOf("R") + 1), Joystick.indexOf("F"));
   FBSpeed = Joystick.substring((Joystick.indexOf("F") + 1), Joystick.indexOf("U"));
@@ -267,11 +268,6 @@ void loop() {
   tiltSpeed = TiltSpeed.toInt();
 
 
- //  Serial.println(fbSpeed);
- //  Serial.println(sideSpeed);
- //  Serial.println(vertSpeed);
- //  Serial.println(turnSpeed);
- //  Serial.println(tiltSpeed);
 
 
    if((fbSpeed == 0) and (sideSpeed == 0) and (turnSpeed == 0)){
@@ -551,6 +547,5 @@ void loop() {
  Gyro.toCharArray(gyro,20);
  Wire.write(gyro,20);
  Serial1.write(gyro,20); 
- Serial1.readBytes(joy,25);
 
   }
