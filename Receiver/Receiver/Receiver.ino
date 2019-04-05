@@ -540,12 +540,21 @@ void loop() {
    }  
   if (fourMotors == true or twoMotors == true){
     //digitalWrite(LED_BUILTIN, HIGH);
-    turnLedOn(fbSpeed);
-    turnLedOn(sideSpeed);
-    turnLedOn(vertSpeed);
-    turnLedOn(turnSpeed);
-    turnLedOn(tiltSpeed);
-  
+    if (abs(fbSpeed) > 0){
+      turnLedOn(fbSpeed);
+    }
+    if (abs(sideSpeed) > 0){
+      turnLedOn(sideSpeed);
+    }
+    if (abs(vertSpeed) > 0){
+      turnLedOn(vertSpeed);
+    }
+    if (abs(turnSpeed) > 0){
+      turnLedOn(turnSpeed);
+    }
+    if (abs(tiltSpeed) > 0){
+      turnLedOn(tiltSpeed);
+    }
   }
   
 if (fourMotors == false and twoMotors == false){
@@ -566,7 +575,7 @@ void turnLedOn(int speed){
   }
   if (speed < 25){
     int  initBrightness = 40;
-    float factor = (speed/4); 
+    float factor = (abs(speed)/4); 
     String Factor = String(factor,0);
     int actualFactor = Factor.toInt();
     int value = initBrightness * actualFactor;
