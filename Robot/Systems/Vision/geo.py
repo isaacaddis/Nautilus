@@ -10,7 +10,7 @@ class ShapeDetect:
 		elif len(approx) ==4:
 			(x, y, w, h) = cv2.boundingRect(approx)
 			ar = w / float(h)
-			if ar >= .95 and ar <= 1.15:
+			if ar >= .85 and ar <= 1.25:
 				return 'square'
 			else:
 				return 'line'

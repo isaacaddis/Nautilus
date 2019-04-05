@@ -10,8 +10,9 @@ class ImagePreProcess():
             Returns blurred, morphed, and canny-edged image.
         '''
         self.img = cv2.GaussianBlur(image,(5,5), 0)
+        self.median = cv2.medianBlur(self.img,5)
         self.kernel = np.ones((5,5), np.uint8)
-        self.erosion = cv2.erode(self.img, self.kernel, iterations=1)
+        self.erosion = cv2.erode(self.median, self.kernel, iterations=1)
         self.dilation = cv2.dilate(self.erosion, self.kernel, iterations=1)
         self.canny = cv2.Canny(self.dilation, 100,200)
         return self.canny
