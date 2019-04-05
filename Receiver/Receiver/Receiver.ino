@@ -1,4 +1,4 @@
-2#include "Servo.h"
+#include "Servo.h"
 #include <Wire.h>
 
 
@@ -20,9 +20,16 @@ float Total_angle_x, Total_angle_y;
 String Gyro, gyro_X, gyro_Y;
 char gyro[20];
 
- 
-char joy[25];
-  
+//////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+char joy[30];
+
+const int MaxPower = 1795;
+const int MaxRevPower = 1198;
+
+const int MaxSixPow = 1682;
+const int MaxSixRevPow = 1315; 
+
 String  FBSpeed;
 String SideSpeed;
 String VertSpeed; 
@@ -65,23 +72,6 @@ int speed09;
 int speed10;
 
 
-
-String speedOne;
-String speedTwo;
-
-String speedThree;
-String speedFour;
-
-
-String speedFive;
-String speedSix;
-
-String speedSeven;
-String speedEight;
-
-
-String speedNine;
-String speedTen;
 
 boolean twoMotors;
 boolean fourMotors;
@@ -252,36 +242,31 @@ void loop() {
  Acc_angle_y = (atan(-1*(Acc_rawX)/sqrt(pow((Acc_rawY),2) + pow((Acc_rawZ),2)))*rad_to_deg) - Acc_angle_error_y;    
 
 
- //////////////////////////////////////Total angle and filter////U/////////////////////////////////
+ //////////////////////////////////////Total angle and filter/////////////////////////////////
  /*---X axis angle---*/
  Total_angle_x = 0.98 *(Total_angle_x + Gyro_angle_x) + 0.02*Acc_angle_x;
  /*---Y axis angle---*/
  Total_angle_y = 0.98 *(Total_angle_y + Gyro_angle_y) + 0.02*Acc_angle_y;
 
 
+////////////////////////////////Joystick Code////////////////////////////////////////////////
+
   Joystick = String(joy);
-  //Serial.println(Joystick);
- // Serial.println(Joystick);
-  //digitalWrite(LED_BUILTIN, HIGH);
+
   
   SideSpeed = Joystick.substring((Joystick.indexOf("R") + 1), Joystick.indexOf("F"));
   FBSpeed = Joystick.substring((Joystick.indexOf("F") + 1), Joystick.indexOf("U"));
   VertSpeed = Joystick.substring((Joystick.indexOf("U") + 1), Joystick.indexOf("T"));
   TurnSpeed = Joystick.substring((Joystick.indexOf("T") + 1), Joystick.indexOf("P"));
-  TiltSpeed = Joystick.substring((Joystick.indexOf("P") + 1), Joystick.length());
+  TiltSpeed = Joystick.substring((Joystick.indexOf("P") + 1), Joystick.indexOf("A"));
 
     fbSpeed = FBSpeed.toInt();
   sideSpeed = SideSpeed.toInt();
   vertSpeed = VertSpeed.toInt();
   turnSpeed = TurnSpeed.toInt();
-  tiltSpeed = TiltSpeed.toInt() ;
+  tiltSpeed = TiltSpeed.toInt();
 
 
- //  Serial.println(fbSpeed);
- //  Serial.println(sideSpeed);
- //  Serial.println(vertSpeed);
- //  Serial.println(turnSpeed);
- //  Serial.println(tiltSpeed);
 
 
    if((fbSpeed == 0) and (sideSpeed == 0) and (turnSpeed == 0)){
@@ -304,13 +289,13 @@ void loop() {
    if (vertSpeed > 0) { //Up  
        
        if (fourMotors == true){
-          speed08= map( vertSpeed, 0, 25, 1500, 1315);
+          speed08= map( vertSpeed, 0, 25, 1500, MaxSixRevPow);
           OutputM5.writeMicroseconds(speed08);
           OutputM6.writeMicroseconds(speed08);
         }
         
         if(fourMotors == false){
-            speed08= map( vertSpeed, 0, 25, 1500, 1198);
+            speed08= map( vertSpeed, 0, 25, 1500, MaxRevPower);
             OutputM5.writeMicroseconds(speed08);
             OutputM6.writeMicroseconds(speed08);
         }
@@ -325,13 +310,13 @@ void loop() {
      vertSpeed = abs(vertSpeed);
   
       if (fourMotors == true){
-          speed08= map( vertSpeed, 0, 25, 1500, 1682);
+          speed08= map( vertSpeed, 0, 25, 1500, MaxSixPow);
           OutputM5.writeMicroseconds(speed08);
           OutputM6.writeMicroseconds(speed08);
       }
       
       if(fourMotors ==false){
-          speed10 = map(vertSpeed,0, 25, 1500, 1795);
+          speed10 = map(vertSpeed,0, 25, 1500, MaxPower);
           OutputM5.writeMicroseconds(speed10);
           OutputM6.writeMicroseconds(speed10);
       }
@@ -344,15 +329,15 @@ void loop() {
 
    if (tiltSpeed > 0) { //Tilt Up
        if(fourMotors == false){  
-            speed05 = map( tiltSpeed, 0, 25, 1500, 1795);
-            speed06 = map( speed05, 1500, 1795, 1500, 1198);
+            speed05 = map( tiltSpeed, 0, 25, 1500, MaxPower);
+            speed06 = map( speed05, 1500, MaxPower, 1500, MaxRevPower);
             OutputM5.writeMicroseconds(speed06);
             OutputM6.writeMicroseconds(speed05);
         }
         
         if(fourMotors == true){
-            speed05 = map( tiltSpeed, 0, 25, 1500, 1682);
-            speed06 = map( speed05, 1500, 1682, 1500, 1315);
+            speed05 = map( tiltSpeed, 0, 25, 1500, MaxSixPow);
+            speed06 = map( speed05, 1500, MaxSixPow, 1500, MaxSixRevPow);
             OutputM5.writeMicroseconds(speed06);
             OutputM6.writeMicroseconds(speed05);
         }
@@ -365,15 +350,15 @@ void loop() {
     tiltSpeed = abs(tiltSpeed);
        
        if(fourMotors == false){
-            speed05 = map( tiltSpeed, 0, 25, 1500, 1795);
-            speed06 = map( speed05, 1500, 1795, 1500, 1198);
+            speed05 = map( tiltSpeed, 0, 25, 1500, MaxPower);
+            speed06 = map( speed05, 1500, MaxPower, 1500, MaxRevPower);
             OutputM5.writeMicroseconds(speed05);
             OutputM6.writeMicroseconds(speed06);
         }
         
        if(fourMotors == true){
-            speed05 = map( tiltSpeed, 0, 25, 1500, 1682);
-            speed06 = map( speed05, 1500, 1682, 1500, 1315);
+            speed05 = map( tiltSpeed, 0, 25, 1500, MaxSixPow);
+            speed06 = map( speed05, 1500, MaxSixPow, 1500, MaxSixRevPow);
             OutputM5.writeMicroseconds(speed05);
             OutputM6.writeMicroseconds(speed06);
        }
@@ -386,7 +371,7 @@ void loop() {
        
        if(twoMotors == false){
     
-          speed07 = map(fbSpeed, 0, 25, 1500, 1275);
+          speed07 = map(fbSpeed, 0, 25, 1500, MaxRevPower);
           OutputM1.writeMicroseconds(speed07);
           OutputM2.writeMicroseconds(speed07);
           OutputM3.writeMicroseconds(speed07);
@@ -394,7 +379,7 @@ void loop() {
        }
        
        if(twoMotors == true){
-          speed07 = map(fbSpeed, 0, 25, 1500, 1315);
+          speed07 = map(fbSpeed, 0, 25, 1500, MaxSixRevPow);
           OutputM1.writeMicroseconds(speed07);
           OutputM2.writeMicroseconds(speed07);
           OutputM3.writeMicroseconds(speed07);
@@ -409,7 +394,7 @@ void loop() {
     fbSpeed = abs(fbSpeed);
     
       if(twoMotors == false){
-          speed09 = map(fbSpeed, 0, 25, 1500, 1715);
+          speed09 = map(fbSpeed, 0, 25, 1500, MaxPower);
           OutputM1.writeMicroseconds(speed09);
           OutputM2.writeMicroseconds(speed09);
           OutputM3.writeMicroseconds(speed09);
@@ -417,7 +402,7 @@ void loop() {
      }
      
      if(twoMotors == true){
-          speed09 = map(fbSpeed, 0, 25, 1500, 1682);
+          speed09 = map(fbSpeed, 0, 25, 1500, MaxSixPow);
           OutputM1.writeMicroseconds(speed09);
           OutputM2.writeMicroseconds(speed09);
           OutputM3.writeMicroseconds(speed09);
@@ -431,8 +416,8 @@ void loop() {
  
     if(twoMotors == false){
     
-        speed01 = map(sideSpeed, 0, 25, 1500, 1715);
-        speed02 = map(sideSpeed, 0, 25, 1500, 1275);
+        speed01 = map(sideSpeed, 0, 25, 1500, MaxPower);
+        speed02 = map(sideSpeed, 0, 25, 1500, MaxRevPower);
         OutputM1.writeMicroseconds(speed02);
         OutputM2.writeMicroseconds(speed01);
         OutputM3.writeMicroseconds(speed01);
@@ -441,8 +426,8 @@ void loop() {
     
     if(twoMotors == true){
     
-        speed01 = map(sideSpeed, 0, 25, 1500, 1682);
-        speed02 = map(sideSpeed, 0, 25, 1500, 1315);
+        speed01 = map(sideSpeed, 0, 25, 1500, MaxSixPow);
+        speed02 = map(sideSpeed, 0, 25, 1500, MaxSixRevPow);
         OutputM1.writeMicroseconds(speed02);
         OutputM2.writeMicroseconds(speed01);
         OutputM3.writeMicroseconds(speed01);
@@ -459,8 +444,8 @@ void loop() {
     
     if(twoMotors == false){
     
-    speed01 = map(sideSpeed, 0, 25, 1500, 1715);
-    speed02 = map(sideSpeed, 0, 25, 1500, 1275);
+    speed01 = map(sideSpeed, 0, 25, 1500, MaxPower);
+    speed02 = map(sideSpeed, 0, 25, 1500, MaxRevPower);
     OutputM1.writeMicroseconds(speed01);
     OutputM2.writeMicroseconds(speed02);
     OutputM3.writeMicroseconds(speed02);
@@ -468,8 +453,8 @@ void loop() {
     }
     
     if (twoMotors == true){
-        speed01 = map(sideSpeed, 0, 25, 1500, 1682);
-        speed02 = map(sideSpeed, 0, 25, 1500, 1315);
+        speed01 = map(sideSpeed, 0, 25, 1500, MaxSixPow);
+        speed02 = map(sideSpeed, 0, 25, 1500, MaxSixRevPow);
         OutputM1.writeMicroseconds(speed01);
         OutputM2.writeMicroseconds(speed02);
         OutputM3.writeMicroseconds(speed02);
@@ -486,8 +471,8 @@ void loop() {
     
     if(twoMotors == false){
     
-        speed03 = map(turnSpeed, 0, 25, 1500, 1715);
-        speed04 = map(turnSpeed, 0, 25, 1500, 1275);
+        speed03 = map(turnSpeed, 0, 25, 1500, MaxPower);
+        speed04 = map(turnSpeed, 0, 25, 1500, MaxRevPower);
         OutputM1.writeMicroseconds(speed04);
         OutputM2.writeMicroseconds(speed03);
         OutputM3.writeMicroseconds(speed04);
@@ -496,8 +481,8 @@ void loop() {
     
     if(twoMotors == true){
     
-        speed03 = map(turnSpeed, 0, 25, 1500, 1682);
-        speed04 = map(turnSpeed, 0, 25, 1500, 1315);
+        speed03 = map(turnSpeed, 0, 25, 1500, MaxSixPow);
+        speed04 = map(turnSpeed, 0, 25, 1500, MaxSixRevPow);
         OutputM1.writeMicroseconds(speed04);
         OutputM2.writeMicroseconds(speed03);
         OutputM3.writeMicroseconds(speed04);
@@ -512,8 +497,8 @@ void loop() {
     
     if(twoMotors == false){
     
-        speed03 = map(turnSpeed, 0, 25, 1500, 1715);
-        speed04 = map(turnSpeed, 0, 25, 1500, 1275);
+        speed03 = map(turnSpeed, 0, 25, 1500, MaxPower);
+        speed04 = map(turnSpeed, 0, 25, 1500, MaxRevPower);
         OutputM1.writeMicroseconds(speed03);
         OutputM2.writeMicroseconds(speed04);
         OutputM3.writeMicroseconds(speed03);
@@ -522,8 +507,8 @@ void loop() {
     
     if(twoMotors == true){
     
-        speed03 = map(turnSpeed, 0, 25, 1500, 1682);
-        speed04 = map(turnSpeed, 0, 25, 1500, 1315);
+        speed03 = map(turnSpeed, 0, 25, 1500, MaxSixPow);
+        speed04 = map(turnSpeed, 0, 25, 1500, MaxSixRevPow);
         OutputM1.writeMicroseconds(speed03);
         OutputM2.writeMicroseconds(speed04);
         OutputM3.writeMicroseconds(speed03);
@@ -531,7 +516,6 @@ void loop() {
     }
     
     fourMotors = true;
-
 
   }
   
@@ -554,17 +538,47 @@ void loop() {
     speed09 = 1500;
     speed10 = 1500;
    }  
-
+  if (fourMotors == true or twoMotors == true){
+    //digitalWrite(LED_BUILTIN, HIGH);
+    if (abs(fbSpeed) > 0){
+      turnLedOn(fbSpeed);
+    }
+    if (abs(sideSpeed) > 0){
+      turnLedOn(sideSpeed);
+    }
+    if (abs(vertSpeed) > 0){
+      turnLedOn(vertSpeed);
+    }
+    if (abs(turnSpeed) > 0){
+      turnLedOn(turnSpeed);
+    }
+    if (abs(tiltSpeed) > 0){
+      turnLedOn(tiltSpeed);
+    }
+  }
+  
+if (fourMotors == false and twoMotors == false){
+    digitalWrite(LED_BUILTIN, LOW);
+  }
  gyro_X = String(Total_angle_x,2);
  gyro_Y = String(Total_angle_y,2);
  Gyro = "45 :"+ gyro_X + ", " + gyro_Y;
  Gyro.toCharArray(gyro,20);
  Wire.write(gyro,20);
  Serial1.write(gyro,20); 
-  Serial1.readBytes(joy,25);
-
-
-
-  
-    
+ Serial1.readBytes(joy,30);
   }
+  
+void turnLedOn(int speed){
+  if (speed == 25){
+    analogWrite(LED_BUILTIN, 255);
+  }
+  if (speed < 25){
+    int  initBrightness = 40;
+    float factor = (abs(speed)/4); 
+    String Factor = String(factor,0);
+    int actualFactor = Factor.toInt();
+    int value = initBrightness * actualFactor;
+    analogWrite(LED_BUILTIN, value);
+  }
+}

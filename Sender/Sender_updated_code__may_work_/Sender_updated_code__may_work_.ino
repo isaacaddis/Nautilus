@@ -1,10 +1,11 @@
 #include "Servo.h"
-char m_str[45];
+
 const int InputA0 = A0; // Forward and Backward
 const int InputA1 = A1; // Left and Right
 const int InputA2 = A4; // Up and down
 const int InputA3 = A3; // Tilt 
-const int InputA4 = A2; // Turning
+const int InputA4 = A2;// Turning
+const int InputA5 = A5; 
 
 
 
@@ -18,7 +19,8 @@ int PotA3 = 0;
 int SpeedA3= 0;
 int PotA4 = 0;
 int SpeedA4= 0;
-
+int rotate = 0;
+int PotA5;
 
 
 int outputValueX = 0;
@@ -53,7 +55,8 @@ String strSpeedY;
 String strSpeedX;
 String strSpeedZ;
 String strSpeedT; 
-String strSpeedP; 
+String strSpeedP;
+String rotMeasure; 
 
 String strDirectX;
 String strDirectY;
@@ -62,14 +65,24 @@ String strDirectT;
 String strDirectP; 
 
 String ultimateStr;
-char joy[25];
+char joy[30];
+char m_str[45];
+const int clawPin1 = 2;
+const int clawPin2 = 3;
 
+int buttonState1 = 0;
+int buttonState2 = 0;
+
+String Button1;
+String Button2;
 
 void setup() {
 
 
 Serial.begin(57600);
 Serial1.begin(57600);
+pinMode(clawPin1, INPUT);
+pinMode(clawPin2, INPUT);
 //Serial1.begin(57600);
  delay(500);
 
@@ -81,13 +94,31 @@ void loop() {
   PotA2 = analogRead(InputA2);
   PotA3 = analogRead(InputA3);
   PotA4 = analogRead(InputA4);
-  
+  PotA5 = analogRead(InputA5);
+
+  buttonState1 = digitalRead(clawPin1);
+  buttonState2 = digitalRead(clawPin2);
+
+  if (buttonState1 == HIGH){
+    Button1 = "1";
+  }
+  if (buttonState1 == LOW){
+    Button1 = "0";
+  }
+  if(buttonState2 == HIGH){
+    Button2 = "1";
+  }
+  if(buttonState2 == LOW){
+    Button2 = "0";
+  }
   
   outputValueY = map(PotA0, 0, 1023, -25, 25);
   outputValueX = map(PotA1, 0, 1023, -25, 25);
   outputValueZ = map(PotA2, 0, 1023, -25, 25);
   outputValueT = map(PotA3, 0, 1023, -25, 25);
   outputValueP = map(PotA4, 0, 1023, -25, 25);
+  rotate = map(PotA5, 0 ,1023, 0, 180);
+
   
   int x = outputValueX;
   int y = outputValueY; 
@@ -159,10 +190,6 @@ if( (x <= -5 and x >= -24) and (y >= x and y < 0) and (y != 25)){
   if( (x < 5 and x > -5) and (y < 5 and y > -5) ){
     YDirection = 0;
     XDirection = 0;
-    boolean Left = false;
-    boolean Right = false;
-    boolean Forward = false;
-    boolean Backward = false; 
 }
 
    
@@ -362,17 +389,28 @@ if( (p <= -5 and p >= -24) and (t >= p and t < 0) and (t != 25)){
    strSpeedP = "-"+ String(SpeedP); 
   }
 
-ultimateStr = "R"+strSpeedX + "F"+ strSpeedY + "U"  +strSpeedZ + "T" +strSpeedT + "P"+ strSpeedP;
+rotMeasure = String(rotate);
+ultimateStr = "R"+strSpeedX + "F"+ strSpeedY + "U"  +strSpeedZ + "T" +strSpeedT + "P"+ strSpeedP +"A"+ Button1 +"B"+ Button2+ "C"+ rotMeasure;
 //Serial.println(ultimateStr);
 //Serial.println(ultimateStr);
-ultimateStr.toCharArray(joy,25);
+ultimateStr.toCharArray(joy,30);
 
-Serial1.write(joy,25);
+Serial1.write(joy,30);
 
-     Serial1.readBytes(m_str,45);
+
+    Serial1.readBytes(m_str,45);
     
     String TempAndGyro = String(m_str);
+    //String temp_in = TempAndGyro.substring(0,5);
+    //String temp_out = TempAndGyro.substring(7,13);
+    //String humidity = TempandGyro.substring(15,20);
+    
+    //Serial1.println("Temp In: " +temp_in );
+    //Serial1.println("Temp Out: " +temp_out );
+    //Serial1.println("Humidity: " +humidity );
+   
     Serial.println(TempAndGyro); 
     Serial.println(" ");
 
+    
 }

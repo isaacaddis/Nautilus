@@ -3,19 +3,15 @@ char m_str[45];
 
 void setup() {
   // put your setup code here, to run once:
-    //Serial1.begin(57600);
-        //Serial.begin(57600);
-        Serial.begin(74880);
+
+       Serial.begin(57600);
 
     delay(1000);
 }
 
 void loop() {
-  /*
-   * @author Alex000000000
-   * Recieving code in format: [Temp inside, Temp outside, Humidity]
-   */
-    Serial.readBytes(m_str,45);
+
+    Serial1.readBytes(m_str,45);
     
     String TempAndGyro = String(m_str);
     //String temp_in = TempAndGyro.substring(0,5);
