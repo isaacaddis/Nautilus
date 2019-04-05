@@ -540,19 +540,15 @@ void loop() {
    }  
   if (fourMotors == true or twoMotors == true){
     //digitalWrite(LED_BUILTIN, HIGH);
-    turnLedOn(speed01);
-    turnLedOn(speed02);
-    turnLedOn(speed03);
-    turnLedOn(speed04);
-    turnLedOn(speed05);
-    turnLedOn(speed06);
-    turnLedOn(speed07);
-    turnLedOn(speed08);
-    turnLedOn(speed09);
-    turnLedOn(speed10);
+    turnLedOn(fbSpeed);
+    turnLedOn(sideSpeed);
+    turnLedOn(vertSpeed);
+    turnLedOn(turnSpeed);
+    turnLedOn(tiltSpeed);
   
   }
-  if (fourMotors == false and twoMotors == false){
+  
+if (fourMotors == false and twoMotors == false){
     digitalWrite(LED_BUILTIN, LOW);
   }
  gyro_X = String(Total_angle_x,2);
