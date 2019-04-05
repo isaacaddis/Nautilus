@@ -48,21 +48,21 @@ while cap.isOpened():
             else:
                 cv2.putText(val,'Number of Shapes: {}'.format(last_len),(val.shape[1]-400,val.shape[0]-300), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
             if n_text[0] > 0:
-                cv2.putText(val,'Species A: {}'.format(n_text[0]),(val.shape[1]-350,val.shape[0]-200), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
+                cv2.putText(val,'Triangle: {}'.format(n_text[0]),(val.shape[1]-350,val.shape[0]-200), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
             else:
-                cv2.putText(val,'Species A: {}'.format(past_text[0]),(val.shape[1]-350,val.shape[0]-200), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
+                cv2.putText(val,'Triangle: {}'.format(past_text[0]),(val.shape[1]-350,val.shape[0]-200), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
             if n_text[1] > 0:
-                cv2.putText(val,'Species B: {}'.format(n_text[1]),(val.shape[1]-350,val.shape[0]-150), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
+                cv2.putText(val,'Square: {}'.format(n_text[1]),(val.shape[1]-350,val.shape[0]-150), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
             else:
-                cv2.putText(val,'Species B: {}'.format(past_text[1]),(val.shape[1]-350,val.shape[0]-150), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
+                cv2.putText(val,'Square: {}'.format(past_text[1]),(val.shape[1]-350,val.shape[0]-150), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
             if n_text[2] > 0:
-                cv2.putText(val,'Species C: {}'.format(n_text[2]),(val.shape[1]-350,val.shape[0]-100), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
+                cv2.putText(val,'Line: {}'.format(n_text[2]),(val.shape[1]-350,val.shape[0]-100), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
             else:
-                cv2.putText(val,'Species C: {}'.format(past_text[2]),(val.shape[1]-350,val.shape[0]-100), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
+                cv2.putText(val,'Line: {}'.format(past_text[2]),(val.shape[1]-350,val.shape[0]-100), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
             if n_text[3] > 0:
-                cv2.putText(val,'Species D: {}'.format(n_text[3]),(val.shape[1]-350,val.shape[0]-20), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
+                cv2.putText(val,'Circle: {}'.format(n_text[3]),(val.shape[1]-350,val.shape[0]-20), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
             else:
-                cv2.putText(val,'Species D: {}'.format(past_text[3]),(val.shape[1]-350,val.shape[0]-20), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
+                cv2.putText(val,'Circle: {}'.format(past_text[3]),(val.shape[1]-350,val.shape[0]-20), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
 
     past_text = n_text
     last_len = current_len
