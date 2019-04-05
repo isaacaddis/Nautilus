@@ -258,7 +258,7 @@ void loop() {
   FBSpeed = Joystick.substring((Joystick.indexOf("F") + 1), Joystick.indexOf("U"));
   VertSpeed = Joystick.substring((Joystick.indexOf("U") + 1), Joystick.indexOf("T"));
   TurnSpeed = Joystick.substring((Joystick.indexOf("T") + 1), Joystick.indexOf("P"));
-  TiltSpeed = Joystick.substring((Joystick.indexOf("P") + 1), Joystick.length());
+  TiltSpeed = Joystick.substring((Joystick.indexOf("P") + 1), Joystick.indexOf("A"));
 
     fbSpeed = FBSpeed.toInt();
   sideSpeed = SideSpeed.toInt();
@@ -517,7 +517,6 @@ void loop() {
     
     fourMotors = true;
 
-
   }
   
   if ((fbSpeed == 0) and (sideSpeed == 0) and (vertSpeed  == 0)  and (turnSpeed == 0)  and (tiltSpeed == 0) ){
@@ -540,7 +539,18 @@ void loop() {
     speed10 = 1500;
    }  
   if (fourMotors == true or twoMotors == true){
-    digitalWrite(LED_BUILTIN, HIGH);
+    //digitalWrite(LED_BUILTIN, HIGH);
+    turnLedOn(speed01);
+    turnLedOn(speed02);
+    turnLedOn(speed03);
+    turnLedOn(speed04);
+    turnLedOn(speed05);
+    turnLedOn(speed06);
+    turnLedOn(speed07);
+    turnLedOn(speed08);
+    turnLedOn(speed09);
+    turnLedOn(speed10);
+  
   }
   if (fourMotors == false and twoMotors == false){
     digitalWrite(LED_BUILTIN, LOW);
@@ -552,5 +562,18 @@ void loop() {
  Wire.write(gyro,20);
  Serial1.write(gyro,20); 
  Serial1.readBytes(joy,30);
-
   }
+  
+void turnLedOn(int speed){
+  if (speed == 25){
+    analogWrite(LED_BUILTIN, 255);
+  }
+  if (speed < 25){
+    int  initBrightness = 40;
+    float factor = (speed/4); 
+    String Factor = String(factor,0);
+    int actualFactor = Factor.toInt();
+    int value = initBrightness * actualFactor;
+    analogWrite(LED_BUILTIN, value);
+  }
+}
