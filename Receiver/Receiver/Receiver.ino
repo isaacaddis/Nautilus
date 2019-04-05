@@ -539,7 +539,12 @@ void loop() {
     speed09 = 1500;
     speed10 = 1500;
    }  
-
+  if (fourMotors == true or twoMotors == true){
+    digitalWrite(LED_BUILTIN, HIGH);
+  }
+  if (fourMotors == false and twoMotors == false){
+    digitalWrite(LED_BUILTIN, LOW);
+  }
  gyro_X = String(Total_angle_x,2);
  gyro_Y = String(Total_angle_y,2);
  Gyro = "45 :"+ gyro_X + ", " + gyro_Y;
