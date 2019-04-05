@@ -22,7 +22,7 @@ char gyro[20];
 
 //////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-char joy[25];
+char joy[30];
 
 const int MaxPower = 1795;
 const int MaxRevPower = 1198;
@@ -250,7 +250,6 @@ void loop() {
 
 
 ////////////////////////////////Joystick Code////////////////////////////////////////////////
-  Serial1.readBytes(joy,25);
 
   Joystick = String(joy);
 
@@ -547,5 +546,6 @@ void loop() {
  Gyro.toCharArray(gyro,20);
  Wire.write(gyro,20);
  Serial1.write(gyro,20); 
+ Serial1.readBytes(joy,30);
 
   }
