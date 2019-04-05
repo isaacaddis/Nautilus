@@ -397,7 +397,8 @@ ultimateStr.toCharArray(joy,30);
 
 Serial1.write(joy,30);
 
-    Serial.readBytes(m_str,45);
+
+    Serial1.readBytes(m_str,45);
     
     String TempAndGyro = String(m_str);
     //String temp_in = TempAndGyro.substring(0,5);
@@ -410,4 +411,6 @@ Serial1.write(joy,30);
    
     Serial.println(TempAndGyro); 
     Serial.println(" ");
+
+    
 }
