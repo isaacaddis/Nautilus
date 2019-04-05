@@ -80,7 +80,7 @@ void setup() {
 
 
 Serial.begin(57600);
-//Serial1.begin(57600);
+Serial1.begin(57600);
 pinMode(clawPin1, INPUT);
 pinMode(clawPin2, INPUT);
 //Serial1.begin(57600);
@@ -190,10 +190,6 @@ if( (x <= -5 and x >= -24) and (y >= x and y < 0) and (y != 25)){
   if( (x < 5 and x > -5) and (y < 5 and y > -5) ){
     YDirection = 0;
     XDirection = 0;
-    boolean Left = false;
-    boolean Right = false;
-    boolean Forward = false;
-    boolean Backward = false; 
 }
 
    
@@ -399,10 +395,6 @@ ultimateStr = "R"+strSpeedX + "F"+ strSpeedY + "U"  +strSpeedZ + "T" +strSpeedT 
 //Serial.println(ultimateStr);
 ultimateStr.toCharArray(joy,30);
 
-Serial.write(joy,30);
-
- 
-delay(5);
+Serial1.write(joy,30);
  // delay(300);
-
 }
