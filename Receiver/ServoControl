@@ -1,0 +1,78 @@
+#include "Servo.h"
+
+
+String button1;
+String button2;
+String rotate;
+
+int Button1;
+int Button2;
+int rotateDegrees;
+
+
+char joy[30];
+String Joystick;
+
+const int InputA0 = A0;
+
+const int clawPinOne = 2;
+const int clawPinTwo = 3;
+
+Servo Claw1,Claw2,Rotate;
+
+
+
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(57600);
+  //Serial1.begin(57600);
+  pinMode(InputA0, INPUT);
+  
+  
+  Claw1.attach(clawPinOne);
+  Claw2.attach(clawPinTwo);
+  Rotate.attach(InputA0);
+  Claw1.write(0);
+  Claw2.write(0);
+  delay(500);
+}
+
+void loop(){
+  Serial.readBytes(joy,30);
+  Joystick = String(joy);
+  button1 = Joystick.substring((Joystick.indexOf("A") + 1), Joystick.indexOf("B"));
+  button2 = Joystick.substring((Joystick.indexOf("B") + 1), Joystick.indexOf("C"));
+  rotate = Joystick.substring((Joystick.indexOf("C") + 1), Joystick.length());
+
+  Button1 = button1.toInt();
+  Button2 = button2.toInt();
+  rotateDegrees = rotate.toInt();
+  
+  //Serial.println(Button1);
+  //Serial.println(Button2);
+  //.println(rotateDegrees);
+ // Serial.println(" ");
+
+  if (Button1 == 0){
+    Claw1.write(0);
+  }
+  
+  if (Button1 == 1){
+    Claw1.write(90);
+  }
+
+  if (Button2 == 0){
+    Claw2.write(0);
+  }
+  
+  if (Button2 == 1){
+    Claw2.write(90);
+  }
+
+  Rotate.write(rotateDegrees);
+  
+
+delay(100);
+
+}
