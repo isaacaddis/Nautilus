@@ -538,23 +538,9 @@ void loop() {
     speed09 = 1500;
     speed10 = 1500;
    }  
-  if (fourMotors == true or twoMotors == true){
-    //digitalWrite(LED_BUILTIN, HIGH);
-    if (abs(fbSpeed) > 0){
-      turnLedOn(fbSpeed);
-    }
-    if (abs(sideSpeed) > 0){
-      turnLedOn(sideSpeed);
-    }
-    if (abs(vertSpeed) > 0){
-      turnLedOn(vertSpeed);
-    }
-    if (abs(turnSpeed) > 0){
-      turnLedOn(turnSpeed);
-    }
-    if (abs(tiltSpeed) > 0){
-      turnLedOn(tiltSpeed);
-    }
+ 
+if (fourMotors == true or twoMotors == true){
+    digitalWrite(LED_BUILTIN, HIGH);
   }
   
 if (fourMotors == false and twoMotors == false){
@@ -569,16 +555,3 @@ if (fourMotors == false and twoMotors == false){
  Serial1.readBytes(joy,30);
   }
   
-void turnLedOn(int speed){
-  if (speed == 25){
-    analogWrite(LED_BUILTIN, 255);
-  }
-  if (speed < 25){
-    int  initBrightness = 40;
-    float factor = (abs(speed)/4); 
-    String Factor = String(factor,0);
-    int actualFactor = Factor.toInt();
-    int value = initBrightness * actualFactor;
-    analogWrite(LED_BUILTIN, value);
-  }
-}
