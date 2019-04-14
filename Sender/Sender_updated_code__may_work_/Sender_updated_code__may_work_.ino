@@ -11,6 +11,8 @@ String temp_in;
 String temp_out;
 String humidity;
 String leak;
+String gyroX;
+String gyroY;
 
 int PotA0 = 0;       
 int SpeedA0 = 0;
@@ -406,15 +408,17 @@ Serial1.write(joy,30);
     String TempAndGyro = String(m_str);
     temp_in = TempAndGyro.substring(0,5);
     temp_out = TempAndGyro.substring(7,13);
-    humidity = TempandGyro.substring(15,20);
-    leak = TempandGyro.substring(22,23);
+    humidity = TempAndGyro.substring(15,20);
+    leak = TempAndGyro.substring(22,23);
+    gyroX = TempAndGyro.substring((TempAndGyro.indexOf("X") +1) , TempAndGyro.indexOf("Y"));
+    gyroY = TempAndGyro.substring((TempAndGyro.indexOf("Y") +1) , TempAndGyro.length());
     
-    Serial1.println("Temp In: " +temp_in );
-    Serial1.println("Temp Out: " +temp_out );
-    Serial1.println("Humidity: " +humidity );
-   
-    //Serial.println(TempAndGyro); 
-    Serial.println(" ");
+    Serial.println("Temp In: " +temp_in );
+    Serial.println("Temp Out: " +temp_out );
+    Serial.println("Humidity: " +humidity );
+    Serial.println("Leak:" + leak);
+    Serial.println("GyroX": gyroX);
+    Serial.println("GyroY": gyroY + ".\n");
 
     
 }
