@@ -82,7 +82,7 @@ void loop(void) {
   humidity = String(h,2);
 
 
-  Temp_Gyro = temp_in + " ,"+ temp_out + " ," + humidity + ", " + GyroData;
+  Temp_Gyro = temp_in + " ,"+ temp_out + " ," + humidity + "X" + GyroData;
   Temp_Gyro.toCharArray(m_Temp_Gyro,40);
   Serial.write(m_Temp_Gyro,40);
  
