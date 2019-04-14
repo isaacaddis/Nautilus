@@ -102,7 +102,7 @@ val = analogRead(leaksensor);
     GyroData = String(gyroData);
   if (GyroData.substring(0,2)== "45"){
       NewGyroData = GyroData.substring(4,19);
-      Temp_Gyro = temp_in + " ,"+ temp_out + " ," + humidity + " ,"+ Leak+ "X "+ NewGyroData;   
+      Temp_Gyro = temp_in + " ,"+ temp_out + " ," + humidity + " ,"+ Leak+ "X"+ NewGyroData;   
       Temp_Gyro.toCharArray(m_Temp_Gyro,45);
       Serial.write(m_Temp_Gyro,45);
       digitalWrite(LED_BUILTIN, HIGH); 
