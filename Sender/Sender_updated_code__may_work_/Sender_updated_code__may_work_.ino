@@ -7,7 +7,10 @@ const int InputA3 = A3; // Tilt
 const int InputA4 = A2;// Turning
 const int InputA5 = A5; 
 
-
+String temp_in;
+String temp_out;
+String humidity;
+String leak;
 
 int PotA0 = 0;       
 int SpeedA0 = 0;
@@ -401,15 +404,16 @@ Serial1.write(joy,30);
     Serial1.readBytes(m_str,45);
     
     String TempAndGyro = String(m_str);
-    //String temp_in = TempAndGyro.substring(0,5);
-    //String temp_out = TempAndGyro.substring(7,13);
-    //String humidity = TempandGyro.substring(15,20);
+    temp_in = TempAndGyro.substring(0,5);
+    temp_out = TempAndGyro.substring(7,13);
+    humidity = TempandGyro.substring(15,20);
+    leak = TempandGyro.substring(22,23);
     
-    //Serial1.println("Temp In: " +temp_in );
-    //Serial1.println("Temp Out: " +temp_out );
-    //Serial1.println("Humidity: " +humidity );
+    Serial1.println("Temp In: " +temp_in );
+    Serial1.println("Temp Out: " +temp_out );
+    Serial1.println("Humidity: " +humidity );
    
-    Serial.println(TempAndGyro); 
+    //Serial.println(TempAndGyro); 
     Serial.println(" ");
 
     
