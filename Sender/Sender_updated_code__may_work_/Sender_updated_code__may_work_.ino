@@ -417,8 +417,8 @@ Serial1.write(joy,30);
     Serial.println("Temp Out: " +temp_out );
     Serial.println("Humidity: " +humidity );
     Serial.println("Leak:" + leak);
-    Serial.println("GyroX": gyroX);
-    Serial.println("GyroY": gyroY + ".\n");
+    Serial.println("GyroX:" +gyroX);
+    Serial.println("GyroY:"+ gyroY + ".\n");
 
     
 }
