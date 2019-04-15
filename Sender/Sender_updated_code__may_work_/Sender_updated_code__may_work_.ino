@@ -374,7 +374,7 @@ if( (p <= -5 and p >= -24) and (t >= p and t < 0) and (t != 25)){
   strSpeedP = String(SpeedP);
 
 
-  if(strDirectY == "B"){
+  if(strDirectY == "F"){
    strSpeedY = "-"+ String(SpeedY);
   }
   
@@ -383,14 +383,14 @@ if( (p <= -5 and p >= -24) and (t >= p and t < 0) and (t != 25)){
    strSpeedX = "-"+ String(SpeedX); 
   }
    
-  if(strDirectZ == "D"){
+  if(strDirectZ == "U"){
    strSpeedZ = "-"+ String(SpeedZ); 
   }
-  if(strDirectT == "TD"){
+  if(strDirectT == "TU"){
    strSpeedT = "-"+ String(SpeedT);
   }
   
-  if(strDirectP == "RL"){
+  if(strDirectP == "RR"){
    strSpeedP = "-"+ String(SpeedP); 
   }
 
