@@ -24,12 +24,15 @@ char gyro[20];
 
 char joy[30];
 
+//Two Motors
 const int MaxPower = 1795;
 const int MaxRevPower = 1198;
 
+//Four Motors
 const int MaxFourPow = 1795;
 const int MaxFourRevPow = 1198;
 
+//All Six Motors
 const int MaxSixPow = 1682;
 const int MaxSixRevPow = 1315;
 
