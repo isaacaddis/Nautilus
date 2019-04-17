@@ -383,7 +383,7 @@ if( (p <= -5 and p >= -24) and (t >= p and t < 0) and (t != 25)){
    strSpeedX = "-"+ String(SpeedX); 
   }
    
-  if(strDirectZ == "U"){
+  if(strDirectZ == "D"){
    strSpeedZ = "-"+ String(SpeedZ); 
   }
   if(strDirectT == "TU"){
