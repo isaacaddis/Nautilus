@@ -27,7 +27,7 @@ int SpeedA4= 0;
 int rotate = 0;
 int PotA5;
 
-
+char data;
 int outputValueX = 0;
 int outputValueY = 0;
 int outputValueZ = 0;
@@ -404,7 +404,8 @@ Serial1.write(joy,30);
 
 
     Serial1.readBytes(m_str,45);
-    Serial.println(m_str + ".\n");
+    data = m_str;
+    Serial.println(data+ ".\n");
     
     //String TempAndGyro = String(m_str);
     //temp_in = TempAndGyro.substring(0,5);
