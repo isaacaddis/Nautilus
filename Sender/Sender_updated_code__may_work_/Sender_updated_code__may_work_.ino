@@ -404,8 +404,9 @@ Serial1.write(joy,30);
 
 
     Serial1.readBytes(m_str,45);
+    Serial.println(m_str + ".\n");
     
-    String TempAndGyro = String(m_str);
+    //String TempAndGyro = String(m_str);
     //temp_in = TempAndGyro.substring(0,5);
     //temp_out = TempAndGyro.substring(7,13);
     //humidity = TempAndGyro.substring(15,20);
