@@ -41,6 +41,6 @@ class SmartMax:
 		avg_color_per_row = np.average(temp, axis =0)
 		avg_color = np.average(avg_color_per_row, axis = 0)
 		cv2.putText(temp,'Color: {}'.format(avg_color),(temp.shape[1]-400,temp.shape[0]-300), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
-		cv2.imwrite(str(time.ctime())+'.jpg',temp)
+		cv2.imwrite(str(avg_color)+'.jpg',temp)
 		return avg_color
 
