@@ -77,7 +77,8 @@ void setup() {
   twoMotors = false;
   fourMotors = false;
   MotorConfig(4, 1500, 1500, 1500, 1500);
-  MotorConfig(2, 1500, 1500, 1500, 1500);
+  OutputM5.writeMicroseconds(1500);
+  OutputM6.writeMicroseconds(1500); 
   
 
   // put your setup code here, to run once:
