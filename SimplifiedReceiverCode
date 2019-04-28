@@ -74,8 +74,8 @@ void setup() {
   OutputM4.attach(4);
   OutputM5.attach(11);
   OutputM6.attach(12);
-  MotorConfig(4, 1500, 1500, 1500, 1500, false);
-  MotorConfig(2, 1500, 1500, 1500, 1500, false);
+  MotorConfig(4, 1500, 1500, 1500, 1500);
+  MotorConfig(2, 1500, 1500, 1500, 1500);
   
 
   // put your setup code here, to run once:
@@ -229,6 +229,7 @@ void loop() {
   TiltSpeed = Joystick.substring((Joystick.indexOf("P") + 1), Joystick.indexOf("A"));
 
     fbSpeed = FBSpeed.toInt();
+  fbSpeed = -1 * fbSpeed;
   sideSpeed = SideSpeed.toInt();
   vertSpeed = VertSpeed.toInt();
   turnSpeed = TurnSpeed.toInt();
@@ -240,19 +241,18 @@ void loop() {
   //Serial.println(turnSpeed);
   //Serial.println(tiltSpeed,'\n');
 
-
-
-
-   if((fbSpeed == 0) and (sideSpeed == 0) and (turnSpeed == 0)){
-      fourMotors = false;
-      MotorConfig(4, 1500, 1500, 1500, 1500, false);
-
-    }
+  
+  if ((fbSpeed == 0) and (sideSpeed == 0) and (turnSpeed == 0) ){
+    fourMotors = false;
+    MotorConfig(2, 1500, 1500, 1500, 1500);
     
-   if( ((vertSpeed == 0) and (tiltSpeed == 0))){
-      twoMotors = false;
-      MotorConfig(2, 1500, 1500, 1500, 1500, false);
-   }
+   }  
+  
+  if ((vertSpeed  == 0)  and (tiltSpeed == 0) ){
+    twoMotors = false;
+    MotorConfig(2, 1500, 1500, 1500, 1500);
+    
+   }  
     
   MoveForwardsRev(fbSpeed);
   MoveSideLateral(sideSpeed);
@@ -261,18 +261,7 @@ void loop() {
   MoveVertically(vertSpeed);
 
  
-  
-  if ((fbSpeed == 0) and (sideSpeed == 0) and (turnSpeed == 0) ){
-    fourMotors = false;
-    MotorConfig(2, 1500, 1500, 1500, 1500, false);
-    
-   }  
-  
-  if ((vertSpeed  == 0)  and (tiltSpeed == 0) ){
-    twoMotors = false;
-    MotorConfig(2, 1500, 1500, 1500, 1500, false);
-    
-   }  
+
 
 
  
@@ -295,16 +284,14 @@ if (fourMotors == false and twoMotors == false){
 }
 
 ///////////Functions/////////////////////////
-void MotorConfig(int count, int speed1, int speed2, int speed3, int speed4, boolean state){
+void MotorConfig(int count, int speed1, int speed2, int speed3, int speed4){
   if(count == 4){
-    fourMotors = state;
     OutputM1.writeMicroseconds(speed1);
     OutputM2.writeMicroseconds(speed2);
     OutputM3.writeMicroseconds(speed3);
     OutputM4.writeMicroseconds(speed4);
   }
   if(count == 2){
-    twoMotors = state;
     OutputM5.writeMicroseconds(speed1);
     OutputM6.writeMicroseconds(speed2);    
   }
@@ -316,25 +303,25 @@ void MoveForwardsRev(int joystickReading){
   if(twoMotors == true){
     if(joystickReading <0){//Forward
       motorSpeed1 = map(joystickReading,0,25,1500, MaxSixRevPow);
-      MotorConfig(4,motorSpeed1,motorSpeed1,motorSpeed1,motorSpeed1, true);
+      MotorConfig(4,motorSpeed1,motorSpeed1,motorSpeed1,motorSpeed1);
       fourMotors = true;
     }
     if(joystickReading >0){ //Reverse
       fourMotors = true;
       motorSpeed1 = map(joystickReading, 0, -25, 1500, MaxSixPow);
-      MotorConfig(4,motorSpeed1,motorSpeed1,motorSpeed1,motorSpeed1, true);
+      MotorConfig(4,motorSpeed1,motorSpeed1,motorSpeed1,motorSpeed1);
     }
   }
   if(twoMotors == false){
     if(joystickReading <0){ //Forward
       fourMotors = true;
       motorSpeed1 = map(joystickReading,0,25,1500, MaxFourRevPow);
-      MotorConfig(4,motorSpeed1,motorSpeed1,motorSpeed1,motorSpeed1, true);
+      MotorConfig(4,motorSpeed1,motorSpeed1,motorSpeed1,motorSpeed1);
     }
     if(joystickReading >0){ //Reverse
       fourMotors = true;
       motorSpeed1 = map(joystickReading, 0, -25, 1500, MaxFourPow);
-      MotorConfig(4,motorSpeed1,motorSpeed1,motorSpeed1,motorSpeed1, true);
+      MotorConfig(4,motorSpeed1,motorSpeed1,motorSpeed1,motorSpeed1);
     }
   }
 }
@@ -346,13 +333,13 @@ void MoveSideLateral(int joystickReading){
       fourMotors = true;
       motorSpeed1 = map(joystickReading,0,25,1500, MaxSixPow);
       motorSpeed2 = map(joystickReading,0,25,1500, MaxSixRevPow);
-      MotorConfig(4,motorSpeed1,motorSpeed2,motorSpeed2,motorSpeed1, true);
+      MotorConfig(4,motorSpeed1,motorSpeed2,motorSpeed2,motorSpeed1);
     }
     if(joystickReading <0){ //Left
       fourMotors = true;
       motorSpeed1 = map(joystickReading, 0, -25, 1500, MaxSixPow);
       motorSpeed2 = map(joystickReading,0,-25,1500, MaxSixRevPow);
-      MotorConfig(4,motorSpeed2,motorSpeed1,motorSpeed1,motorSpeed2, true);
+      MotorConfig(4,motorSpeed2,motorSpeed1,motorSpeed1,motorSpeed2);
     }
   }
   if(twoMotors == false){
@@ -360,13 +347,13 @@ void MoveSideLateral(int joystickReading){
       fourMotors = true;
       motorSpeed1 = map(joystickReading,0,25,1500, MaxFourPow);
       motorSpeed2 = map(joystickReading,0,25,1500, MaxFourRevPow);
-      MotorConfig(4,motorSpeed1,motorSpeed2,motorSpeed2,motorSpeed1, true);
+      MotorConfig(4,motorSpeed1,motorSpeed2,motorSpeed2,motorSpeed1);
     }
     if(joystickReading <0){ //Left
       fourMotors = true;
       motorSpeed1 = map(joystickReading, 0, -25, 1500, MaxFourPow);
       motorSpeed2 = map(joystickReading,0,-25,1500, MaxFourRevPow);
-      MotorConfig(4,motorSpeed2,motorSpeed1,motorSpeed1,motorSpeed2, true);
+      MotorConfig(4,motorSpeed2,motorSpeed1,motorSpeed1,motorSpeed2);
     }
   }
 }
@@ -378,13 +365,13 @@ void Turn(int joystickReading){
       fourMotors = true;
       motorSpeed1 = map(joystickReading, 0, -25, 1500, MaxSixPow);
       motorSpeed2 = map(joystickReading,0,-25,1500, MaxSixRevPow);
-      MotorConfig(4,motorSpeed2,motorSpeed1,motorSpeed2,motorSpeed1, true);
+      MotorConfig(4,motorSpeed2,motorSpeed1,motorSpeed2,motorSpeed1);
     }
     if(joystickReading <0){ // Turn Left
       fourMotors = true;
       motorSpeed1 = map(joystickReading,0,25,1500, MaxSixPow);
       motorSpeed2 = map(joystickReading,0,25,1500, MaxSixRevPow);
-      MotorConfig(4,motorSpeed1,motorSpeed2,motorSpeed1,motorSpeed2, true);
+      MotorConfig(4,motorSpeed1,motorSpeed2,motorSpeed1,motorSpeed2);
     }
   }
   if(twoMotors == false){
@@ -392,13 +379,13 @@ void Turn(int joystickReading){
       fourMotors = true;
       motorSpeed1 = map(joystickReading, 0, -25, 1500, MaxFourPow);
       motorSpeed2 = map(joystickReading,0,-25,1500, MaxFourRevPow);
-      MotorConfig(4,motorSpeed2,motorSpeed1,motorSpeed2,motorSpeed1, true);
+      MotorConfig(4,motorSpeed2,motorSpeed1,motorSpeed2,motorSpeed1);
     }
     if(joystickReading <0){ //Turn Left
       fourMotors = true;
       motorSpeed1 = map(joystickReading,0,25,1500, MaxFourPow);
       motorSpeed2 = map(joystickReading,0,25,1500, MaxFourRevPow);
-      MotorConfig(4,motorSpeed1,motorSpeed2,motorSpeed1,motorSpeed2, true);
+      MotorConfig(4,motorSpeed1,motorSpeed2,motorSpeed1,motorSpeed2);
     }
   }
 }
@@ -412,7 +399,7 @@ void Tilt(int joystickReading){
       vertSpeed2 = map(joystickReading,0,25,1500, MaxSixRevPow);
       OutputM5.writeMicroseconds(vertSpeed2);
       OutputM6.writeMicroseconds(vertSpeed1); 
-      //MotorConfig(2, vertSpeed2, vertSpeed1, 1500, 1500, true);
+      //MotorConfig(2, vertSpeed2, vertSpeed1, 1500, 1500);
     }
     if(joystickReading <0){ //Tilt Down 
       twoMotors = true;
@@ -420,7 +407,7 @@ void Tilt(int joystickReading){
       vertSpeed2 = map(joystickReading,0,25,1500, MaxSixRevPow);
       OutputM5.writeMicroseconds(vertSpeed1);
       OutputM6.writeMicroseconds(vertSpeed2); 
-      //MotorConfig(2, vertSpeed1, vertSpeed2, 1500, 1500, true);
+      //MotorConfig(2, vertSpeed1, vertSpeed2, 1500, 1500);
     }
   }
   if(fourMotors == false){
@@ -430,7 +417,7 @@ void Tilt(int joystickReading){
       vertSpeed2 = map(joystickReading,0,25,1500, MaxRevPower);
       OutputM5.writeMicroseconds(vertSpeed2);
       OutputM6.writeMicroseconds(vertSpeed1);
-      //MotorConfig(2, vertSpeed2, vertSpeed1, 1500, 1500, true);
+      //MotorConfig(2, vertSpeed2, vertSpeed1, 1500, 1500);
     }
     if(joystickReading <0){ //Tilt Down
       twoMotors = true;
@@ -438,7 +425,7 @@ void Tilt(int joystickReading){
       vertSpeed2 = map(joystickReading,0,25,1500, MaxRevPower);
       OutputM5.writeMicroseconds(vertSpeed1);
       OutputM6.writeMicroseconds(vertSpeed2); 
-      //MotorConfig(2,vertSpeed1,vertSpeed2,1500, 1500, true);
+      //MotorConfig(2,vertSpeed1,vertSpeed2,1500, 1500);
     }
   }
 }
@@ -452,14 +439,14 @@ void MoveVertically(int joystickReading){
       vertSpeed1 = map(joystickReading, 0, -25, 1500, MaxSixPow);
       OutputM5.writeMicroseconds(vertSpeed1);
       OutputM6.writeMicroseconds(vertSpeed1); 
-      //MotorConfig(2, motorSpeed1, motorSpeed1,1500, 1500, true);
+      //MotorConfig(2, motorSpeed1, motorSpeed1,1500, 1500);
     }
     if(joystickReading <0){ // Down 
       twoMotors = true;
       vertSpeed1 = map(joystickReading,0,25,1500, MaxSixRevPow);
       OutputM5.writeMicroseconds(vertSpeed1);
       OutputM6.writeMicroseconds(vertSpeed1); 
-      //MotorConfig(2, vertSpeed1, vertSpeed1, 1500, 1500, true);
+      //MotorConfig(2, vertSpeed1, vertSpeed1, 1500, 1500);
     }
   }
   if(fourMotors == false){
@@ -468,14 +455,14 @@ void MoveVertically(int joystickReading){
       vertSpeed1 = map(joystickReading, 0, -25, 1500, MaxPower);
       OutputM5.writeMicroseconds(vertSpeed1);
       OutputM6.writeMicroseconds(vertSpeed1); 
-      //MotorConfig(2, vertSpeed1, vertSpeed1, 1500, 1500, true);
+      //MotorConfig(2, vertSpeed1, vertSpeed1, 1500, 1500);
     }
     if(joystickReading <0){ //Down
       twoMotors = true;
       vertSpeed1 = map(joystickReading,0,25,1500, MaxRevPower);
       OutputM5.writeMicroseconds(vertSpeed1);
       OutputM6.writeMicroseconds(vertSpeed1); 
-      //MotorConfig(2,vertSpeed1,vertSpeed1,1500, 1500, true);
+      //MotorConfig(2,vertSpeed1,vertSpeed1,1500, 1500);
     }
   }
 }
