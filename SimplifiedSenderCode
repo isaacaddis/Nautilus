@@ -200,7 +200,7 @@ if( (MappedX <= -3 and MappedX >= -24) and (MappedY >= MappedX and MappedY < 0) 
   
   YSpeed = YDirect * abs(MappedY);
   XSpeed = XDirect * abs(MappedX);
-  XY = Between + String(XSpeed) + Between + String(YSpeed);
+  XY = String(XSpeed) + Between + String(YSpeed);
   if(Type == "First"){
     firstJoy.data = XY;
   }
