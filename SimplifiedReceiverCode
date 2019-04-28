@@ -74,6 +74,8 @@ void setup() {
   OutputM4.attach(4);
   OutputM5.attach(11);
   OutputM6.attach(12);
+  twoMotors = false;
+  fourMotors = false;
   MotorConfig(4, 1500, 1500, 1500, 1500);
   MotorConfig(2, 1500, 1500, 1500, 1500);
   
@@ -229,7 +231,7 @@ void loop() {
   TiltSpeed = Joystick.substring((Joystick.indexOf("P") + 1), Joystick.indexOf("A"));
 
     fbSpeed = FBSpeed.toInt();
-  fbSpeed = -1 * fbSpeed;
+  //fbSpeed = -1 * fbSpeed;
   sideSpeed = SideSpeed.toInt();
   vertSpeed = VertSpeed.toInt();
   turnSpeed = TurnSpeed.toInt();
