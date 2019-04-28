@@ -551,7 +551,7 @@ if (fourMotors == false and twoMotors == false){
   }
  gyro_X = String(Total_angle_x,2);
  gyro_Y = String(Total_angle_y,2);
- Gyro = "45 :"+ gyro_X + "Y" + gyro_Y;
+ Gyro = "45 :"+ gyro_X + "," + gyro_Y;
  Gyro.toCharArray(gyro,20);
  Wire.write(gyro,20);
  Serial1.write(gyro,20); 
