@@ -164,7 +164,7 @@ if( (MappedX <= -3 and MappedX >= -24) and (MappedY >= MappedX and MappedY < 0) 
 
   }
 
-  if((MappedX >= -24 and MappedX <= -3) or (MappedX >= 3 and MappedX <= 24) and (MappedY > 0 and MappedY > abs(MappedX))){
+  if(((MappedX >= -24 and MappedX <= -3) or (MappedX >= 3 and MappedX <= 24)) and (MappedY > 0 and MappedY > abs(MappedX))){
     YDirect = 1;
     XDirect = 0;
   }
@@ -178,7 +178,7 @@ if( (MappedX <= -3 and MappedX >= -24) and (MappedY >= MappedX and MappedY < 0) 
 
   }
   
-     if( (MappedX >= -24 and MappedX <= -3) or (MappedX >= 3 and MappedX <= 24) and ( MappedY < 0 and MappedY < (-1 * abs(MappedX)))){
+     if( ((MappedX >= -24 and MappedX <= -3) or (MappedX >= 3 and MappedX <= 24)) and ( MappedY < 0 and MappedY < (-1 * abs(MappedX)))){
      YDirect = -1;
      XDirect = 0;
   }
