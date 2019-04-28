@@ -301,7 +301,9 @@ void MotorConfig(int count, int speed1, int speed2, int speed3, int speed4){
 
 
 void MoveForwardsRev(int joystickReading){
-  
+  if( joystickReading == 0){
+     fbSpeed = 0;
+  }
   if(twoMotors == true){
     if(joystickReading <0){//Forward
       motorSpeed1 = map(joystickReading,0,25,1500, MaxSixRevPow);
@@ -329,7 +331,9 @@ void MoveForwardsRev(int joystickReading){
 }
 
 void MoveSideLateral(int joystickReading){
-  
+  if( joystickReading == 0){
+     sideSpeed = 0;
+  }
   if(twoMotors == true){
     if(joystickReading >0){ //Right
       fourMotors = true;
@@ -361,7 +365,9 @@ void MoveSideLateral(int joystickReading){
 }
 
 void Turn(int joystickReading){
-  
+  if( joystickReading == 0){
+     turnSpeed = 0;
+  }
   if(twoMotors == true){
     if(joystickReading >0){ //Turn Right
       fourMotors = true;
@@ -393,7 +399,9 @@ void Turn(int joystickReading){
 }
 
 void Tilt(int joystickReading){
-  
+  if( joystickReading == 0){
+     tiltSpeed = 0;
+  }
    if(fourMotors == true){
     if(joystickReading >0){//Tilt Up
       twoMotors = true;
@@ -434,6 +442,9 @@ void Tilt(int joystickReading){
 
 
 void MoveVertically(int joystickReading){
+  if( joystickReading == 0){
+     vertSpeed = 0;
+  }
     
   if(fourMotors == true){
     if(joystickReading >0){//Up  
@@ -450,6 +461,7 @@ void MoveVertically(int joystickReading){
       OutputM6.writeMicroseconds(vertSpeed1); 
       //MotorConfig(2, vertSpeed1, vertSpeed1, 1500, 1500);
     }
+    
   }
   if(fourMotors == false){
     if(joystickReading >0){ // Up
