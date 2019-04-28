@@ -373,8 +373,8 @@ void loop() {
    if (fbSpeed > 0) { //Forwards
        
        if(twoMotors == false){
-    
-          speed07 = map(fbSpeed, 0, 25, 1500, MaxFourRevPow);
+          speed09 = map(fbSpeed, 0, 25, 1500, MaxFourPow);
+          
           OutputM1.writeMicroseconds(speed07);
           OutputM2.writeMicroseconds(speed07);
           OutputM3.writeMicroseconds(speed07);
@@ -382,7 +382,7 @@ void loop() {
        }
        
        if(twoMotors == true){
-          speed07 = map(fbSpeed, 0, 25, 1500, MaxSixRevPow);
+          speed09 = map(fbSpeed, 0, 25, 1500, MaxSixPow);
           OutputM1.writeMicroseconds(speed07);
           OutputM2.writeMicroseconds(speed07);
           OutputM3.writeMicroseconds(speed07);
@@ -397,7 +397,7 @@ void loop() {
     fbSpeed = abs(fbSpeed);
     
       if(twoMotors == false){
-          speed09 = map(fbSpeed, 0, 25, 1500, MaxFourPow);
+          speed07 = map(fbSpeed, 0, 25, 1500, MaxFourRevPow);
           OutputM1.writeMicroseconds(speed09);
           OutputM2.writeMicroseconds(speed09);
           OutputM3.writeMicroseconds(speed09);
@@ -405,7 +405,7 @@ void loop() {
      }
      
      if(twoMotors == true){
-          speed09 = map(fbSpeed, 0, 25, 1500, MaxSixPow);
+          speed07 = map(fbSpeed, 0, 25, 1500, MaxSixRevPow);
           OutputM1.writeMicroseconds(speed09);
           OutputM2.writeMicroseconds(speed09);
           OutputM3.writeMicroseconds(speed09);
