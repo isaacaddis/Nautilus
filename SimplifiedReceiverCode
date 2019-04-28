@@ -24,12 +24,12 @@ char gyro[20];
 
 char joy[30];
 
-const int MaxPower = 1795;
-const int MaxRevPower = 1198;
-const int MaxFourPow = 1682;
-const int MaxFourRevPow = 1315;
-const int MaxSixPow = 1682;
-const int MaxSixRevPow = 1315; 
+const int MaxPower = 1950;
+const int MaxRevPower = 1000;
+const int MaxFourPow = 1850;
+const int MaxFourRevPow = 1150;
+const int MaxSixPow = 1700;
+const int MaxSixRevPow = 1300; 
 
 String  FBSpeed;
 String SideSpeed;
