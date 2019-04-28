@@ -421,20 +421,20 @@ void loop() {
     
         speed01 = map(sideSpeed, 0, 25, 1500, MaxFourPow);
         speed02 = map(sideSpeed, 0, 25, 1500, MaxFourRevPow);
-        OutputM1.writeMicroseconds(speed02);
-        OutputM2.writeMicroseconds(speed01);
-        OutputM3.writeMicroseconds(speed01);
-        OutputM4.writeMicroseconds(speed02);
+        OutputM1.writeMicroseconds(speed01);
+        OutputM2.writeMicroseconds(speed02);
+        OutputM3.writeMicroseconds(speed02);
+        OutputM4.writeMicroseconds(speed01);
     }
     
     if(twoMotors == true){
     
         speed01 = map(sideSpeed, 0, 25, 1500, MaxSixPow);
         speed02 = map(sideSpeed, 0, 25, 1500, MaxSixRevPow);
-        OutputM1.writeMicroseconds(speed02);
-        OutputM2.writeMicroseconds(speed01);
-        OutputM3.writeMicroseconds(speed01);
-        OutputM4.writeMicroseconds(speed02);
+        OutputM1.writeMicroseconds(speed01);
+        OutputM2.writeMicroseconds(speed02);
+        OutputM3.writeMicroseconds(speed02);
+        OutputM4.writeMicroseconds(speed01);
     }
     
     fourMotors = true;
@@ -449,19 +449,19 @@ void loop() {
     
     speed01 = map(sideSpeed, 0, 25, 1500, MaxFourPow);
     speed02 = map(sideSpeed, 0, 25, 1500, MaxFourRevPow);
-    OutputM1.writeMicroseconds(speed01);
-    OutputM2.writeMicroseconds(speed02);
-    OutputM3.writeMicroseconds(speed02);
-    OutputM4.writeMicroseconds(speed01);
+    OutputM1.writeMicroseconds(speed02);
+    OutputM2.writeMicroseconds(speed01);
+    OutputM3.writeMicroseconds(speed01);
+    OutputM4.writeMicroseconds(speed02);
     }
     
     if (twoMotors == true){
         speed01 = map(sideSpeed, 0, 25, 1500, MaxSixPow);
         speed02 = map(sideSpeed, 0, 25, 1500, MaxSixRevPow);
-        OutputM1.writeMicroseconds(speed01);
-        OutputM2.writeMicroseconds(speed02);
-        OutputM3.writeMicroseconds(speed02);
-        OutputM4.writeMicroseconds(speed01);
+        OutputM1.writeMicroseconds(speed02);
+        OutputM2.writeMicroseconds(speed01);
+        OutputM3.writeMicroseconds(speed01);
+        OutputM4.writeMicroseconds(speed02);
     }
     
     fourMotors = true;
