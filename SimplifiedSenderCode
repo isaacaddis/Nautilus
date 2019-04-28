@@ -1,0 +1,210 @@
+#include "Servo.h"
+
+const int InputA0 = A0; // Forward and Backward
+const int InputA1 = A1; // Left and Right
+const int InputA2 = A4; // Up and down
+const int InputA3 = A3; // Turning
+const int InputA4 = A2;// Tilt
+const int InputA5 = A5; // Claw Potentiometer
+
+
+int PotA2 = 0; 
+int PotA5;
+
+// Digital pins for the claws
+const int clawPin1 = 2; 
+const int clawPin2 = 3; 
+
+
+int rotate = 0; // degrees to rotate claw
+
+
+int outputValueZ = 0;
+int ZDirection = 0; 
+
+int SpeedY = 0;
+int SpeedX = 0;
+int SpeedZ = 0; 
+int SpeedT = 0;
+int SpeedP = 0;
+
+int XSpeed;
+int YSpeed;
+int RawX;
+int RawY;
+int MappedX;
+int MappedY;
+int XDirect;
+int YDirect;
+
+String strSpeedXY;
+String strSpeedZ; 
+String rotMeasure; 
+
+String JoystickData;
+char joy[30];
+char m_str[45];
+
+int buttonState1 = 0;
+int buttonState2 = 0;
+
+String Button1;
+String Button2;
+String data;
+
+typedef struct
+ {
+     String data;
+ }  Joystick;
+
+
+Joystick firstJoy; // Lateral Movement And Forward/Reverse
+Joystick secondJoy; // Vertical Pitch and Rotional Right/Left
+
+ 
+void setup() {
+
+  Serial.begin(57600); // initialize Serial
+  Serial1.begin(57600);
+  pinMode(clawPin1, INPUT); // set pin mode 
+  pinMode(clawPin2, INPUT);
+  delay(500);
+
+}
+
+void loop() {
+  PotA2 = analogRead(InputA2); 
+  PotA5 = analogRead(InputA5);
+
+  buttonState1 = digitalRead(clawPin1); 
+  buttonState2 = digitalRead(clawPin2);
+
+  if (buttonState1 == HIGH){
+    Button1 = "1";
+  }
+  if (buttonState1 == LOW){
+    Button1 = "0";
+  }
+  if(buttonState2 == HIGH){
+    Button2 = "1";
+  }
+  if(buttonState2 == LOW){
+    Button2 = "0";
+  }
+  
+  outputValueZ = map(PotA2, 0, 1023, -25, 25); // map potentiometer Readings of Joystick 
+  rotate = map(PotA5, 0 ,1023, 160, 20); // map potentiometer readings for Claw
+  delay(1);
+  configure("First", InputA1, InputA0, "F");
+  
+  if (outputValueZ >= 3){ 
+     ZDirection = 1; // Up
+  }
+  if (outputValueZ <= -3){
+     ZDirection = -1; // Down
+  }
+  if ((outputValueZ < 3) and (outputValueZ> -3) ) {
+     ZDirection = 0; // Not moving Vertically
+  }
+  configure("Second" ,InputA3, InputA4, "P");
+  SpeedZ = ZDirection * abs(outputValueZ); // Vertical Speed 
+  strSpeedZ = String(SpeedZ); // Convert SpeedZ into a string
+  rotMeasure = String(rotate); // Convert potetiometer readings for Claw
+  
+  JoystickData = "R"+firstJoy.data+ "U"  +strSpeedZ + "T" +secondJoy.data +"A"+ Button1 +"B"+ Button2+ "C"+ rotMeasure;
+  //Serial.println(JoystickData);
+  JoystickData.toCharArray(joy,30);
+  Serial1.write(joy,30);
+  Serial1.readBytes(m_str,45);
+  data =String(m_str);
+  Serial.println(data+ ".\n");
+  //delay(50);
+}
+
+
+void configure(String Type , const int Xpin, const int Ypin, String Between){
+  XSpeed;
+  YSpeed;
+  RawX = analogRead(Xpin);
+  RawY = analogRead(Ypin);
+  MappedX = map(RawX, 0, 1023, -25, 25);
+  MappedY = map(RawY, 0, 1023, -25, 25);
+  XDirect;
+  YDirect;
+  String XY;
+  if((MappedX <= -3 and MappedX >= -24) and (MappedY <= abs(MappedX) and MappedY >= 0) and (MappedY != 25)){
+    XDirect = -1;
+    YDirect = 0;
+}
+  
+if( (MappedX <= -3 and MappedX >= -24) and (MappedY >= MappedX and MappedY < 0) and (MappedY != 25)){
+    XDirect = -1;
+    YDirect = 0;
+
+}
+  if((MappedX == -25) and (abs(MappedY) <= 24)){
+    XDirect = -1;
+    YDirect = 0;
+
+}
+       
+  if( (MappedX >= 3 and MappedX <= 24) and (abs(MappedY)<= MappedX and MappedY < 0) and (MappedY != 25)){
+    XDirect = 1;
+    YDirect = 0;
+
+  }
+  
+  if( (MappedX >= 3 and MappedX <= 24) and (MappedY <= MappedX and MappedY >= 0) and (MappedY != 25)){
+    XDirect = 1;
+    YDirect = 0;
+  }
+  if((MappedX == 25) and ( abs(MappedY) <= 24)){
+    XDirect = 1;
+    YDirect = 0;
+
+  }
+
+  if(((MappedX >= -24 and MappedX <= -3) or (MappedX >= 3 and MappedX <= 24)) and (MappedY > 0 and MappedY > abs(MappedX))){
+    YDirect = 1;
+    XDirect = 0;
+  }
+  if(( abs(MappedX) == 25 ) and (MappedY == 25)){
+    YDirect = 1;
+    XDirect = 0;
+  }
+  if((MappedX >= -3 and MappedX <= 3) and (MappedY >= 3)) {
+    YDirect = 1;
+    XDirect = 0;
+
+  }
+  
+     if( ((MappedX >= -24 and MappedX <= -3) or (MappedX >= 3 and MappedX <= 24)) and ( MappedY < 0 and MappedY < (-1 * abs(MappedX)))){
+     YDirect = -1;
+     XDirect = 0;
+  }
+  
+  if( ( abs(MappedX) == 25 ) and (MappedY == -25 )){
+     YDirect = -1;
+     XDirect = 0;
+  }
+  
+  if((MappedX >= -3 and MappedX <= 3) and MappedY <= -3){
+    YDirect = -1;
+    XDirect = 0;
+  }    
+
+  if( (MappedX <= 3 and MappedX >= -3) and (MappedY <= 2 and MappedY >= -2) ){
+    YDirect = 0;
+    XDirect = 0;
+}
+  
+  YSpeed = YDirect * abs(MappedY);
+  XSpeed = XDirect * abs(MappedX);
+  XY = String(XSpeed) + Between + String(YSpeed);
+  if(Type == "First"){
+    firstJoy.data = XY;
+  }
+  if(Type =="Second"){
+    secondJoy.data = XY;
+  }
+} 
