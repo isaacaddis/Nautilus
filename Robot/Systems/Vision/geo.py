@@ -5,7 +5,7 @@ import time
 class ShapeDetect:
 	def __init__(self):
 		pass
-	def detect(self, c):
+	def detect(self, c,img):
 		peri = cv2.arcLength(c, True)
 		approx = cv2.approxPolyDP(c, 0.04*peri, True)
 		if len(approx) ==3:
@@ -14,6 +14,7 @@ class ShapeDetect:
 			(x, y, w, h) = cv2.boundingRect(approx)
 			ar = w / float(h)
 			if ar >= .85 and ar <= 1.25:
+				cv.imwrite('square.jpg',im[y:y+h, x:x+w])
 				return 'square'
 			else:
 				return 'line'

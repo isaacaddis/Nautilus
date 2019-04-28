@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 from Vision.ImagePreProcess import *
 from Vision.Image import *
+
 #from Vision.Image import Operation
 import os
 import sys
+from Vision import geo
+from Vision.camDisplay import *
+#from Vision.camDisplay import *
 import numpy as np
 import cv2
 from ser import SerialUtil
@@ -40,12 +44,14 @@ class Thread(QThread):
         wc = WhatsCrackin()
         proc = ImagePreProcess()
         op = Operation(0)
-        op2 = Operation(1)
-        #op3 = Operation(2)
+        print(1)
+        op2 = Display(1)
+        print(2)
+        op3 = Operation(2)
         while True:
             ret, img = op.get()
-            ret, img_2 = op2.get()
-            ret, img_3 = op2.get()
+            img_2 = op2.get()
+            ret, img_3 = op3.get()
             convertToQtFormat = QImage(img.data, img.shape[1],img.shape[0],QImage.Format_RGB888).rgbSwapped()
             convertToQtFormat_2 = QImage(img_2.data, img_2.shape[1],img_2.shape[0],QImage.Format_RGB888).rgbSwapped()
             convertToQtFormat_3 = QImage(img_3.data, img_3.shape[1],img_3.shape[0],QImage.Format_RGB888).rgbSwapped()
@@ -154,7 +160,7 @@ class App(QWidget):
         th2.changeText4.connect(self.setText4) 
         th2.changeText5.connect(self.setText5) 
         th2.changeText6.connect(self.setText6) 
-        th2.start()
+        #th2.start()
     def abort(self):
         self.close()
 if __name__ == "__main__":
