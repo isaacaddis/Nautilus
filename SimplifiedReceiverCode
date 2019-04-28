@@ -304,8 +304,8 @@ void MotorConfig(int count, int speed1, int speed2, int speed3, int speed4, bool
   }
   if(count == 2){
     twoMotors = state;
-    OutputM1.writeMicroseconds(speed1);
-    OutputM2.writeMicroseconds(speed2);    
+    OutputM5.writeMicroseconds(speed1);
+    OutputM6.writeMicroseconds(speed2);    
   }
 }
 
