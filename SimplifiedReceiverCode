@@ -222,11 +222,11 @@ void loop() {
   Joystick = String(joy);
 
   
-  SideSpeed = Joystick.substring((Joystick.indexOf("R") + 1), Joystick.indexOf("F"));
+  TurnSpeed = Joystick.substring((Joystick.indexOf("R") + 1), Joystick.indexOf("F"));
   FBSpeed = Joystick.substring((Joystick.indexOf("F") + 1), Joystick.indexOf("U"));
   VertSpeed = Joystick.substring((Joystick.indexOf("U") + 1), Joystick.indexOf("T"));
-  TiltSpeed = Joystick.substring((Joystick.indexOf("T") + 1), Joystick.indexOf("P"));
-  TurnSpeed = Joystick.substring((Joystick.indexOf("P") + 1), Joystick.indexOf("A"));
+  SideSpeed = Joystick.substring((Joystick.indexOf("T") + 1), Joystick.indexOf("P"));
+  TiltSpeed = Joystick.substring((Joystick.indexOf("P") + 1), Joystick.indexOf("A"));
 
     fbSpeed = FBSpeed.toInt();
   sideSpeed = SideSpeed.toInt();
