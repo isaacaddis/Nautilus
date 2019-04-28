@@ -428,7 +428,7 @@ void Tilt(int joystickReading){
       vertSpeed1 = map(joystickReading,0,25,1500, MaxPower);
       vertSpeed2 = map(joystickReading,0,25,1500, MaxRevPower);
       OutputM5.writeMicroseconds(vertSpeed2);
-      OutputM6.writeMicroseconds(vertSpeed1)
+      OutputM6.writeMicroseconds(vertSpeed1);
       //MotorConfig(2, vertSpeed2, vertSpeed1, 1500, 1500, true);
     }
     if(joystickReading <0){ //Tilt Down
