@@ -6,9 +6,11 @@ class ImagePreProcess():
     def __init__(self):
         pass
     def process(self, image):
+
         '''
             Returns blurred, morphed, and canny-edged image.
         '''
+        #image = cv2.cvtColor(image,cv2.COLOR_BGR2HSV)
         self.img = cv2.GaussianBlur(image,(5,5), 0)
         self.median = cv2.medianBlur(self.img,5)
         self.blur = cv2.bilateralFilter(self.median, 9, 75, 75)

@@ -18,12 +18,21 @@ sd = ShapeDetect()
 sm = SmartMax()
 
 last_len = 0
+low_H = 0
+low_S = 0
+low_V = 54
+high_H = 180
+high_S = 80
+high_V = 123
+
 past_text, n_text = [0, 0, 0, 0, 0],[0, 0, 0, 0, 0] # follows the general data schema for shapes
 focus = np.array([]) #only the region of the paper
+
 
 while cap.isOpened():
     ret, val = cap.read()
     img_c = val.copy()
+    val = val[0:int(val.shape[0]/2)]
     image = proc.process(val)
     ret, image = cv2.threshold(image,127,255,cv2.THRESH_BINARY)
     thresholded = image.copy() #to save thresholded image
@@ -42,14 +51,14 @@ while cap.isOpened():
     for i in cnts:
         area = cv2.contourArea(i)
         
-        if area > 155 and area <10000:
+        if area > 165 and area <10000:
             if area > max_n:
                 max_n = area
             print("Area" + str(max_n))
-            print(sm.averageColor(img_c,i))
+            print(sm.averageColor(img_c,i)) 
             current_len += 1
             x, y, w, h = cv2.boundingRect(i)
-            cv2.rectangle(val, (x, y), (x+w, y+h), (0, 255, 0), 1)
+            cv2.rectangle(img_c, (x, y), (x+w, y+h), (0, 255, 0), 1)
             s = sd.detect(i)
             print("Shape: {}".format(s))
             if s == "triangle":
@@ -89,7 +98,8 @@ while cap.isOpened():
     last_len = current_len
     n_text = [0, 0, 0, 0, 0]
     cv2.imshow('Scratch',image)
-    cv2.imshow('Unfiltered',val)
+    cv2.imshow('Unfiltered',img_c)
+    cv2.imshow('Filtered',val)
         
     #cv2.imshow('Focused Image',focus)
     if cv2.waitKey(1) & 0xFF == ord('q'):
