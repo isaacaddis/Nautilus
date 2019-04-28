@@ -24,15 +24,15 @@ char gyro[20];
 
 char joy[30];
 
-const int MaxPower = 1950;
-const int MaxRevPower = 1000;
-
-const int MaxFourPow = 1850;
-const int MaxFourRevPow = 1150;
-
-const int MaxSixPow = 1700;
-const int MaxSixRevPow = 1300; 
-
+ const int MaxPower = 2000;
+ const int MaxRevPower = 1000;
+ 
+ const int MaxFourPow = 1880;
+ const int MaxFourRevPow = 1120;
+ 
+ const int MaxSixPow = 1800;
+ const int MaxSixRevPow = 1200; 
+ 
 String  FBSpeed;
 String SideSpeed;
 String VertSpeed; 
@@ -373,8 +373,8 @@ void loop() {
    if (fbSpeed > 0) { //Forwards
        
        if(twoMotors == false){
-          speed09 = map(fbSpeed, 0, 25, 1500, MaxFourPow);
-          
+    
+          speed07 = map(fbSpeed, 0, 25, 1500, MaxFourPow);
           OutputM1.writeMicroseconds(speed07);
           OutputM2.writeMicroseconds(speed07);
           OutputM3.writeMicroseconds(speed07);
@@ -382,7 +382,7 @@ void loop() {
        }
        
        if(twoMotors == true){
-          speed09 = map(fbSpeed, 0, 25, 1500, MaxSixPow);
+          speed07 = map(fbSpeed, 0, 25, 1500, MaxSixPow);
           OutputM1.writeMicroseconds(speed07);
           OutputM2.writeMicroseconds(speed07);
           OutputM3.writeMicroseconds(speed07);
@@ -397,7 +397,7 @@ void loop() {
     fbSpeed = abs(fbSpeed);
     
       if(twoMotors == false){
-          speed07 = map(fbSpeed, 0, 25, 1500, MaxFourRevPow);
+          speed09 = map(fbSpeed, 0, 25, 1500, MaxFourRevPow);
           OutputM1.writeMicroseconds(speed09);
           OutputM2.writeMicroseconds(speed09);
           OutputM3.writeMicroseconds(speed09);
@@ -405,7 +405,7 @@ void loop() {
      }
      
      if(twoMotors == true){
-          speed07 = map(fbSpeed, 0, 25, 1500, MaxSixRevPow);
+          speed09 = map(fbSpeed, 0, 25, 1500, MaxSixRevPow);
           OutputM1.writeMicroseconds(speed09);
           OutputM2.writeMicroseconds(speed09);
           OutputM3.writeMicroseconds(speed09);
@@ -474,8 +474,8 @@ void loop() {
     
     if(twoMotors == false){
     
-        speed03 = map(turnSpeed, 0, 25, 1500, MaxFourPow);
-        speed04 = map(turnSpeed, 0, 25, 1500, MaxFourRevPow);
+        speed03 = map(turnSpeed, 0, 25, 1500, MaxFourRevPow);
+        speed04 = map(turnSpeed, 0, 25, 1500, MaxFourPow);
         OutputM1.writeMicroseconds(speed04);
         OutputM2.writeMicroseconds(speed03);
         OutputM3.writeMicroseconds(speed04);
@@ -500,8 +500,8 @@ void loop() {
     
     if(twoMotors == false){
     
-        speed03 = map(turnSpeed, 0, 25, 1500, MaxFourPow);
-        speed04 = map(turnSpeed, 0, 25, 1500, MaxFourRevPow);
+        speed03 = map(turnSpeed, 0, 25, 1500, MaxFourRevPow);
+        speed04 = map(turnSpeed, 0, 25, 1500, MaxFourPow);
         OutputM1.writeMicroseconds(speed03);
         OutputM2.writeMicroseconds(speed04);
         OutputM3.writeMicroseconds(speed03);
