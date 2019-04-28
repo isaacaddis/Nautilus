@@ -314,25 +314,25 @@ void MoveForwardsRev(int joystickReading){
   
   if(twoMotors = true){
     if(joystickReading >0){//Forward
-      motorSpeed1 = map(joystickReading, 0, -25, 1500, MaxSixPow); 
+       motorSpeed1 = map(joystickReading,0,25,1500, MaxSixRevPow);
       MotorConfig(4,motorSpeed1,motorSpeed1,motorSpeed1,motorSpeed1, true);
       fourMotors = true;
     }
     if(joystickReading <0){ //Reverse
       fourMotors = true;
-      motorSpeed1 = map(joystickReading,0,25,1500, MaxSixRevPow);
+      motorSpeed1 = map(joystickReading, 0, -25, 1500, MaxSixPow);
       MotorConfig(4,motorSpeed1,motorSpeed1,motorSpeed1,motorSpeed1, true);
     }
   }
   if(twoMotors == false){
     if(joystickReading >0){ //Forward
       fourMotors = true;
-      motorSpeed1 = map(joystickReading, 0, -25, 1500, MaxFourPow);
+      motorSpeed1 = map(joystickReading,0,25,1500, MaxFourRevPow);
       MotorConfig(4,motorSpeed1,motorSpeed1,motorSpeed1,motorSpeed1, true);
     }
     if(joystickReading <0){ //Reverse
       fourMotors = true;
-      motorSpeed1 = map(joystickReading,0,25,1500, MaxFourRevPow);
+      motorSpeed1 = map(joystickReading, 0, -25, 1500, MaxFourPow);
       MotorConfig(4,motorSpeed1,motorSpeed1,motorSpeed1,motorSpeed1, true);
     }
   }
