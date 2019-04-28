@@ -244,12 +244,13 @@ void loop() {
 
 
    if((fbSpeed == 0) and (sideSpeed == 0) and (turnSpeed == 0)){
+      fourMotors = false;
       MotorConfig(4, 1500, 1500, 1500, 1500, false);
 
     }
     
    if( ((vertSpeed == 0) and (tiltSpeed == 0))){
-      //OutputM5.writeMicroseconds(1500);
+      twoMotors = false;
       MotorConfig(2, 1500, 1500, 1500, 1500, false);
    }
     
@@ -313,24 +314,24 @@ void MotorConfig(int count, int speed1, int speed2, int speed3, int speed4, bool
 void MoveForwardsRev(int joystickReading){
   
   if(twoMotors == true){
-    if(joystickReading >0){//Forward
+    if(joystickReading <0){//Forward
       motorSpeed1 = map(joystickReading,0,25,1500, MaxSixRevPow);
       MotorConfig(4,motorSpeed1,motorSpeed1,motorSpeed1,motorSpeed1, true);
       fourMotors = true;
     }
-    if(joystickReading <0){ //Reverse
+    if(joystickReading >0){ //Reverse
       fourMotors = true;
       motorSpeed1 = map(joystickReading, 0, -25, 1500, MaxSixPow);
       MotorConfig(4,motorSpeed1,motorSpeed1,motorSpeed1,motorSpeed1, true);
     }
   }
   if(twoMotors == false){
-    if(joystickReading >0){ //Forward
+    if(joystickReading <0){ //Forward
       fourMotors = true;
       motorSpeed1 = map(joystickReading,0,25,1500, MaxFourRevPow);
       MotorConfig(4,motorSpeed1,motorSpeed1,motorSpeed1,motorSpeed1, true);
     }
-    if(joystickReading <0){ //Reverse
+    if(joystickReading >0){ //Reverse
       fourMotors = true;
       motorSpeed1 = map(joystickReading, 0, -25, 1500, MaxFourPow);
       MotorConfig(4,motorSpeed1,motorSpeed1,motorSpeed1,motorSpeed1, true);
