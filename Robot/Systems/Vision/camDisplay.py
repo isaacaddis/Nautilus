@@ -17,12 +17,12 @@ class ShapeDetect:
             return 'triangle'
         elif len(approx) ==4:
             ar = w / float(h)
-            if ar >= .85 and ar <= 1.25:
-                cv2.imwrite('square.jpg',img[y:y+h, x:x+w])
-                return 'square'
-            else:
+            if ar <= .5:
                 cv2.imwrite('line.jpg',img[y:y+h, x:x+w])
                 return 'line'
+            else:
+                cv2.imwrite('square.jpg',img[y:y+h, x:x+w])
+                return 'square'
         else:
             cv2.imwrite('circle.jpg',img[y:y+h, x:x+w])
             return 'circle'
@@ -123,7 +123,7 @@ class Display():
                     if area > max_n:
                         max_n = area
                     print("Area" + str(max_n))
-                    print(self.sm.averageColor(img_c,i)) 
+                    #print(self.sm.averageColor(img_c,i)) 
                     current_len += 1
                     x, y, w, h = cv2.boundingRect(i)
                     cv2.rectangle(img_c, (x, y), (x+w, y+h), (0, 255, 0), 1)
