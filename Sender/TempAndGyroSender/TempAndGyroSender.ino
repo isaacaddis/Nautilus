@@ -19,7 +19,10 @@
 
 int leaksensor=3;
 int val = 0; 
+int metal =0
+const int MetalDetect = 11;
 String Leak;
+String Metal;
  
  
  
@@ -42,6 +45,7 @@ void setup() {
   //Serial.println("DHT11 Moniter System");
   analogReference(EXTERNAL); 
   pinMode(leaksensor,INPUT);
+  pinMode(MetalDetect,INPUT);
   dht.begin();
 
 }
@@ -55,7 +59,8 @@ void loop(void) {
    *  Temp outside : three decimaml places)
    */
 
-val = analogRead(leaksensor); 
+val = analogRead(leaksensor);
+metal = digitalRead(MetalDetect);
 
   if (val > 300){
   Leak = "1";
@@ -63,7 +68,13 @@ val = analogRead(leaksensor);
   else{
     Leak = "0";
   }
-
+  
+  if (metal == HIGH){
+  Metal = "M";
+  }
+  else{
+    Metal = "n";
+  }
   
   uint8_t i;
   float average;
@@ -102,7 +113,7 @@ val = analogRead(leaksensor);
     GyroData = String(gyroData);
   if (GyroData.substring(0,2)== "45"){
       NewGyroData = GyroData.substring(4,19);
-      Temp_Gyro = temp_in + " ,"+ temp_out + " ," + humidity + " ,"+ Leak+ ","+ NewGyroData;   
+      Temp_Gyro = Metal + " ," + temp_in + " ,"+ temp_out + " ," + humidity + " ,"+ Leak+ " ,"+ NewGyroData;   
       Temp_Gyro.toCharArray(m_Temp_Gyro,45);
       Serial.write(m_Temp_Gyro,45);
       digitalWrite(LED_BUILTIN, HIGH); 
