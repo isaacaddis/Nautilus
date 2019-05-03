@@ -10,6 +10,7 @@ class SerialUtil():
     def __init__(self):
         self.ser = serial.Serial('/dev/ttyUSB0',57600,timeout=1)
         self.ser.isOpen()
+        print("initalized ser")
     '''
         Loop for capturing serial output of Arduino and passing it to the GUI
     '''
@@ -34,7 +35,7 @@ class SerialUtil():
     def get(self):
         
         msg = self.ser.readline().decode('utf-8')
-        #print(msg)
+        print(msg)
         if msg: 
             print(msg)
             msg = msg.replace('X', ',')
@@ -58,9 +59,9 @@ class SerialUtil():
                 print("Leak sensor: {}".format(self.leak_text(leak_sensor)))
                 print("X: {}".format(self.clean_up(x)))
                 print("Y: {}".format(self.clean_up(y)))
-                return (cleaned_t_housing_in,cleaned_t_housing_out, cleaned_h_housing_in, self.leak_text(leak_sensor), self.clean_up(x), self.clean_up(y))
+                return cleaned_t_housing_in,cleaned_t_housing_out, cleaned_h_housing_in, self.leak_text(leak_sensor), self.clean_up(x), self.clean_up(y)
         else:
-            return (0,0,0,0,0,0)
+            return 0,0,0,0,0,0
 '''
 while True:
         try:

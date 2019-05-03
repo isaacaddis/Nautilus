@@ -104,6 +104,11 @@ class Display():
         self.sm = SmartMax()
         self.past_text, self.n_text = [0, 0, 0, 0, 0],[0, 0, 0, 0, 0] # follows the general data schema for shapes
     def get(self):
+        a = ""
+        b = ""
+        c = ""
+        d = ""
+        e = ""
         if self.cap.isOpened():
             ret, val = self.cap.read()
             img_c = val.copy()
@@ -122,13 +127,13 @@ class Display():
                 if area > 165 and area <8000:
                     if area > max_n:
                         max_n = area
-                    print("Area" + str(max_n))
+                    #print("Area" + str(max_n))
                     #print(self.sm.averageColor(img_c,i)) 
                     current_len += 1
                     x, y, w, h = cv2.boundingRect(i)
                     cv2.rectangle(img_c, (x, y), (x+w, y+h), (0, 255, 0), 1)
                     s = self.sd.detect(i,img_c)
-                    print("Shape: {}".format(s))
+                    #print("Shape: {}".format(s))
                     if s == "triangle":
                         self.n_text[0] += 1
                     elif s == "square":
@@ -137,35 +142,16 @@ class Display():
                         self.n_text[2] += 1
                     elif s == "circle":
                         self.n_text[3] += 1 
-                    print("# of shapes {}".format(current_len))
-                    print("# of triangles {}".format(self.n_text[0]))
-                    print("# of squares {}".format(self.n_text[1]))
-                    print("# of lines {}".format(self.n_text[2]))
-                    print("# of circles {}".format(self.n_text[3]))
-                    #if current_len > 0:
-                        #cv2.putText(val,'Number of Shapes: {}'.format(current_len),(val.shape[1]-400,val.shape[0]-300), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
-                    #else:
-                        #cv2.putText(val,'Number of Shapes: {}'.format(last_len),(val.shape[1]-400,val.shape[0]-300), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
-                    #if n_text[0] > 0:
-                        #cv2.putText(val,'Triangle: {}'.format(n_text[0]),(val.shape[1]-350,val.shape[0]-200), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
-                    #else:
-                        #cv2.putText(val,'Triangle: {}'.format(past_text[0]),(val.shape[1]-350,val.shape[0]-200), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
-                    #if n_text[1] > 0:
-                        #cv2.putText(val,'Square: {}'.format(n_text[1]),(val.shape[1]-350,val.shape[0]-150), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
-                    #else:
-                        #cv2.putText(val,'Square: {}'.format(past_text[1]),(val.shape[1]-350,val.shape[0]-150), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
-                    #if n_text[2] > 0:
-                        #cv2.putText(val,'Line: {}'.format(n_text[2]),(val.shape[1]-350,val.shape[0]-100), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
-                    #else:
-                        #cv2.putText(val,'Line: {}'.format(past_text[2]),(val.shape[1]-350,val.shape[0]-100), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
-                    #if n_text[3] > 0:
-                        #cv2.putText(val,'Circle: {}'.format(n_text[3]),(val.shape[1]-350,val.shape[0]-20), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
-                    #else:
-                        #cv2.putText(val,'Circle: {}'.format(past_text[3]),(val.shape[1]-350,val.shape[0]-20), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),1,cv2.LINE_AA)
+                    a = "# of shapes {}".format(current_len)
+                    b = "# of triangles {}".format(self.n_text[0])
+                    c = "# of squares {}".format(self.n_text[1])
+                    d = "# of lines {}".format(self.n_text[2])
+                    e = "# of circles {}".format(self.n_text[3])
+                    #final_str = a+b+c+d+e
+                    #print(final_str)
             self.past_text = self.n_text
             self.n_text = [0, 0, 0, 0, 0]
-            return img_c
-                
+            return (a,b,c,d,e, img_c)
             #cv2.imshow('Focused Image',focus)
             #if cv2.waitKey(1) & 0xFF == ord('q'):
                 #break
