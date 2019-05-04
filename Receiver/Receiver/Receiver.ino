@@ -486,10 +486,10 @@ void loop() {
     
         speed03 = map(turnSpeed, 0, 25, 1500, MaxSixPow);
         speed04 = map(turnSpeed, 0, 25, 1500, MaxSixRevPow);
-        OutputM1.writeMicroseconds(speed04);
-        OutputM2.writeMicroseconds(speed03);
-        OutputM3.writeMicroseconds(speed04);
-        OutputM4.writeMicroseconds(speed03);
+        OutputM1.writeMicroseconds(speed03);
+        OutputM2.writeMicroseconds(speed04);
+        OutputM3.writeMicroseconds(speed03);
+        OutputM4.writeMicroseconds(speed04);
     }
     
     fourMotors = true;
@@ -512,10 +512,10 @@ void loop() {
     
         speed03 = map(turnSpeed, 0, 25, 1500, MaxSixPow);
         speed04 = map(turnSpeed, 0, 25, 1500, MaxSixRevPow);
-        OutputM1.writeMicroseconds(speed03);
-        OutputM2.writeMicroseconds(speed04);
-        OutputM3.writeMicroseconds(speed03);
-        OutputM4.writeMicroseconds(speed04);
+        OutputM1.writeMicroseconds(speed04);
+        OutputM2.writeMicroseconds(speed03);
+        OutputM3.writeMicroseconds(speed04);
+        OutputM4.writeMicroseconds(speed03);
     }
     
     fourMotors = true;
