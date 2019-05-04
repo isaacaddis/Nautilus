@@ -20,17 +20,14 @@ def leak_text(text):
             return 'Leaking!'
     else:
         return 'NaN'
-while True:
+def run():
     msg = ser.readline().decode('utf-8')
-    #print(msg)
+    print(msg)
     if msg: 
-        print(msg)
         msg = msg.replace('X', ',')
         msg = msg.replace('Y', ',')
-        print(msg)
         split = msg.split(",")
         if len(split) == 6 and not ' \r\n' in split:
-            print("MSG: {}".format(msg))
             t_housing_in = split[0]
             t_housing_out = split[1]
             h_housing_in = split[2] #humidity
@@ -46,3 +43,6 @@ while True:
             print("Leak sensor: {}".format(leak_text(leak_sensor)))
             print("X: {}".format(clean_up(x)))
             print("Y: {}".format(clean_up(y)))
+            return str(cleaned_t_housing_in),str(cleaned_t_housing_out), str(cleaned_h_housing_in), str(self.leak_text(leak_sensor)), str(self.clean_up(x)), str(self.clean_up(y))
+    else:
+        return '0','0','0','0','0','0'
