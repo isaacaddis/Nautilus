@@ -27,11 +27,11 @@ char joy[30];
  const int MaxPower = 2000;
  const int MaxRevPower = 1000;
  
- const int MaxFourPow = 1880;
- const int MaxFourRevPow = 1120;
+ const int MaxFourPow = 1900;
+ const int MaxFourRevPow = 1100;
  
- const int MaxSixPow = 1800;
- const int MaxSixRevPow = 1200; 
+ const int MaxSixPow = 1850;
+ const int MaxSixRevPow = 1150; 
  
 String  FBSpeed;
 String SideSpeed;
