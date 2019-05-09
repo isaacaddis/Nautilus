@@ -49,7 +49,7 @@ boolean twoMotors;
 
 void setup() {
   Serial.begin(57600);
-  Serial1.begin(57600);
+  //Serial1.begin(57600);
   oneMotor = false;
   twoMotors = false;
   pinMode(LED_BUILTIN, OUTPUT);
@@ -76,7 +76,7 @@ void loop() {
   
   Joystick = String(joy);
   
-  Serial1.readBytes(joy,30);
+  Serial.readBytes(joy,30);
   
   SideSpeed = Joystick.substring((Joystick.indexOf("R") + 1), Joystick.indexOf("F"));
   FBSpeed = Joystick.substring((Joystick.indexOf("F") + 1), Joystick.indexOf("U"));
