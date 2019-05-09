@@ -33,9 +33,7 @@ void setup() {
 }
 
 void loop() {
-  PotA0 = analogRead(InputA0);
-  Speed = map(PotA0, 0, 1023, 1240, 1760);
-  OutputM1.writeMicroseconds(Speed);
+  up();
   delay(1);
    
   }
