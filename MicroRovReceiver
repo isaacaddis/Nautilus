@@ -1,0 +1,180 @@
+#include "Servo.h"
+#include <Wire.h>
+
+
+char joy[30];
+
+ const int MaxPower = 2000;
+ const int MaxRevPower = 1000;
+ 
+ const int MaxTwoPow = 1880;
+ const int MaxTwoRevPow = 1120;
+
+ 
+String  FBSpeed;
+String SideSpeed;
+String VertSpeed; 
+String TurnSpeed; 
+String TiltSpeed; 
+
+int  fbSpeed;
+int sideSpeed;
+int vertSpeed; 
+
+
+String Joystick;
+String message; 
+
+Servo OutputM1;
+Servo OutputM2;
+Servo OutputM3;
+Servo OutputM4;
+Servo OutputM5;
+Servo OutputM6;
+
+
+int speed01;
+int speed02;
+int speed07;
+int speed08;
+int speed09;
+int speed10;
+
+
+
+boolean oneMotor;
+boolean twoMotors;
+
+
+
+void setup() {
+  Serial.begin(57600);
+  Serial1.begin(57600);
+  oneMotor = false;
+  twoMotors = false;
+  pinMode(LED_BUILTIN, OUTPUT);
+
+  OutputM1.attach(10);
+  OutputM2.attach(5);
+  OutputM3.attach(3);
+
+  
+  OutputM1.writeMicroseconds(1500);
+  OutputM2.writeMicroseconds(1500);
+  OutputM3.writeMicroseconds(1500);
+
+
+    speed01 = 1500;
+    speed02 = 1500;
+    speed07 = 1500;
+    speed08 = 1500;
+    speed09 = 1500;
+    speed10 = 1500;
+}
+
+void loop() {
+  
+  Joystick = String(joy);
+  
+  Serial1.readBytes(joy,30);
+  
+  SideSpeed = Joystick.substring((Joystick.indexOf("R") + 1), Joystick.indexOf("F"));
+  FBSpeed = Joystick.substring((Joystick.indexOf("F") + 1), Joystick.indexOf("U"));
+  VertSpeed = Joystick.substring((Joystick.indexOf("U") + 1), Joystick.indexOf("T"));
+
+
+    fbSpeed = FBSpeed.toInt();
+  sideSpeed = SideSpeed.toInt();
+  vertSpeed = VertSpeed.toInt();
+
+
+
+
+   if((fbSpeed == 0) and (sideSpeed == 0)){
+      twoMotors = false;
+      OutputM1.writeMicroseconds(1500);
+      OutputM2.writeMicroseconds(1500);
+
+    }
+    
+   if( vertSpeed == 0){
+      oneMotor = false;
+      OutputM3.writeMicroseconds(1500);
+   }
+    
+    
+
+   if (vertSpeed > 0) { //Up  
+       
+            speed08= map( vertSpeed, 0, 25, 1500, MaxRevPower);
+            OutputM3.writeMicroseconds(speed08);
+
+  }
+        
+  if (vertSpeed < 0) { //Down     
+     
+     vertSpeed = abs(vertSpeed);
+     speed10 = map(vertSpeed,0, 25, 1500, MaxPower);
+      OutputM3.writeMicroseconds(speed10);
+   
+  }
+
+   if (fbSpeed > 0) { //Forwards
+
+          speed07 = map(fbSpeed, 0, 25, 1500, MaxTwoRevPow);
+          OutputM1.writeMicroseconds(speed07);
+          OutputM2.writeMicroseconds(speed07);
+
+  }
+  
+  if (fbSpeed < 0) { //Backwards
+          fbSpeed = abs(fbSpeed);
+          speed09 = map(fbSpeed, 0, 25, 1500, MaxTwoPow);
+          OutputM1.writeMicroseconds(speed09);
+          OutputM2.writeMicroseconds(speed09);
+
+  }
+  
+ if (sideSpeed > 0) { //Right 
+    
+        speed01 = map(sideSpeed, 0, 25, 1500, MaxTwoPow);
+        speed02 = map(sideSpeed, 0, 25, 1500, MaxTwoRevPow);
+        OutputM1.writeMicroseconds(speed01);
+        OutputM2.writeMicroseconds(speed02);
+
+    
+  }
+
+   if (sideSpeed < 0) { // Left
+    sideSpeed = abs(sideSpeed);
+    speed01 = map(sideSpeed, 0, 25, 1500, MaxTwoPow);
+    speed02 = map(sideSpeed, 0, 25, 1500, MaxTwoRevPow);
+    OutputM1.writeMicroseconds(speed02);
+    OutputM2.writeMicroseconds(speed01);
+
+   
+  }
+  
+  
+  if ((fbSpeed == 0) and (sideSpeed == 0) and (vertSpeed  == 0)  ){
+
+    OutputM1.writeMicroseconds(1500);
+    OutputM2.writeMicroseconds(1500);
+    OutputM3.writeMicroseconds(1500);
+    speed01 = 1500;
+    speed02 = 1500;
+    speed07 = 1500;
+    speed08 = 1500;
+    speed09 = 1500;
+    speed10 = 1500;
+   }  
+ 
+if (twoMotors == true or oneMotor == true){
+    digitalWrite(LED_BUILTIN, HIGH);
+  }
+  
+if (twoMotors == false and oneMotor == false){
+    digitalWrite(LED_BUILTIN, LOW);
+  }
+  
+  }
