@@ -54,9 +54,9 @@ void setup() {
   twoMotors = false;
   pinMode(LED_BUILTIN, OUTPUT);
 
-  OutputM1.attach(10);
-  OutputM2.attach(5);
-  OutputM3.attach(3);
+  OutputM1.attach(5);
+  OutputM2.attach(6);
+  OutputM3.attach(7);
 
   
   OutputM1.writeMicroseconds(1500);
