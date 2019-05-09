@@ -1,0 +1,74 @@
+#include "Servo.h"
+
+Servo OutputM1;
+Servo OutputM2;
+Servo OutputM3;
+Servo OutputM4;
+Servo OutputM5;
+Servo OutputM6;
+
+
+int speed01 = 1400;
+int speed02 = 1600;
+
+const int InputA0 = A0;
+int PotA0;
+int Speed;
+
+
+
+void setup() {
+  Serial.begin(57600);
+  //Serial1.begin(57600);
+
+  OutputM1.attach(10);
+  OutputM2.attach(5);
+  OutputM3.attach(3);
+
+  
+  OutputM1.writeMicroseconds(1500);
+  OutputM2.writeMicroseconds(1500);
+  OutputM3.writeMicroseconds(1500);
+
+}
+
+void loop() {
+  PotA0 = analogRead(InputA0);
+  Speed = map(PotA0, 0, 1023, 1240, 1760);
+  OutputM1.writeMicroseconds(Speed);
+  delay(1);
+   
+  }
+
+
+void up(){
+  OutputM3.writeMicroseconds(speed01);
+}
+
+
+void down(){
+  OutputM3.writeMicroseconds(speed02);
+}
+
+
+void turnleft(){
+  OutputM1.writeMicroseconds(speed01);
+  OutputM2.writeMicroseconds(speed02);
+}
+
+
+void turnright(){
+  OutputM1.writeMicroseconds(speed02);
+  OutputM2.writeMicroseconds(speed01);
+}
+
+void forwards(){
+  OutputM1.writeMicroseconds(speed02);
+  OutputM2.writeMicroseconds(speed02);
+}
+
+
+void backwards(){
+  OutputM1.writeMicroseconds(speed01);
+  OutputM2.writeMicroseconds(speed01);
+}
