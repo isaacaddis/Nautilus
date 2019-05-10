@@ -80,7 +80,7 @@ void loop() {
   
   SideSpeed = Joystick.substring((Joystick.indexOf("R") + 1), Joystick.indexOf("F"));
   FBSpeed = Joystick.substring((Joystick.indexOf("F") + 1), Joystick.indexOf("U"));
-  VertSpeed = Joystick.substring((Joystick.indexOf("U") + 1), Joystick.indexOf("T"));
+  VertSpeed = Joystick.substring((Joystick.indexOf("U") + 1), Joystick.indexOf());
 
 
     fbSpeed = FBSpeed.toInt();
