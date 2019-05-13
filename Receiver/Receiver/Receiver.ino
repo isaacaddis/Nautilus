@@ -292,13 +292,13 @@ void loop() {
    if (vertSpeed > 0) { //Up  
        
        if (fourMotors == true){
-          speed08= map( vertSpeed, 0, 25, 1500, MaxSixRevPow);
+          speed08= map( vertSpeed, 0, 25, 1500, 1100);
           OutputM5.writeMicroseconds(speed08);
           OutputM6.writeMicroseconds(speed08);
         }
         
         if(fourMotors == false){
-            speed08= map( vertSpeed, 0, 25, 1500, MaxRevPower);
+            speed08= map( vertSpeed, 0, 25, 1500, 950);
             OutputM5.writeMicroseconds(speed08);
             OutputM6.writeMicroseconds(speed08);
         }
