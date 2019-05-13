@@ -24,14 +24,14 @@ char gyro[20];
 
 char joy[30];
 
- const int MaxPower = 2000;
- const int MaxRevPower = 1000;
+ const int MaxPower = 2100;
+ const int MaxRevPower = 900;
  
- const int MaxFourPow = 1900;
- const int MaxFourRevPow = 1100;
+ const int MaxFourPow = 2000;
+ const int MaxFourRevPow = 1000;
  
- const int MaxSixPow = 1850;
- const int MaxSixRevPow = 1150; 
+ const int MaxSixPow = 1950;
+ const int MaxSixRevPow = 1050; 
  
 String  FBSpeed;
 String SideSpeed;
@@ -292,13 +292,13 @@ void loop() {
    if (vertSpeed > 0) { //Up  
        
        if (fourMotors == true){
-          speed08= map( vertSpeed, 0, 25, 1500, 1100);
+          speed08= map( vertSpeed, 0, 25, 1500, 950);
           OutputM5.writeMicroseconds(speed08);
           OutputM6.writeMicroseconds(speed08);
         }
         
         if(fourMotors == false){
-            speed08= map( vertSpeed, 0, 25, 1500, 950);
+            speed08= map( vertSpeed, 0, 25, 1500, 800 );
             OutputM5.writeMicroseconds(speed08);
             OutputM6.writeMicroseconds(speed08);
         }
@@ -397,7 +397,7 @@ void loop() {
     fbSpeed = abs(fbSpeed);
     
       if(twoMotors == false){
-          speed09 = map(fbSpeed, 0, 25, 1500, MaxFourRevPow);
+          speed09 = map(fbSpeed, 0, 25, 1500, 900);
           OutputM1.writeMicroseconds(speed09);
           OutputM2.writeMicroseconds(speed09);
           OutputM3.writeMicroseconds(speed09);
@@ -405,7 +405,7 @@ void loop() {
      }
      
      if(twoMotors == true){
-          speed09 = map(fbSpeed, 0, 25, 1500, MaxSixRevPow);
+          speed09 = map(fbSpeed, 0, 25, 1500, 950 );
           OutputM1.writeMicroseconds(speed09);
           OutputM2.writeMicroseconds(speed09);
           OutputM3.writeMicroseconds(speed09);
