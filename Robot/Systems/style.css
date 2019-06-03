@@ -1,7 +1,11 @@
 *{
-    font-family:Comic Sans;
+    font-family:sans-serif;
     background-color:black;
 }
+QPushButton{
+	background:white;
+	color:red;
+}
 QLabel{
-    color: green;
+    color: white;
 }

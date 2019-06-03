@@ -1,9 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
+
 import serial
 from Vision.ImagePreProcess import *
 from Vision.Image import *
-
+import keyboard
 #from Vision.Image import Operation
 import os
 import sys
@@ -11,25 +13,36 @@ from Vision import geo
 from Vision.camDisplay import *
 import numpy as np
 import cv2
-import serutil
 from ser import *
 from PyQt4 import QtGui
 from PyQt4.QtCore import (QThread, Qt, pyqtSignal, pyqtSlot, QUrl)
 from PyQt4.QtGui import (QPixmap, QImage, QApplication, QWidget, QLabel)
-#class TextThread(QThread):
 
-    #def __init__(self, parent=None):
-        #QThread.__init__(self, parent=parent)
-    #def run(self):
-        #while True:
-
-class Thread(QThread):
+class TThread(QThread):
     changeText1 = pyqtSignal(str)
     changeText2 = pyqtSignal(str)
     changeText3 = pyqtSignal(str)
     changeText4 = pyqtSignal(str)
     changeText5 = pyqtSignal(str)
     changeText6 = pyqtSignal(str)
+    def __init__(self, parent=None):
+        QThread.__init__(self, parent=parent)
+        wait_for_input = pyqtSignal(int)
+    def run(self):
+        s = SerialUtil()
+        while True:
+
+            msg = s.get()
+            if msg is not None:        
+                t_housing_in,t_housing_out,h_housing_in,leak_sensor,x,y = msg
+                self.changeText1.emit('T_in housing: '+str(t_housing_in))
+                self.changeText2.emit('T_out housing: '+str(t_housing_out))
+                self.changeText3.emit('H_in housing: '+str(h_housing_in))
+                self.changeText4.emit('        Leak sensor: '+str(leak_sensor))
+                self.changeText5.emit('        X pos: '+str(x))
+                self.changeText6.emit('        Y pos: '+str(y))
+class Thread(QThread):
+
     changen = pyqtSignal(str)
     changet = pyqtSignal(str)
     changesq = pyqtSignal(str)
@@ -43,16 +56,15 @@ class Thread(QThread):
     def __init__(self, parent=None):
         QThread.__init__(self, parent=parent)
     def run(self):
-        
-        s = SerialUtil()
+        status = True
         wc = WhatsCrackin()
-        proc = ImagePreProcess()
+       # proc = ImagePreProcess()
         op = Operation(0)
         op2 = Display(1)
         op3 = Operation(2)
         while True:
             ret, img = op.get()
-            n,t,sq,l,c,img_2 = op2.get()
+            n,t,sq,l,c,img_2 = op2.get(1)
             ret, img_3 = op3.get()
             convertToQtFormat = QImage(img.data, img.shape[1],img.shape[0],QImage.Format_RGB888).rgbSwapped()
             convertToQtFormat_2 = QImage(img_2.data, img_2.shape[1],img_2.shape[0],QImage.Format_RGB888).rgbSwapped()
@@ -68,22 +80,14 @@ class Thread(QThread):
             self.changePixmap.emit(p)
             self.changePixmap2.emit(p_2)
             self.changePixmap3.emit(p_3)
-            msg = s.get()
-            if msg is not None:        
-                t_housing_in,t_housing_out,h_housing_in,leak_sensor,x,y = msg
-                self.changeText1.emit('Temperature inside housing: '+str(t_housing_in))
-                self.changeText2.emit('Temperature inside housing: '+str(t_housing_out))
-                self.changeText3.emit('Temperature inside housing: '+str(h_housing_in))
-                self.changeText4.emit('Leak sensor: '+str(leak_sensor))
-                self.changeText5.emit('X: '+x)
-                self.changeText6.emit('Y: '+y)
+
 
 class App(QWidget):
     def __init__(self):
         super(App, self).__init__()
         self.title = "45C Robotics 2019"
         self.initUI()
-        self.setStyleSheet(open('style.css').read())
+        self.setStyleSheet(open('/home/robotics45c/Desktop/rov2019/Robot/Systems/style.css').read())
     @pyqtSlot(QImage)
     def setImage(self, image):
         self.videoCom.setPixmap(QPixmap.fromImage(image))
@@ -92,7 +96,7 @@ class App(QWidget):
         self.videoCom2.setPixmap(QPixmap.fromImage(image))
     @pyqtSlot(QImage)
     def setImage3(self, image):
-        self.videoCom3.setPixmap(QPixmap.fromImage(image))
+        self.videoCom3.setPixmap(QPixmap.fromImage(image))   
     @pyqtSlot(str)
     def setText1(self, text):
         self.t_housing_in_label.setText(text)     
@@ -128,14 +132,16 @@ class App(QWidget):
         self.c_label.setText(text) 
     
     def initUI(self):
-        self.ser = serial.Serial('/dev/ttyUSB0',57600,timeout=1)
-        self.ser.isOpen()
+        #input('123')
+        #self.ser = serial.Serial('/dev/ttyUSB0',57600,timeout=1)
+        #self.ser.isOpen()
+        
         print("Initialized serial comms")
-        # Convention: (y, x)
+
         self.setWindowTitle(self.title)
         self.resize(1920,1080)
         # Number of shapes
-        self.n_label = QLabel(self)
+        self.n_label = QLabel(self) 
         self.n_label.setText('--- Number of shapes ---')
         self.n_label.setAlignment(Qt.AlignRight)
         self.n_label.move(1710,525)         
@@ -207,6 +213,7 @@ class App(QWidget):
         self.videoCom3.move(580,540)
         self.videoCom3.resize(1200,540)
         th = Thread(self)
+        s_th = TThread(self) #serial
         th.changePixmap.connect(self.setImage)
         th.changePixmap2.connect(self.setImage2)
         th.changePixmap3.connect(self.setImage3)
@@ -216,20 +223,21 @@ class App(QWidget):
         th.changesq.connect(self.setNumSquares)
         th.changel.connect(self.setNumLines)
         th.changec.connect(self.setNumCircles)
-        th.changeText1.connect(self.setText1) 
-        th.changeText2.connect(self.setText2) 
-        th.changeText3.connect(self.setText3) 
-        th.changeText4.connect(self.setText4) 
-        th.changeText5.connect(self.setText5) 
-        th.changeText6.connect(self.setText6) 
+        s_th.changeText1.connect(self.setText1) 
+        s_th.changeText1.connect(self.setText1) 
+        s_th.changeText2.connect(self.setText2) 
+        s_th.changeText3.connect(self.setText3) 
+        s_th.changeText4.connect(self.setText4) 
+        s_th.changeText5.connect(self.setText5) 
+        s_th.changeText6.connect(self.setText6) 
         th.start()
+        s_th.start()
     def abort(self):
         self.close()
 if __name__ == "__main__":
     os.system("fuser -k /dev/video0")
     os.system("fuser -k /dev/video1")
-    #os.system("fuser -k /dev/video3")
-
+    os.system("fuser -k /dev/video2")
     app = QApplication(sys.argv)
     run = App()
     run.show()

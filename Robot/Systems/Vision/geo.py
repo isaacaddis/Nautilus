@@ -8,17 +8,21 @@ class ShapeDetect:
 	def detect(self, c,img):
 		peri = cv2.arcLength(c, True)
 		approx = cv2.approxPolyDP(c, 0.04*peri, True)
+		(x, y, w, h) = cv2.boundingRect(approx)
 		if len(approx) ==3:
+			#cv2.imwrite(str(time.ctime())+'triangle.jpg',img[y:y+h, x:x+w])
 			return 'triangle'
 		elif len(approx) ==4:
-			(x, y, w, h) = cv2.boundingRect(approx)
 			ar = w / float(h)
 			if ar >= .85 and ar <= 1.25:
-				cv.imwrite('square.jpg',im[y:y+h, x:x+w])
+				#cv2.imwrite(str(time.ctime())+'square.jpg',img[y:y+h, x:x+w])
 				return 'square'
 			else:
+				#cv2.imwrite(str(time.ctime())+'line.jpg',img[y:y+h, x:x+w])
+
 				return 'line'
 		else:
+			#cv2.imwrite(time.ctime()+'circle.jpg',img[y:y+h, x:x+w])
 			return 'circle'
 class SmartMax:
 	def __init__(self):
