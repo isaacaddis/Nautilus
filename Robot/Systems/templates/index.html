@@ -1,0 +1,83 @@
+<html>
+
+<head>
+    <title>45C Robotics</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='reset.css') }}" /> 
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='materialize.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='animate.css') }}" />
+    <style type="text/css">
+/*        #container {
+          padding-left: 300px;
+        }
+
+        #content {
+          padding: 20px;
+        }
+
+        @media only screen and (max-width : 992px) {
+          #container {
+            padding-left: 0px;
+          }
+        }*/
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div id="menu">
+
+          <ul id="slide-out" class="side-nav fixed">
+            <li><a href="#!">First Sidebar Link</a></li>
+            <li><a href="#!">Second Sidebar Link</a></li>
+            <li class="no-padding">
+              <ul class="collapsible collapsible-accordion">
+                <li>
+                  <a class="collapsible-header">Dropdown<i class="material-icons">arrow_drop_down</i></a>
+                  <div class="collapsible-body">
+                    <ul>
+                      <li><a href="#!">First</a></li>
+                      <li><a href="#!">Second</a></li>
+                      <li><a href="#!">Third</a></li>
+                      <li><a href="#!">Fourth</a></li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+      <!-- Main -->
+      <img id="bg" src="{{ url_for('video_feed') }}">
+      <img id="bg" src="{{ url_for('video_feed2') }}">
+      <img id="bg" src="{{ url_for('video_feed3') }}">  
+    </div>
+    <div>
+        <div class="row">Temperature Outside Housing:</div>
+        <div class="row">Temperature Inside Housing:</div>
+        <div class="row">Humidity Inside Housing:</div>
+        <div class="row">Leak sensor status:</div>
+        <div class="row">X:</div>
+        <div class="row">Y:</div>
+
+
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='materialize.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.sidenav').sidenav();
+            $('.button-collapse').sidenav({
+                menuWidth: 300, // Default is 300
+                edge: 'left', // Choose the horizontal origin
+                closeOnClick: false, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+                draggable: true // Choose whether you can drag to open on touch screens,
+              }
+            ); 
+        });
+
+    </script>
+</body>
+
+</html>
