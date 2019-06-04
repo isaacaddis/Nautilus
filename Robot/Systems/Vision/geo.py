@@ -1,4 +1,4 @@
-import cv2
+import cv2 
 import numpy as np
 import time
 
@@ -16,12 +16,10 @@ class ShapeDetect:
 		elif len(approx) ==4:
 			ar = w / float(h)
 			if ar <.8:
-				
-				cv2.imwrite('Images/'+str(ar)+'-line.jpg',img[y:y+h, x:x+w])
+				#cv2.imwrite('Images/'+str(ar)+'-line.jpg',img[y:y+h, x:x+w])
 				return 'line'
 			else:
-
-				cv2.imwrite('Images/'+str(ar)+'-square.jpg',img[y:y+h, x:x+w])
+				#cv2.imwrite('Images/'+str(ar)+'-square.jpg',img[y:y+h, x:x+w])
 				return 'square'
 		else:
 			#cv2.imwrite(str(time.time())+'-circle.jpg',img[y:y+h, x:x+w])

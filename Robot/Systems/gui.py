@@ -39,50 +39,51 @@ class TThread(QThread):
                 self.changeText1.emit('T_in housing: '+str(t_housing_in))
                 self.changeText2.emit('T_out housing: '+str(t_housing_out))
                 self.changeText3.emit('H_in housing: '+str(h_housing_in))
-                self.changeText4.emit('        Leak sensor: '+str(leak_sensor))
-                self.changeText5.emit('        X pos: '+str(x))
-                self.changeText6.emit('        Y pos: '+str(y))
-class Thread(QThread):
-
+                self.changeText4.emit('Leak sensor: '+str(leak_sensor))
+                self.changeText5.emit('X pos: '+str(x))
+                self.changeText6.emit('Y pos: '+str(y))
+class VideoThread(QThread):
+    changePixmap = pyqtSignal(QImage)
+    def __init__(self, parent=None):
+        QThread.__init__(self, parent=parent)
+    def run(self):
+        op = Operation(0)
+        while True:
+           ret, img = op.get()
+           convertToQtFormat = QImage(img.data, img.shape[1],img.shape[0],QImage.Format_RGB888).rgbSwapped()
+           p = convertToQtFormat.scaled(960,540,Qt.KeepAspectRatio)
+           self.changePixmap.emit(p)
+class VideoThread2(QThread):
+    changePixmap2 = pyqtSignal(QImage)
     changen = pyqtSignal(str)
     changet = pyqtSignal(str)
     changesq = pyqtSignal(str)
     changel = pyqtSignal(str)
     changec = pyqtSignal(str)
-    changePixmap = pyqtSignal(QImage)
-    changePixmap2 = pyqtSignal(QImage)
-    changePixmap3 = pyqtSignal(QImage)
-
-
     def __init__(self, parent=None):
         QThread.__init__(self, parent=parent)
     def run(self):
-        status = True
-        wc = WhatsCrackin()
-       # proc = ImagePreProcess()
-        op = Operation(0)
         op2 = Display(1)
-        op3 = Operation(2)
         while True:
-            ret, img = op.get()
             n,t,sq,l,c,img_2 = op2.get(1)
-            ret, img_3 = op3.get()
-            convertToQtFormat = QImage(img.data, img.shape[1],img.shape[0],QImage.Format_RGB888).rgbSwapped()
             convertToQtFormat_2 = QImage(img_2.data, img_2.shape[1],img_2.shape[0],QImage.Format_RGB888).rgbSwapped()
-            convertToQtFormat_3 = QImage(img_3.data, img_3.shape[1],img_3.shape[0],QImage.Format_RGB888).rgbSwapped()
-            p = convertToQtFormat.scaled(960,540,Qt.KeepAspectRatio)
             p_2 = convertToQtFormat_2.scaled(960,540,Qt.KeepAspectRatio)
-            p_3 = convertToQtFormat_3.scaled(960,540,Qt.KeepAspectRatio)
             self.changen.emit(n)
             self.changet.emit(t)
             self.changesq.emit(sq)
             self.changel.emit(l)
             self.changec.emit(c)
-            self.changePixmap.emit(p)
             self.changePixmap2.emit(p_2)
+class VideoThread3(QThread):
+    changePixmap3 = pyqtSignal(QImage)
+    def run(self):
+        wc = WhatsCrackin()
+        op3 = Operation(2)
+        while True:
+            ret, img_3 = op3.get()
+            convertToQtFormat_3 = QImage(img_3.data, img_3.shape[1],img_3.shape[0],QImage.Format_RGB888).rgbSwapped()
+            p_3 = convertToQtFormat_3.scaled(960,540,Qt.KeepAspectRatio)
             self.changePixmap3.emit(p_3)
-
-
 class App(QWidget):
     def __init__(self):
         super(App, self).__init__()
@@ -133,10 +134,6 @@ class App(QWidget):
         self.c_label.setText(text) 
     
     def initUI(self):
-        #input('123')
-        #self.ser = serial.Serial('/dev/ttyUSB0',57600,timeout=1)
-        #self.ser.isOpen()
-        
         print("Initialized serial comms")
 
         self.setWindowTitle(self.title)
@@ -213,17 +210,18 @@ class App(QWidget):
         self.videoCom3 = QLabel(self)
         self.videoCom3.move(580,540)
         self.videoCom3.resize(1200,540)
-        th = Thread(self)
+        th = VideoThread(self)
+        th2 = VideoThread2(self)
+        th3 = VideoThread3(self)
         s_th = TThread(self) #serial
         th.changePixmap.connect(self.setImage)
-        th.changePixmap2.connect(self.setImage2)
-        th.changePixmap3.connect(self.setImage3)
-        th.changePixmap3.connect(self.setImage3)
-        th.changen.connect(self.setNumShapes)
-        th.changet.connect(self.setNumTriangles)
-        th.changesq.connect(self.setNumSquares)
-        th.changel.connect(self.setNumLines)
-        th.changec.connect(self.setNumCircles)
+        th2.changePixmap2.connect(self.setImage2)
+        th3.changePixmap3.connect(self.setImage3)
+        th2.changen.connect(self.setNumShapes)
+        th2.changet.connect(self.setNumTriangles)
+        th2.changesq.connect(self.setNumSquares)
+        th2.changel.connect(self.setNumLines)
+        th2.changec.connect(self.setNumCircles)
         s_th.changeText1.connect(self.setText1) 
         s_th.changeText1.connect(self.setText1) 
         s_th.changeText2.connect(self.setText2) 
@@ -232,6 +230,8 @@ class App(QWidget):
         s_th.changeText5.connect(self.setText5) 
         s_th.changeText6.connect(self.setText6) 
         th.start()
+        th2.start()
+        th3.start()
         s_th.start()
     def abort(self):
         self.close()
