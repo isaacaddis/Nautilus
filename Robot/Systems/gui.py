@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
 import serial
+from ser import *
+
 from Vision.ImagePreProcess import *
 from Vision.Image import *
+from Vision.Undistort import *
+from Vision.camDisplay import *
+from Vision import geo
+
 import keyboard
-#from Vision.Image import Operation
 import os
 import sys
-from Vision import geo
-from Vision.camDisplay import *
 import numpy as np
 import cv2
-from ser import *
+
 from PyQt4 import QtGui
 from PyQt4.QtCore import (QThread, Qt, pyqtSignal, pyqtSlot, QUrl)
 from PyQt4.QtGui import (QPixmap, QImage, QApplication, QWidget, QLabel)
@@ -31,7 +33,6 @@ class TThread(QThread):
     def run(self):
         s = SerialUtil()
         while True:
-
             msg = s.get()
             if msg is not None:        
                 t_housing_in,t_housing_out,h_housing_in,leak_sensor,x,y = msg
