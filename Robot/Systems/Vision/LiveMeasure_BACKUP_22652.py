@@ -14,12 +14,12 @@ length = " "
 setting = 1
 und = Undistort()
 while(cap.isOpened()):
-	ret, frame = cap.read()
+	ret, frame = cap.read() 
 	h,w = frame.shape[:2]
 <<<<<<< HEAD
 	#map1, map2 = cv.fisheye.initUndistortRectifyMap(K, D, np.eye(3), K, DIM, cv.CV_16SC2)
-	undistorted_img = und.rectify(frame)
-
+	undistorted_img = und.rectify(frame) 
+	
 	#img = cv.GaussianBlur(undistorted_img,(5,5), 0)
 	#median = cv.medianBlur(img,5)
 	#blur = cv.bilateralFilter(median, 9, 75, 75)
@@ -27,9 +27,9 @@ while(cap.isOpened()):
 	#thresh = cv2.threshold(undistorted_img,127,255,cv2.THRESH_BINARY)
 	#cnts = cv.findContours(thresh, cv.RETR_EXTERNAL,cv.CHAIN_APPROX_SIMPLE)
 	#cnts = imutils.grab_contours(cnts)
-	hsv = cv.cvtColor(undistorted_img, cv.COLOR_BGR2HSV)
-	#lower_red = np.array([110,65,65])
-	#upper_red = np.array([130,255,255])
+	hsv = cv.cvtColor(undistorted_img, cv.COLOR_BGR2HSV) 
+	#lower_red = np.array([110,65,65]) 
+	#upper_red = np.array([130,255,255]) 
 =======
 	map1, map2 = cv.fisheye.initUndistortRectifyMap(K, D, np.eye(3), K, DIM, cv.CV_16SC2)
 	undistorted_img = cv.remap(frame, map1, map2, interpolation=cv.INTER_LINEAR, borderMode=cv.BORDER_CONSTANT)
@@ -49,8 +49,8 @@ while(cap.isOpened()):
 
 
 <<<<<<< HEAD
-	mask = cv.inRange(hsv, lower_red, upper_red)
-	res = cv.bitwise_and(undistorted_img,undistorted_img, mask= mask)
+	mask = cv.inRange(hsv, lower_red, upper_red) 
+	res = cv.bitwise_and(undistorted_img,undistorted_img, mask= mask) 
 =======
 	mask = cv.inRange(hsv, lower_red, upper_red)
 	res = cv.bitwise_and(undistorted_img,undistorted_img, mask= mask)
