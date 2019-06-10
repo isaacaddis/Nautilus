@@ -26,6 +26,8 @@ class Display():
         self.Contours = methods.Contours()
         self.lower_black = np.array([0,0,0])
         self.upper_black = np.array([0,0,255])
+        self.fgbg = cv2.createBackgroundSubtractorMOG2(history=100, varThreshold=50, detectShadows=True)
+
         print("Finished Benthic Species Initalization")
     def get(self):
         a = ""
@@ -82,7 +84,8 @@ class Display():
             return (a,b,c,d,e, img_c)"""
             ret,thres = cv2.threshold(crop_frame,127,255,cv2.THRESH_BINARY_INV)
             mask_img = self.Contours.applyMask(thres)
-            __,cnts,_ = cv2.findContours(mask_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+            fgmask = self.fgbg.apply(mask_img)
+            __,cnts,_ = cv2.findContours(fgmask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
             current_len = 0
             max_n = 0
             for i in cnts:
