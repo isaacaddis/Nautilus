@@ -48,7 +48,40 @@ class ShapeDetect:
 		# 	(lowerX, lowerY) = cleaned['lower']
 		# 	(upperX, upperY) = cleaned['upper']
 		# 	roi = img[lowerY:upperY, lowerX:upperX]"""
+	def check(self, box, firstX, secondX, lower_bound):
+		self.x1 , self.y1 = box[0]
+		self.x2 , `self.y2 = box[1]
+		self.x3 , self.y3 = box[2]
+		self.x4,  self.y4 = box[3]
+		self.boolean1  = False
+		self.boolean2  = False
+		self.boolean3  = False
+		self.boolean4  = False
+		self.Finalboolean  = False
+		self.b = 0
+		if((self.x1 > firstX or self.y1 < lower_bound) and (self.x1 < secondX or self.y1> lower_bound ) ):
+			self.boolean1  = True
 
+		if((self.x2 >firstX or self.y2 < lower_bound) and (self.x2 < secondX or self.y2> lower_bound) ):
+			self.boolean2  = True
+
+		if((self.x3 >firstX or self.y3 < lower_bound) and (self.x3 < secondX or self.y3> lower_bound) ):
+			self.boolean3  = True
+
+		if((self.x4 >firstX  or self.y4 < lower_bound) and (self.x4 < secondX or self.y4> lower_bound) ):
+			self.boolean4  = True
+
+		self.array = [self.boolean1, self.boolean2, self.boolean3, self.boolean4]
+		for i in self.array:
+			if i == True:
+				self.b += 1
+
+		if(self.b >= 3):
+			self.Finalboolean = True
+										
+		return self.Finalboolean
+		
+		
 	def detect(self, c,img):
 		peri = cv2.arcLength(c, True)
 		approx = cv2.approxPolyDP(c, 0.04*peri, True)
