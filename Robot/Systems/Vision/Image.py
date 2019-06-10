@@ -9,7 +9,6 @@ class Operation():
         self.ret = False
         self.c = c
         self.cap = cv2.VideoCapture(c)
-        print('c')
     def __c__(self):
         return self.c
     def get(self):

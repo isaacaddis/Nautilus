@@ -8,6 +8,7 @@ from Vision.ImagePreProcess import *
 from Vision.Image import *
 from Vision.Undistort import *
 from Vision.camDisplay import *
+from Vision.LiveMeasure import *
 from Vision import geo
 
 import keyboard
@@ -17,7 +18,7 @@ import numpy as np
 import cv2
 
 from PyQt4 import QtGui
-from PyQt4.QtCore import (QThread, Qt, pyqtSignal, pyqtSlot, QUrl)
+from PyQt4.QtCore import (QEvent, QThread, Qt, pyqtSignal, pyqtSlot, QUrl)
 from PyQt4.QtGui import (QPixmap, QImage, QApplication, QWidget, QLabel)
 
 class TThread(QThread):
@@ -43,6 +44,7 @@ class TThread(QThread):
                 self.changeText5.emit('X pos: '+str(x))
                 self.changeText6.emit('Y pos: '+str(y))
 class VideoThread(QThread):
+    changedist = pyqtSignal(str)
     changePixmap = pyqtSignal(QImage)
     changePixmap3 = pyqtSignal(QImage)
     changePixmap2 = pyqtSignal(QImage)
@@ -51,38 +53,92 @@ class VideoThread(QThread):
     changesq = pyqtSignal(str)
     changel = pyqtSignal(str)
     changec = pyqtSignal(str)
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, mode=0):
         QThread.__init__(self, parent=parent)
+        self._isRunning = True
+        self.mode = mode
     def run(self):
-        op = Operation(0)
-        op2 = Display(1)
-        op3 = Operation(2)
-        while True:
-           ret, img = op.get()
-           n,t,sq,l,c,img_2 = op2.get(1)
-           ret, img_3 = op3.get()
+        self.op = None
+        self.op2 = None
+        self.op3 = None
+        if self._isRunning:
+            print("heeeeere")
+            #os.system("fuser -k /dev/video0")
+            self.op = Operation(0)
+
+            self.op2 = None
+            if self.mode == 1:
+                self.op2 = Display(1)
+            elif self.mode == 0:
+                print("here!!!")
+                self.op2 = Operation(1)
+            else:
+                self.op2 = LiveMeasure()
+            self.op3 = Operation(2)
+        while self._isRunning:
+           ret, img = self.op.get()
+           if self.mode == 1:
+               n,t,sq,l,c,img_2 = self.op2.get()
+           elif self.mode == 0:
+               ret, img_2 = self.op2.get()
+           elif self.mode == 2:
+               text, img_2 = self.op2.get()
+           ret, img_3 = self.op3.get()
            convertToQtFormat = QImage(img.data, img.shape[1],img.shape[0],QImage.Format_RGB888).rgbSwapped()
+           if img_2 is not None: 
+               convertToQtFormat_2 = QImage(img_2.data, img_2.shape[1],img_2.shape[0],QImage.Format_RGB888).rgbSwapped()
+               p_2 = convertToQtFormat_2.scaled(960,540,Qt.KeepAspectRatio)
+               self.changePixmap2.emit(p_2)
            convertToQtFormat_2 = QImage(img_2.data, img_2.shape[1],img_2.shape[0],QImage.Format_RGB888).rgbSwapped()
            convertToQtFormat_3 = QImage(img_3.data, img_3.shape[1],img_3.shape[0],QImage.Format_RGB888).rgbSwapped()
            p = convertToQtFormat.scaled(960,540,Qt.KeepAspectRatio)
-           p_2 = convertToQtFormat_2.scaled(960,540,Qt.KeepAspectRatio)
            p_3 = convertToQtFormat_3.scaled(960,540,Qt.KeepAspectRatio)
            self.changePixmap.emit(p)
-           self.changePixmap2.emit(p_2)
+           
            self.changePixmap3.emit(p_3)
-           self.changen.emit(n)
-           self.changet.emit(t)
-           self.changesq.emit(sq)
-           self.changel.emit(l)
-           self.changec.emit(c)
+           if self.mode == 2:
+               self.changedist.emit(text)            
+           if self.mode == 1:
+               self.changen.emit(n)
+               self.changet.emit(t)
+               self.changesq.emit(sq)
+               self.changel.emit(l)
+               self.changec.emit(c)
+        if not self._isRunning:
+            self.op.close()
+            self.op2.close()
+            self.op3.close()
+            # del self.op
+            # del self.op2
+            # del self.op3
+        print("Deleted operations")
+    def close(self):
+        self._isRunning = False
+        # self.op.close()
+        # self.op2.close()
+        # self.op3.close()
 
 
 class App(QWidget):
+    keyPressed = pyqtSignal(int)
     def __init__(self):
         super(App, self).__init__()
         self.title = "45C Robotics 2019"
         self.initUI()
         self.setStyleSheet(open('/home/robotics45c/Desktop/rov2019/Robot/Systems/style.css').read())
+        self.keyPressed.connect(self.on_key)
+    def keyReleaseEvent(self, event):
+        super(App, self).keyReleaseEvent(event)
+        if (event.isAutoRepeat()):
+            print('autorepeat')
+            return
+        else:
+            self.keyPressed.emit(event.key())
+        event.accept()
+
+    @pyqtSlot(str)
+    def setDist(self, text):
+        self.dist_label.setText(text)
     @pyqtSlot(QImage)
     def setImage(self, image):
         self.videoCom.setPixmap(QPixmap.fromImage(image))
@@ -128,6 +184,7 @@ class App(QWidget):
     
     def initUI(self):
         print("Initialized serial comms")
+        self.keyPressed.connect(self.on_key)
 
         self.setWindowTitle(self.title)
         self.resize(1920,1080)
@@ -135,62 +192,82 @@ class App(QWidget):
         self.n_label = QLabel(self) 
         self.n_label.setText('--- Number of shapes ---')
         self.n_label.setAlignment(Qt.AlignRight)
-        self.n_label.move(1710,525)         
+        self.n_label.adjustSize()          
+        self.n_label.move(1600,525)     
+        # Distance
+        self.dist_label = QLabel(self) 
+        #self.n_label.setText('--- Distance---')
+        self.dist_label.setAlignment(Qt.AlignRight)
+        self.dist_label.adjustSize()          
+        self.dist_label.move(1600,525)     
+
         # T Species
         self.t_label = QLabel(self)
         self.t_label.setText('--- # of Triangles ---')
         self.t_label.setAlignment(Qt.AlignRight)
-        self.t_label.move(1710,555)         
+        self.t_label.adjustSize()          
+        self.t_label.move(1705,555)
         # Sq Species
         self.sq_label = QLabel(self)
         self.sq_label.setText('--- # of Squares ---')
         self.sq_label.setAlignment(Qt.AlignRight)
-        self.sq_label.move(1710,585)         
+        self.sq_label.adjustSize()          
+        self.sq_label.move(1705,585)
         # Lines Species
         self.l_label = QLabel(self)
         self.l_label.setText('--- # of Lines ---')
         self.l_label.setAlignment(Qt.AlignRight)
-        self.l_label.move(1710,615)         
+        self.l_label.adjustSize() 
+        self.l_label.move(1705,615)
         # Circles Species
         self.c_label = QLabel(self)
         self.c_label.setText('--- # of Circles ---')
         self.c_label.setAlignment(Qt.AlignRight)
-        self.c_label.move(1710,645)         
+        self.c_label.adjustSize()    
+        self.c_label.move(1705,645)
+      
         # Title label
         self.title_label = QLabel(self)
         self.title_label.setText('--- Operator Data ---')
         self.title_label.setAlignment(Qt.AlignRight)
-        self.title_label.move(40,495)        
+        self.title_label.move(40,495)
+        self.title_label.adjustSize()         
         # Temperature Inside Housing
         self.t_housing_in_label = QLabel(self)
         self.t_housing_in_label.setText('Temperature inside housing:')
         self.t_housing_in_label.setAlignment(Qt.AlignRight)
         self.t_housing_in_label.move(40,525)
+        self.t_housing_in_label.adjustSize() 
         # Temperature Outside Housing
         self.t_housing_o_label = QLabel(self)
         self.t_housing_o_label.setText('Temperature outside housing:')
         self.t_housing_o_label.setAlignment(Qt.AlignRight)
         self.t_housing_o_label.move(40,555)
+        self.t_housing_o_label.adjustSize() 
         # Humidity inside housing
         self.h_housing_in_label = QLabel(self)
         self.h_housing_in_label.setText('Humidity inside housing:')
         self.h_housing_in_label.setAlignment(Qt.AlignRight)
         self.h_housing_in_label.move(40,585)
+        self.h_housing_in_label.adjustSize() 
         # Leak Sensor
         self.leak_sensor_label = QLabel(self)
         self.leak_sensor_label.setText('Leak sensor:')
         self.leak_sensor_label.setAlignment(Qt.AlignRight)
         self.leak_sensor_label.move(40,615)
+        self.leak_sensor_label.adjustSize() 
         # x
         self.x_label = QLabel(self)
         self.x_label.setText('X:')
         self.x_label.setAlignment(Qt.AlignRight)
         self.x_label.move(40,645)
+        self.x_label.adjustSize() 
         # y
         self.y_label = QLabel(self)
         self.y_label.setText('Y:')
         self.y_label.setAlignment(Qt.AlignRight)
         self.y_label.move(40,675)
+        self.y_label.adjustSize() 
         # Video component 1
         self.videoCom = QLabel(self)
         self.videoCom.move(150,0)
@@ -203,16 +280,17 @@ class App(QWidget):
         self.videoCom3 = QLabel(self)
         self.videoCom3.move(580,540)
         self.videoCom3.resize(1200,540)
-        th = VideoThread(self)
+        self.th = VideoThread(self,1)
         s_th = TThread(self) #serial
-        th.changePixmap.connect(self.setImage)
-        th.changePixmap2.connect(self.setImage2)
-        th.changePixmap3.connect(self.setImage3)
-        th.changen.connect(self.setNumShapes)
-        th.changet.connect(self.setNumTriangles)
-        th.changesq.connect(self.setNumSquares)
-        th.changel.connect(self.setNumLines)
-        th.changec.connect(self.setNumCircles)
+        self.th.changedist.connect(self.setDist)
+        self.th.changePixmap.connect(self.setImage)
+        self.th.changePixmap2.connect(self.setImage2)
+        self.th.changePixmap3.connect(self.setImage3)
+        self.th.changen.connect(self.setNumShapes)
+        self.th.changet.connect(self.setNumTriangles)
+        self.th.changesq.connect(self.setNumSquares)
+        self.th.changel.connect(self.setNumLines)
+        self.th.changec.connect(self.setNumCircles)
         s_th.changeText1.connect(self.setText1) 
         s_th.changeText1.connect(self.setText1) 
         s_th.changeText2.connect(self.setText2) 
@@ -220,8 +298,38 @@ class App(QWidget):
         s_th.changeText4.connect(self.setText4) 
         s_th.changeText5.connect(self.setText5) 
         s_th.changeText6.connect(self.setText6) 
-        th.start()
+        self.th.start()
         s_th.start()
+        self.history = []
+        self.status = 0
+        self.mode_status = True # for keeping track of mode
+    def on_key(self, event):
+        if event == Qt.Key_Return:
+            print("Pressed")
+            self.status += 1
+            if self.status % 2 == 0:
+                self.th.close()
+                print("Number: {}".format(self.status))
+                if self.mode_status:
+                    self.th = VideoThread(self, 2)
+                    self.mode_status = False
+                else:
+                    self.th = VideoThread(self,1)
+                    self.mode_status = True
+                print("Mode 2: {}".format(self.mode_status))
+                #self.th.quit()
+                #self.th.wait()
+                #print('Deleted VideoThread')
+                self.th.changedist.connect(self.setDist)
+                self.th.changePixmap.connect(self.setImage)
+                self.th.changePixmap2.connect(self.setImage2)
+                self.th.changePixmap3.connect(self.setImage3)
+                self.th.changen.connect(self.setNumShapes)
+                self.th.changet.connect(self.setNumTriangles)
+                self.th.changesq.connect(self.setNumSquares)
+                self.th.changel.connect(self.setNumLines)
+                self.th.changec.connect(self.setNumCircles)
+                self.th.start()
     def abort(self):
         self.close()
 if __name__ == "__main__":
