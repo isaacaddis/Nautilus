@@ -98,28 +98,26 @@ class Display():
                     rect = cv2.minAreaRect(c)
                     box = cv2.boxPoints(rect)
                     box = np.int0(box)
-                    within_bound = sd.check(box, 215, 440, 260)
-                    if (within_bound):
-                        current_len += 1
-                        cv2.drawContours(img_c, [i], 0, (0,0,255))
-                        s = self.sd.detect(i,img_c)
-                        if s == "triangle":
-                            self.n_text[0] += 1
-                        elif s == "square":
-                            self.n_text[1] += 1
-                        elif s == "line":
-                            self.n_text[2] += 1
-                        elif s == "circle":
-                            self.n_text[3] += 1 
-                        a = "Shapes: {}".format(current_len)
-                        b = "▲: {}".format(self.n_text[0])
-                        c = "■: {}".format(self.n_text[1])
-                        d = "▬ {}".format(self.n_text[2])
-                        e = "●: {}".format(self.n_text[3])
-                self.past_text = self.n_text
-                self.n_text = [0, 0, 0, 0, 0]
-                return (a,b,c,d,e, img_c)
-            return (None, None)
+                    current_len += 1
+                    cv2.drawContours(img_c, [i], 0, (0,0,255))
+                    s = self.sd.detect(i,img_c)
+                    if s == "triangle":
+                        self.n_text[0] += 1
+                    elif s == "square":
+                        self.n_text[1] += 1
+                    elif s == "line":
+                        self.n_text[2] += 1
+                    elif s == "circle":
+                        self.n_text[3] += 1 
+                    a = "Shapes: {}".format(current_len)
+                    b = "▲: {}".format(self.n_text[0])
+                    c = "■: {}".format(self.n_text[1])
+                    d = "▬ {}".format(self.n_text[2])
+                    e = "●: {}".format(self.n_text[3])
+            self.past_text = self.n_text
+            self.n_text = [0, 0, 0, 0, 0]
+            return (a,b,c,d,e, img_c)
+        return (None, None)
     def close(self):
         self.cap.release()
 if __name__ == "__main__":
