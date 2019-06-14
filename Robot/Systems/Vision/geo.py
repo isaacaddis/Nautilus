@@ -61,6 +61,19 @@ class ShapeDetect:
 		self.b = 0
 		if((self.x1 > firstX or self.y1 < lower_bound) and (self.x1 < secondX or self.y1> lower_bound ) ):
 			self.boolean1  = True
+	def check(self, box, firstX, secondX, lower_bound):
+		self.x1 , self.y1 = box[0]
+		self.x2 , self.y2 = box[1]
+		self.x3 , self.y3 = box[2]
+		self.x4,  self.y4 = box[3]
+		self.boolean1  = False
+		self.boolean2  = False
+		self.boolean3  = False
+		self.boolean4  = False
+		self.Finalboolean  = False
+		self.b = 0
+		if((self.x1 > firstX or self.y1 < lower_bound) and (self.x1 < secondX or self.y1> lower_bound ) ):
+			self.boolean1  = True
 
 		if((self.x2 >firstX or self.y2 < lower_bound) and (self.x2 < secondX or self.y2> lower_bound) ):
 			self.boolean2  = True
@@ -93,18 +106,19 @@ class ShapeDetect:
 			#cv2.imwrite('triangle.jpg',img[y:y+h, x:x+w])
 			return 'triangle'
 		elif len(approx) == 4:
-			#rect = cv2.minAreaRect(c)
-			#w, h = rect[1]
+			rect = cv2.minAreaRect(c)
+			w, h = rect[1]
 			ar = w / h
 
-			if ar <0.8:
-				cv2.imwrite('Images/'+str(ar)+'-line.jpg',img[y:y+h, x:x+w])
+			if ar <0.75 or ar >2.205:
+				#cv2.imwrite('Images/'+str(ar)+'-line.jpg',img[y:y+h, x:x+w])
 				return 'line'
-			elif ar > 2.5:
-				return ''
-			else:
-				cv2.imwrite('Images/'+str(ar)+'-square.jpg',img[y:y+h, x:x+w])
-				return 'square'
+			#elif ar > 2.5:
+				#return ''
+			#else:
+			#cv2.imwrite('Images/'+str(ar)+'-square.jpg',img[y:y+h, x:x+w])
+			return 'square'
+		
 		else:
 			#cv2.imwrite(str(time.time())+'-circle.jpg',img[y:y+h, x:x+w])
 			return 'circle'

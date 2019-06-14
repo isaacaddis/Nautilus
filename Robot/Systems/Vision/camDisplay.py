@@ -27,6 +27,7 @@ class Display():
         self.lower_black = np.array([0,0,0])
         self.upper_black = np.array([0,0,255])
         self.fgbg = cv2.createBackgroundSubtractorMOG2(history=100, varThreshold=50, detectShadows=True)
+
         print("Finished Benthic Species Initalization")
     def get(self):
         a = ""
@@ -37,66 +38,53 @@ class Display():
         ret, val = self.cap.read()
         if val is not None:
             img_c  = val.copy()
-            crop_frame = val[0:int(val.shape[0]/1.52)]
-            #crop_frame = cv2.cvtColor(val, cv2.COLOR_BGR2GRAY)
-            #crop_frame = self.proc.process(crop_frame)
-            #cv2.imwrite('cropped.jpg',crop_frame)
-           #detected, keypoints = self.sd.get_blobs(crop_frame) 
-            #wk = cv2.drawKeypoints(img_c, detected, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-            #print(keypoints)
-            """current_len = 0
-            print(len(keypoints))
-            for k in keypoints:
-                #print(k)
-                (lowerX, lowerY) = k['lower']
-                (upperX, upperY) = k['upper']
-                #print(lowerX)
-                roi = crop_frame[lowerY:upperY, lowerX:upperX]
-                #cv2.imwrite(str(time.time())+'.jpg',roi)
-                #cv2.imwrite('roi.jpg',roi)
-                #print(roi)
-                threshed_img = cv2.threshold(roi, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
-                #threshed_img = self.proc.process(threshed_img)
-                #print(threshed_img)
-                ___,cnts,___ = cv2.findContours(threshed_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-                cnts = sorted(cnts, key=cv2.contourArea, reverse=True)
-                if len(cnts) > 0:
-                    shape = cnts[0]
-                    convex_hull = cv2.convexHull(shape)
-                    current_len += 1
-                    s = self.sd.detect(convex_hull,img_c)
-                    if s == "triangle":
-                        self.n_text[0] += 1
-                    elif s == "square":
-                        self.n_text[1] += 1
-                    elif s == "line":
-                        self.n_text[2] += 1
-                    elif s == "circle":
-                        self.n_text[3] += 1 
-                    a = "Shapes: {}".format(current_len)
-                    b = "▲: {}".format(self.n_text[0])
-                    c = "■: {}".format(self.n_text[1])
-                    d = "▬ {}".format(self.n_text[2])
-                    e = "●: {}".format(self.n_text[3])
-                    cv2.drawContours(img_c, [shape + k['center']-k['size']], -1, (0,255,0),2)
-            self.n_text = [0, 0, 0, 0, 0]
-            return (a,b,c,d,e, img_c)"""
+            crop_frame = img_c[0:int(img_c.shape[0]/1.58)]
+            rgb_planes = cv2.split(crop_frame)
+            result_planes = []
+            for plane in rgb_planes:
+                dilated_img = cv2.dilate(plane, np.ones((7,7), np.uint8))
+                #bg_img = cv2.medianBlur(dilated_img, 21)
+                bg_img = dilated_img
+                diff_img = 255 - cv2.absdiff(plane, bg_img)
+                result_planes.append(diff_img)
+
+            result = cv2.merge(result_planes)
+            ret,th1 = cv2.threshold(result,127,255,cv2.THRESH_BINARY_INV)
+            mask_img = self.Contours.applyMask(th1)
+            th, im_th = cv2.threshold(mask_img, 220, 255, cv2.THRESH_BINARY_INV)
+
+            # Copy the thresholded image.
+            im_floodfill = im_th.copy()
+
+            # Mask used to flood filling.
+            # Notice the size needs to be 2 pixels than the image.
+            h, w = im_th.shape[:2]
+            mask = np.zeros((h+2, w+2), np.uint8)
+
+            # Floodfill from point (0, 0)
+            cv2.floodFill(im_floodfill, mask, (0,0), 255);
+
+            # Invert floodfilled image
+            im_floodfill_inv = cv2.bitwise_not(im_floodfill)
+
+            # Combine the two images to get the foreground.
+            im_out = im_th | im_floodfill_inv
+            _,cnts,__ = cv2.findContours(im_out, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+            """crop_frame = img_c
             ret,thres = cv2.threshold(crop_frame,127,255,cv2.THRESH_BINARY_INV)
             mask_img = self.Contours.applyMask(thres)
-            fgmask = self.fgbg.apply(mask_img)
-            __,cnts,_ = cv2.findContours(fgmask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+            __,cnts,_ = cv2.findContours(mask_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)"""
             current_len = 0
             max_n = 0
             for i in cnts:
                 area = cv2.contourArea(i)
-                if area > 125 and area < 3000:
+                if area > 25 and area < 3200:
                     if area > max_n:
                         max_n = area
                     #print("Max area: {}".format(max_n))
                     current_len += 1
-                    cv2.drawContours(img_c, [i], 0, (0,0,255))
+                    cv2.drawContours(img_c, [i], 0, (0,0,255),cv2.FILLED)
                     s = self.sd.detect(i,img_c)
-                    #print(s)
                     if s == "triangle":
                         self.n_text[0] += 1
                     elif s == "square":

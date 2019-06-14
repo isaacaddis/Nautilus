@@ -63,14 +63,8 @@ class VideoThread(QThread):
         self.mode = mode
     def run(self):
         global op, op2, op3
-        # op = None
-        # op2 = None
-        # op3 = None
         if self._isRunning:
-            #os.system("fuser -k /dev/video0")
             op = Operation(0)
-
-            op2 = None
             if self.mode == 1:
                 print("Benthic Species Enabled")
                 op2 = Display(1)
@@ -95,7 +89,8 @@ class VideoThread(QThread):
                convertToQtFormat_2 = QImage(img_2.data, img_2.shape[1],img_2.shape[0],QImage.Format_RGB888).rgbSwapped()
                p_2 = convertToQtFormat_2.scaled(960,540,Qt.KeepAspectRatio)
                self.changePixmap2.emit(p_2)
-           convertToQtFormat_2 = QImage(img_2.data, img_2.shape[1],img_2.shape[0],QImage.Format_RGB888).rgbSwapped()
+           else:
+               print("Image is none")
            convertToQtFormat_3 = QImage(img_3.data, img_3.shape[1],img_3.shape[0],QImage.Format_RGB888).rgbSwapped()
            p = convertToQtFormat.scaled(960,540,Qt.KeepAspectRatio)
            p_3 = convertToQtFormat_3.scaled(960,540,Qt.KeepAspectRatio)
@@ -114,16 +109,10 @@ class VideoThread(QThread):
             op.close()
             op2.close()
             op3.close()
-            # del op
-            # del op2
-            # del op3
+
         print("Deleted operations")
     def close(self):
         self._isRunning = False
-        # op.close()
-        # op2.close()
-        # op3.close()
-
 
 class App(QWidget):
     keyPressed = pyqtSignal(int)
@@ -193,23 +182,23 @@ class App(QWidget):
     @pyqtSlot(str)
     def setNumShapes(self, text):
         self.n_label.setText(text)         
-        self.n_label.adjustSize()         
+        #self.n_label.adjustSize()         
     @pyqtSlot(str)
     def setNumTriangles(self, text):
         self.t_label.setText(text)         
-        self.t_label.adjustSize()         
+        #self.t_label.adjustSize()         
     @pyqtSlot(str)
     def setNumSquares(self, text):
         self.sq_label.setText(text)         
-        self.sq_label.adjustSize()         
+        #self.sq_label.adjustSize()         
     @pyqtSlot(str)
     def setNumLines(self, text):
         self.l_label.setText(text)         
-        self.l_label.adjustSize()         
+        #self.l_label.adjustSize()         
     @pyqtSlot(str)
     def setNumCircles(self, text):
         self.c_label.setText(text) 
-        self.c_label.adjustSize() 
+        #self.c_label.adjustSize() 
     
     def initUI(self):
         print("Initialized serial comms")
@@ -233,24 +222,28 @@ class App(QWidget):
         # T Species
         self.t_label = QLabel(self)
         self.t_label.setText('--- # of Triangles ---')
+        self.t_label.setStyleSheet('color: red')
         self.t_label.setAlignment(Qt.AlignRight)
         self.t_label.adjustSize()          
         self.t_label.move(1705,555)
+        self.t_label.setText('▲')
         # Sq Species
         self.sq_label = QLabel(self)
         self.sq_label.setText('--- # of Squares ---')
+        self.sq_label.setStyleSheet('color: red')
         self.sq_label.setAlignment(Qt.AlignRight)
         self.sq_label.adjustSize()          
         self.sq_label.move(1705,585)
         # Lines Species
         self.l_label = QLabel(self)
         self.l_label.setText('--- # of Lines ---')
-        self.l_label.setAlignment(Qt.AlignRight)
+        self.l_label.setStyleSheet('color: red')
         self.l_label.adjustSize() 
         self.l_label.move(1705,615)
         # Circles Species
         self.c_label = QLabel(self)
         self.c_label.setText('--- # of Circles ---')
+        self.c_label.setStyleSheet('color: red')
         self.c_label.setAlignment(Qt.AlignRight)
         self.c_label.adjustSize()    
         self.c_label.move(1705,645)
