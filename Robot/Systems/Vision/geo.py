@@ -6,48 +6,29 @@ import time
 class ShapeDetect:
 	def __init__(self):
 		self.params = cv2.SimpleBlobDetector_Params()
-	def get_blobs(self, img):
-		pass
-		# self.params.minThreshold = 0
-		# self.params.minRepeatability = 2
-		# self.params.filterByColor = True
-		# self.params.blobColor = 0
-		# self.params.filterByArea = True
-		# self.params.minArea = 85
-		# self.params.maxArea = 20000
-		# self.params.filterByCircularity = False
-		# self.params.filterByInertia = False
-		# self.params.filterByConvexity = True
-		# self.params.minConvexity = 0.8
-
-		"""self.detector = cv2.SimpleBlobDetector_create(self.params)
-		detected = self.detector.detect(img)
-		cleaned = []
-		for d in detected:
-			cleaned += [{
-				'center': (np.int(d.pt[0]), np.int(d.pt[1])),
-				'size': np.int(d.size / 1.05),
-				'lower': None,
-				'upper': None
-				}] 
-		lower = []
-		upper = []
-		for c in range(len(cleaned)):
-			x, y = cleaned[c]['center']
-			size = cleaned[c]['size']
-			Y_low = max(y-size, 0)
-			Y_high = min(y+size, img.shape[0])
-			X_low = max(x - size, 0)
-			X_high = min(y + size, img.shape[1])
-			lower = (X_low, Y_low)
-			upper = (X_high, Y_high)
-			cleaned[c]['lower'] = lower
-			cleaned[c]['upper'] = upper
-		return (detected, cleaned)
-		# for i in cleaned:
-		# 	(lowerX, lowerY) = cleaned['lower']
-		# 	(upperX, upperY) = cleaned['upper']
-		# 	roi = img[lowerY:upperY, lowerX:upperX]"""
+	def clean_contours(self, cnts):
+		return [i[0] for i in cnts]
+	def calc_vector_difference(self,v1,v2):
+		return np.linalg.norm(v1-v2)
+	def calc_angle_dist_from_vectors(self,v1, v2):
+		return np.degrees(np.arccos(np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))))
+	def calc_edges(self,vertices):
+	    lengths = []
+	    for offset in range(len(vertices)):
+	        p1, p2 = np.roll(vertices, offset, axis=0)[:2]
+	        lengths += [np.linalg.norm(p1 - p2)]
+	    return np.array(lengths)
+	def calc_angles(self,vertices):
+		angles = []
+		for offset in range(len(vertices)):
+			p1,p2 = np.roll(vertices, offset, axis = 0)[:3]
+			angles += [np.linalg.norm(p1-p2)]
+		return np.array(angles)
+	def draft_circle(self,x,y,r,n_points):
+		circle = []
+		for i in range(0, n_points):
+			circle += [[[r * np.sin(i) + y, r * np.cos(i) +x]]]
+		return np.array(circle, np.int32)
 	def check(self, box, firstX, secondX, lower_bound):
 		self.x1 , self.y1 = box[0]
 		self.x2 , self.y2 = box[1]
