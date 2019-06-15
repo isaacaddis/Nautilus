@@ -1,5 +1,6 @@
 import cv2 
 import numpy as np
+import Constants
 import time
 
 
@@ -75,34 +76,71 @@ class ShapeDetect:
 										
 		return self.Finalboolean
 		
-		
 	def detect(self, c,img):
 		peri = cv2.arcLength(c, True)
 		approx = cv2.approxPolyDP(c, 0.04*peri, True)
 		(x, y, w, h) = cv2.boundingRect(approx)
 		# circles = cv2.HoughCircles(img, cv2.cv.CV_HOUGH_GRADIENT, 1.2, 100)
 		# if circles is not None:
-			
+		val = ""
+		if len(approx) == 2:
+			return 'line'
 		if len(approx) ==3:
+			points = self.clean_contours(approx)
+			edges = self.calc_edges(points)
+			e_range = np.max(edges)-np.min(edges)
+			if e_range <= Constants.TRIANGLE_EDGE_RANGE_MAX:
+				return 'triangle'
 			#cv2.imwrite('triangle.jpg',img[y:y+h, x:x+w])
-			return 'triangle'
 		elif len(approx) == 4:
 			rect = cv2.minAreaRect(c)
+			dist = np.round([np.linalg.norm(vertex) for vertex in rect])
+			edge_lengths = self.calc_edges(np.roll(rect,np.where(dist == min(dist))[0][0],axis=0))
+			ar = np.max(edge_lengths) / np.min(edge_lengths)
+			if ar <= 1.5:
+				return 'square'
+			else:
+				(n,m1,f,m2) =  (np.roll(rect,np.where(dist == min(dist))[0][0],axis=0))
+				n_cw = (n,m1)
+				f_cw = (f,m2)
+				adjunct_cw = [n_cw, f_cw]
+				cw_distances = [self.calc_vector_difference(*segment) for segment in adjunct_cw]
+				cw_ar = cw_distances[0]/cw_distances[1]
+				if cw_ar <1:
+					cw_ar = 1/cw_ar
+				n_ccw = (n,m2)
+				f_ccw = (f,m1)
+				adjunct_ccw = [n_ccw, f_ccw]
+				ccw_distances = [self.calc_vector_difference(*segment) for segment in adjunct_ccw]
+				ccw_dist_ratio = ccw_distances[0]/ccw_distances[1]
+				if cw_dist_ratio < 1.5 and ccw_dist_ratio < 1.5:
+					return 'line'
+			
 			w, h = rect[1]
-			ar = w / h
+			#ar = w / h
 
-			if ar <0.75 or ar >2.205:
-				#cv2.imwrite('Images/'+str(ar)+'-line.jpg',img[y:y+h, x:x+w])
-				return 'line'
-			#elif ar > 2.5:
-				#return ''
-			#else:
-			#cv2.imwrite('Images/'+str(ar)+'-square.jpg',img[y:y+h, x:x+w])
-			return 'square'
+			# if ar <0.75 or ar >2.205:
+			# 	#cv2.imwrite('Images/'+str(ar)+'-line.jpg',img[y:y+h, x:x+w])
+			# 	return 'line'
+			# #elif ar > 2.5:
+			# 	#return ''
+			# #else:
+			# #cv2.imwrite('Images/'+str(ar)+'-square.jpg',img[y:y+h, x:x+w])
+			# return 'square'
 		
-		else:
+		elif len(cnt)>4:
+			x,y,r = cv2.minEnclosingCircle(cnt)
+			perfect_circle = self.draft_circle(x,y,r,45)
+			circle_points = self.clean_contours(cnt)
+			diff = cv2.matchShapes(perfect_circle, cnt,cv2.CONTOURS_MATCH_I1, 0)
+			angles = self.calc_angles(circle_points)
+			a_range = np.max(angles)-np.min(angles)
+			if a_range <= 45:
+				return 'circle'
+			elif diff > 1.2:
+				return 'line'
 			#cv2.imwrite(str(time.time())+'-circle.jpg',img[y:y+h, x:x+w])
-			return 'circle'
+			#return 'circle'
 class SmartMax:
 	def __init__(self):
 		pass
