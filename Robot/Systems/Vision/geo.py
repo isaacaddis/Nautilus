@@ -1,6 +1,6 @@
 import cv2 
 import numpy as np
-import Constants
+from . import ImageConstants
 import time
 
 
@@ -22,7 +22,7 @@ class ShapeDetect:
 	def calc_angles(self,vertices):
 		angles = []
 		for offset in range(len(vertices)):
-			p1,p2 = np.roll(vertices, offset, axis = 0)[:3]
+			p1,p2 = np.roll(vertices, offset, axis = 0)[:2]
 			angles += [np.linalg.norm(p1-p2)]
 		return np.array(angles)
 	def draft_circle(self,x,y,r,n_points):
@@ -89,13 +89,15 @@ class ShapeDetect:
 			points = self.clean_contours(approx)
 			edges = self.calc_edges(points)
 			e_range = np.max(edges)-np.min(edges)
-			if e_range <= Constants.TRIANGLE_EDGE_RANGE_MAX:
+			if e_range <= 30:
 				return 'triangle'
 			#cv2.imwrite('triangle.jpg',img[y:y+h, x:x+w])
 		elif len(approx) == 4:
-			rect = cv2.minAreaRect(c)
+			rect = self.clean_contours(approx)
+			print(rect)
 			dist = np.round([np.linalg.norm(vertex) for vertex in rect])
-			edge_lengths = self.calc_edges(np.roll(rect,np.where(dist == min(dist))[0][0],axis=0))
+			location = np.where(dist == min(dist))[0][0]
+			edge_lengths = self.calc_edges(np.roll(rect,location,axis=0))
 			ar = np.max(edge_lengths) / np.min(edge_lengths)
 			if ar <= 1.5:
 				return 'square'
@@ -113,7 +115,7 @@ class ShapeDetect:
 				adjunct_ccw = [n_ccw, f_ccw]
 				ccw_distances = [self.calc_vector_difference(*segment) for segment in adjunct_ccw]
 				ccw_dist_ratio = ccw_distances[0]/ccw_distances[1]
-				if cw_dist_ratio < 1.5 and ccw_dist_ratio < 1.5:
+				if cw_ar < 1.5 and ccw_dist_ratio < 1.5:
 					return 'line'
 			
 			w, h = rect[1]
@@ -128,12 +130,13 @@ class ShapeDetect:
 			# #cv2.imwrite('Images/'+str(ar)+'-square.jpg',img[y:y+h, x:x+w])
 			# return 'square'
 		
-		elif len(cnt)>4:
-			x,y,r = cv2.minEnclosingCircle(cnt)
+		elif len(approx)>4:
+			print(approx)
+			(x,y),r = cv2.minEnclosingCircle(approx)
 			perfect_circle = self.draft_circle(x,y,r,45)
-			circle_points = self.clean_contours(cnt)
-			diff = cv2.matchShapes(perfect_circle, cnt,cv2.CONTOURS_MATCH_I1, 0)
-			angles = self.calc_angles(circle_points)
+			#circle_points = self.clean_contours(approx)
+			diff = cv2.matchShapes(perfect_circle, approx,cv2.CONTOURS_MATCH_I1, 0)
+			angles = self.calc_angles(approx)
 			a_range = np.max(angles)-np.min(angles)
 			if a_range <= 45:
 				return 'circle'
