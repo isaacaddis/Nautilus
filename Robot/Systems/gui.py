@@ -193,6 +193,7 @@ class App(QWidget):
         #self.sq_label.adjustSize()         
     @pyqtSlot(str)
     def setNumLines(self, text):
+        print("TEXT: "+ text)
         self.l_label.setText(text)         
         #self.l_label.adjustSize()         
     @pyqtSlot(str)
@@ -226,7 +227,6 @@ class App(QWidget):
         self.t_label.setAlignment(Qt.AlignRight)
         self.t_label.adjustSize()          
         self.t_label.move(1705,555)
-        self.t_label.setText('▲')
         # Sq Species
         self.sq_label = QLabel(self)
         self.sq_label.setText('--- # of Squares ---')
@@ -238,6 +238,7 @@ class App(QWidget):
         self.l_label = QLabel(self)
         self.l_label.setText('--- # of Lines ---')
         self.l_label.setStyleSheet('color: red')
+        self.l_label.setAlignment(Qt.AlignRight)
         self.l_label.adjustSize() 
         self.l_label.move(1705,615)
         # Circles Species
