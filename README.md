@@ -1,37 +1,36 @@
 # ROV2019
 
-45C Robotics' robot code for the 2019 MATE Competition. 
+45C Robotics* robot code for the 2019 MATE Competition.
 
-# Components
+This code was developed by Isaac Addis and Alexander Vasquez.
 
-We will be adding more components as the season progresses, but for now, these are the components we are adding to this year's system:
+# Features
 
-[https://raw.githubusercontent.com/milq/milq/master/scripts/bash/install-opencv.sh] (Here's a really nice OpenCV install script for Debian/Ubuntu-based users)
+In accordance to the team's motto, *Pushing Beyond the Limits*, this year's software for 45C was the most advanced and the most polished up to this time. The codebase features a PyQt GUI simulataneously acting as a multiplexer, serial reader, and vision processing (YOLO Object Objection for Convolutional Neural Networks and OpenCV) output with the *multithreading* module.
 
-### ESC Control
+## Components
 
-Tx and Rx communication was used between the Arduino Uno and the Arduino Mega. The Arduino Mega recieved data from the Arduino uno. Joystick values were mapped to motor outputs. 
+### Graphical User Interface (GUI)
 
+ *Note: PyQt4*
 
-### PID
+Video signals are combined into the GUI program, transformed into *QImage* modules, then emitted back to the main UI object.
 
-The MPU6050 module is being used as a gyro and accelerometer to generate the acceleration and raw position values necessary for calculating actual error, and using the error, the kP, kI, kD constant values.
+After tracing the codebase's mysterious *Segmentation Faults*, we learned that running individual threads for cv2.VideoCapture() objects was overloading our memory bus, reverting the GUI code to sequentially read and process video frames from each of the three cameras.
 
-Note: The constants in the file must be tuned, and in their current state they are *untuned*. Perhaps we may eliminate kI and kD if we deem them unnecessary. 
+### Benthic Species (OpenCV -> YOLO -> cv2.dnn -> GUI)
 
-#### Vision
+We found that we had to be extremely selective with the pre-processing steps we applied on the image. Because shapes can be easily transformed from a non-edge preserving cv2.medianBlur() (or even cv2.GaussianBlur()), our processing steps mainly threshold the image (with cv2.THRESH_BINARY_INV -- it's easier to inverse and look for white then look for black in this particular scenario), masking the image, and using cv2.bilateralFilter() for its edge-preserving abilities.
 
-**Note**: Press 'Q' to terminate vision session.
+We used [darknet](https://github.com/pjreddie/darknet) to build our YOLO (You Only Look Once) network on 428 manually-labeled images, achieving about 50% of loss after 45 of initial training, and transfer-learning (Freezing weights in layers up to the last layer) with data augmentation, rotating the image in various degrees to improve real-time accuracy.
 
+### LiveMeasure (For crack detection in Task 1)
 
-[https://github.com/opencv/opencv/wiki/OE-4.-OpenCV-4](OpenCV4) has been released. 
+LiveMeasure was built by Alex V. and undistorts the images from our fisheye cameras to be used for measurement. This relies on calibrating your camera onto a flat checkerboard and referring to the OpenCV documentation.
 
-Images should be processed using the pipeline created in the  **imagePreProcess** class, which erodes/dilates and blurs input video. 
+## Future Improvements
 
-##### Conventions
-
-Variable names should be declared using *mixed camel case* nomenclature (e.g. waitForInstructions), and function names should be lower case, with underscores in between each consecutive word.
-
-Proper Object Orientation principles should be maintained whenever possible; including for one-use scripts (e.g. installation and instruction programs)
-
-
+- Using ssh with OpenSSH (between development computers and the main computer) to program directly on the computer efficiently while other's are working with the control box or robot.
+- Using a pure HTML5-based method of serving the GUI multiplexer. We tried using Flask but found that OpenCV worked too irregularly
+- Optimizing vision processing code
+- Incorporating machine learning into noise reduction, accuracy improvement
